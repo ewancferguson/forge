@@ -9,7 +9,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
+            <h5 class="modal-title">Create a Post</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -22,12 +22,12 @@
               <input type="number" class="form-control" id="minBudget">
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <label for="maxBudget" class="form-label">Max Budget</label>
+              <input type="number" class="form-control" id="maxBudget">
             </div>
             <div class="input-group mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Options</label>
-              <select class="form-select" id="inputGroupSelect01">
+              <label class="input-group-text" for="type">Type</label>
+              <select class="form-select" id="type">
                 <option selected>Choose...</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
@@ -35,8 +35,8 @@
               </select>
             </div>
             <div class="mb-3">
-              <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              <label for="body" class="form-label">Description</label>
+              <textarea class="form-control" id="body" rows="3"></textarea>
             </div>
 
           </div>
