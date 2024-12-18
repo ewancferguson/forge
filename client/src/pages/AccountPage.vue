@@ -7,11 +7,16 @@ const account = computed(() => AppState.account)
 </script>
 
 <template>
-  <div class="about text-center">
+  <div class="container-fluid bg-grey">
     <div v-if="account">
-      <h1>Welcome {{ account.name }}</h1>
-      <img class="rounded" :src="account.picture" alt="" />
-      <p>{{ account.email }}</p>
+      <div>
+        <!-- <img :src="account.coverImg" alt=""> -->
+        <img class="profile-img" :src="account.picture" alt="" />
+        <h1 class="text-primary"> {{ account.name }}</h1>
+        <!-- <p>{{ account. }}</p> -->
+        <p>{{ account.email }}</p>
+        <button class="btn btn-success fw-bold text-primary">EDIT ACCOUNT</button>
+      </div>
     </div>
     <div v-else>
       <h1 class="text-light mt-5">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
@@ -21,6 +26,14 @@ const account = computed(() => AppState.account)
 
 <style scoped lang="scss">
 img {
-  max-width: 100px;
+  max-width: 150px;
+}
+
+.profile-img {
+  border-radius: 100em;
+}
+
+.bg-grey {
+  background-color: #D9D9D9;
 }
 </style>
