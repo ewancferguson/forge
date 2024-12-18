@@ -18,7 +18,7 @@ async function getAllPosts() {
   }
 }
 
-const listings = computed(() => AppState.listings)
+const listings = computed(() => AppState.homePageListings)
 </script>
 
 <template>
@@ -54,14 +54,16 @@ const listings = computed(() => AppState.listings)
     </div>
     <section class="row mt-5 d-flex justify-content-center align-items-center">
       <div class="col-md-3 align-self-center text-center w-25">
-        <button class="btn btn-success">Create Post</button>
+        <button class="btn btn-success">Create Listings</button>
       </div>
       <div class="d-flex col-md-3 align-self-center text-center">
         <input class="w-75" type="text" id="searchBar">
         <span class="mdi mdi-magnify fs-3 align-self-center ms-3"></span>
       </div>
       <div class="col-md-3 align-self-center text-center w-25">
-        <button class="btn btn-success">Sort Posts</button>
+        <router-link :to="{ name: 'Posts' }">
+          <button class="btn btn-success">Sort Listings</button>
+        </router-link>
       </div>
     </section>
     <div class="row justify-content-center d-flex mt-5">
