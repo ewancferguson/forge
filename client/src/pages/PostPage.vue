@@ -1,6 +1,9 @@
 <script setup>
+import { AppState } from '@/AppState';
 import PostCard from '@/components/PostCard.vue';
+import { computed } from 'vue';
 
+const listings = computed(() => AppState.listings)
 
 </script>
 
