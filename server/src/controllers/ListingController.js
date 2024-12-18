@@ -13,6 +13,7 @@ export class ListingController extends BaseController {
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createListing)
             .put('/:listingId', this.listingIsResolved)
+            .delete('/:listingId', this.deleteListing)
     }
 
     /**
@@ -77,5 +78,21 @@ export class ListingController extends BaseController {
             next(error)
         }
     }
+
+        /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+  async  deleteListing(request, response, next){
+    try {
+        const userId = request.userInfo.id
+        const listingId = request.params.listingId
+        const listing = await listingService.deleteListing(userId, listingId)
+        response.send(listing)
+    } catch (error) {
+        next(error)
+    }
+  }
 }
 

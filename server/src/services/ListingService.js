@@ -1,8 +1,8 @@
 import { dbContext } from "../db/DbContext"
+import { Forbidden } from "../utils/Errors"
 
 
 class ListingService {
-
 
     async getAllListings() {
         const listings = dbContext.Listing.find().populate('creator', 'name picture isBusiness')
@@ -29,6 +29,19 @@ class ListingService {
         await listing.save()
         return listing
     }
+
+    async deleteListing(userId, listingId) {
+        const listingToDelete = await dbContext.Listing.findById(listingId)
+        if (listingToDelete == null){
+            throw new Error(`invalid listing ID: ${listingId}`)
+        }
+        if(listingToDelete.creatorId != userId){
+            throw new Forbidden('Cannot delete a listing that is not yours')
+        }
+        await listingToDelete.deleteOne()
+        return 'listing has been deleted'
+    }
+
 
 }
 
