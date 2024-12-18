@@ -6,6 +6,8 @@ import { ServiceSchema } from '../models/Services';
 import { CommentSchema } from '../models/Comment';
 import { ReviewSchema } from '../models/Review';
 import { MessageSchema } from '../models/Message';
+import { LikesSchema } from '../models/Likes';
+import { FollowersSchema } from '../models/Followers';
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -15,6 +17,8 @@ class DbContext {
   Comment = mongoose.model('Comment', CommentSchema);
   Review = mongoose.model('Review', ReviewSchema);
   Message = mongoose.model('Message', MessageSchema);
+  Like = mongoose.model('Like', LikesSchema);
+  Follower = mongoose.model('Follower', FollowersSchema);
 }
 
 export const dbContext = new DbContext()
