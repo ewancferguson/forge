@@ -1,7 +1,11 @@
+import { logger } from "@/utils/Logger.js"
+import { api } from "./AxiosService.js"
+
 class PostsService{
-// async getPost() {
-// await 
-//   }
+async getAllPosts() {
+  const response = await api.get('api/listings')
+  logger.log(response.data)
+  }
 
 }
 

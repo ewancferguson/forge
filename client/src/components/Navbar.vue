@@ -54,11 +54,10 @@ function toggleTheme() {
           About Us
         </router-link>
       </div>
-      <div class="m-1">
+      <!-- <div class="m-1">
         <router-link :to="{ name: 'Profile' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
           Profile
-        </router-link>
-      </div>
+        </router-link> -->
     </div>
 
 

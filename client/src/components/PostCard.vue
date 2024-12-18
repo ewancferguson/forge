@@ -1,17 +1,20 @@
 <script setup>
 import { postsService } from '@/services/PostsService';
 import Pop from '@/utils/Pop';
+import { onMounted } from 'vue';
 
+onMounted(() =>
+  getAllPosts()
+)
 
-
-// async function getPost() {
-//   try {
-//     await postsService.getPost()
-//   }
-//   catch (error) {
-//     Pop.meow(error);
-//   }
-// }
+async function getAllPosts() {
+  try {
+    await postsService.getAllPosts()
+  }
+  catch (error) {
+    Pop.meow(error);
+  }
+}
 </script>
 
 
