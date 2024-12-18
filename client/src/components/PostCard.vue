@@ -25,7 +25,16 @@ defineProps({
       <div class="col-3 d-flex align-items-center justify-content-end">
         <button v-if="listing.isResolved == true" disabled class="btn btn-danger rounded-5 me-5">RESOLVED</button>
         <span class="d-flex justify-content-end fs-1 pe-5" role="button">
-          <i class="mdi mdi-dots-horizontal"></i>
+          <div class="dropdown">
+            <button class="btn btn-secondary  mdi mdi-menu fs-1" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" type="button">Action</button></li>
+              <li><button class="dropdown-item" type="button">Another action</button></li>
+              <li><button class="dropdown-item" type="button">Something else here</button></li>
+            </ul>
+          </div>
         </span>
       </div>
     </div>
