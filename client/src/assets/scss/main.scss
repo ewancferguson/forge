@@ -2,12 +2,25 @@
 @import "./_utilities.scss";
 @import "./loaders.scss";
 @import url('https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 body {
   overscroll-behavior: none;
 }
 
+p {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
 
+.body-text {
+  font-family: "Inter", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
 
 h1,
 h2,
@@ -15,6 +28,14 @@ h3 {
   font-family: "Stick No Bills", serif;
   font-optical-sizing: auto;
   font-weight: 800;
+  font-style: normal;
+}
+
+h4,
+h5,
+h6 {
+  font-family: "Anton", serif;
+  font-weight: 400;
   font-style: normal;
 }
 
