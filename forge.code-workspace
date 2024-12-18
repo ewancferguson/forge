@@ -8,5 +8,10 @@
       "name": "server",
       "path": "server"
     }
-  ]
+  ],
+  "settings": {
+    "cSpell.words": [
+      "virtuals"
+    ]
+  }
 }
