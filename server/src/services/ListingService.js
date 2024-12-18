@@ -1,10 +1,10 @@
 import { dbContext } from "../db/DbContext"
 
 
-class ListingService{
+class ListingService {
 
 
-   async getAllListings() {
+    async getAllListings() {
         const listings = dbContext.Listing.find().populate('creator', 'name picture')
         return listings
     }
