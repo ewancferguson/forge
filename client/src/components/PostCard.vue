@@ -10,29 +10,37 @@ defineProps({
 
 
 <template>
-<<<<<<< HEAD
-
   <div class="rounded rounded-4 card bg-secondary text-primary my-3">
-    <div class="d-flex">
+    <div class="d-flex align-items-center">
       <img class="profile-img m-3 ms-5" :src="listing.creator.picture" alt="">
-      <div class="d-flex align-items-center">
+      <div class="d-flex align-items-between">
         <b>
           @{{ listing.creator.name }}
         </b>
         {{ listing.createdAt.getHours() }}h
       </div>
+      <span v-if="listing.creator.isBusiness"><i class="mdi mdi-storefront-outline fs-1"></i></span>
     </div>
     <div class="ps-5">
       <p>{{ listing.body }}</p>
     </div>
-    <img class="img-fluid px-5 pb-5 listing-pictures" v-if="listing.pictures" :src="listing.pictures" alt="">
+    <img class="img-fluid px-5 listing-pictures" v-if="listing.pictures" :src="listing.pictures" alt="">
     <div>
       <p>{{ }}</p>
     </div>
-=======
-  <div class="col-12">
-    {{ listing }}
->>>>>>> 225ea18 (get listings on homepage)
+    <div class="d-flex justify-content-between align-items-center text-primary">
+      <div class="pb-3 p-3">
+        <b>
+          3 Comments
+        </b>
+      </div>
+      <div class="pb-3 p-3 d-flex gap-2 align-items-center">
+        <b>
+          3 Likes
+        </b>
+        <i class="mdi mdi-heart-outline fs-1"></i>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -46,5 +54,7 @@ defineProps({
 
 .listing-pictures {
   object-fit: cover;
+  object-position: center;
+  max-height: 25em;
 }
 </style>
