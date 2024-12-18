@@ -10,5 +10,7 @@ export class Listing{
     this.minBudget = data.minBudget
     this.maxBudget = data.maxBudget
     this.creator = data.creator
+    this.createdAt = new Date (data.createdAt)
+
   }
 }

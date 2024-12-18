@@ -1,5 +1,9 @@
 <script setup>
+import { AppState } from '@/AppState';
+import { computed } from 'vue';
 
+
+const listings = computed(() => AppState.listings)
 </script>
 
 <template>
@@ -26,6 +30,11 @@
         <div class="align-items-center col-md-3">
           <img id="forgeImg" src="../assets/img/forge.png" alt="">
         </div>
+      </div>
+    </div>
+    <div class="row d-flex mt-3">
+      <div class="card">
+
       </div>
     </div>
   </section>
