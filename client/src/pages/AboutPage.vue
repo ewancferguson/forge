@@ -67,6 +67,10 @@
   align-content: center;
 }
 
+div {
+  scroll-behavior: smooth;
+}
+
 @media (min-width: 1400px) {
   #aboutInfo {
     min-height: 80dvh;

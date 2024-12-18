@@ -22,7 +22,7 @@ function toggleTheme() {
     <div class="col-md-3">
       <div class="d-flex align-items-center">
         <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-          <div>
+          <div class="p-2">
             <img alt="logo" src="../assets/img/forge.png" height="55" />
           </div>
           <div class="ms-3 align-self-center text-dark">
