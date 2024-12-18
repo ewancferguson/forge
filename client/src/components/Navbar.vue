@@ -39,17 +39,17 @@ function toggleTheme() {
 
     <div class="col-md-6 navbar-nav justify-content-center" id="navbarText">
       <div class="m-1">
-        <router-link :to="{ name: 'Home' }" class="btn text-dark lighten-30 selectable text-uppercase">
+        <router-link :to="{ name: 'Home' }" class="btn text-dark lighten-30 body-text selectable text-uppercase">
           Home
         </router-link>
       </div>
       <div class="m-1">
-        <router-link :to="{ name: 'Posts' }" class="btn text-dark lighten-30 selectable text-uppercase">
+        <router-link :to="{ name: 'Posts' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
           Posts
         </router-link>
       </div>
       <div class="m-1">
-        <router-link :to="{ name: 'About' }" class="btn text-dark lighten-30 selectable text-uppercase">
+        <router-link :to="{ name: 'About' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
           About Us
         </router-link>
       </div>
