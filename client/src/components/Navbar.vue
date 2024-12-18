@@ -18,31 +18,45 @@ function toggleTheme() {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="/img/cw-logo.png" height="45" />
+  <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3 container-fluid">
+    <div class="col-md-3">
+      <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+        <div class="d-flex flex-column align-items-center">
+          <img alt="logo" src="../assets/img/forge.png" height="45" />
+        </div>
+      </router-link>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+    </div>
+
+    <div class="col-md-6 navbar-nav justify-content-center" id="navbarText">
+      <div class="m-1">
+        <router-link :to="{ name: 'Home' }" class="btn text-success lighten-30 selectable text-uppercase">
+          Home
+        </router-link>
       </div>
-    </router-link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <div>
-        <button class="btn text-light" @click="toggleTheme"
-          :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
-          <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
-        </button>
+      <div class="m-1">
+        <router-link :to="{ name: 'Posts' }" class="btn text-success lighten-30 selectable text-uppercase">
+          Posts
+        </router-link>
       </div>
+      <div class="m-1">
+        <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
+          About Us
+        </router-link>
+      </div>
+    </div>
+
+
+    <div class="justify-content-end col-md-3 d-flex">
+      <button class="btn text-light" @click="toggleTheme"
+        :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
+        <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
+      </button>
+
       <Login />
     </div>
   </nav>
