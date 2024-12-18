@@ -28,6 +28,11 @@
         </div>
       </div>
     </div>
+    <div class="row d-flex mt-3">
+      <div class="card">
+
+      </div>
+    </div>
   </section>
 </template>
 
