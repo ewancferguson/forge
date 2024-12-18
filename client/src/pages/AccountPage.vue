@@ -1,8 +1,11 @@
 <script setup>
+import { AppState } from '@/AppState';
+import PostCard from '@/components/PostCard.vue';
 import { computed } from 'vue';
-import { AppState } from '../AppState.js';
 
 const account = computed(() => AppState.account)
+
+const listings = computed(() => AppState.listings)
 
 </script>
 
@@ -32,6 +35,9 @@ const account = computed(() => AppState.account)
     <div class="row">
       <div class="col-md-8">
         <h3 class="text-success p-5 mt-5">Recent Posts</h3>
+        <!-- <div v-for="listing in listings" :key="listing.id">
+          <PostCard :listing="listing" />
+        </div> -->
       </div>
       <div class="col-md-3">
         <h3 class="text-success p-5 mt-5">Reviews</h3>
