@@ -15,7 +15,7 @@ const account = computed(() => AppState.account)
           <img class="profile-img" :src="account.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ account.name }}</h3>
           <p>{{ account.email }}</p>
-          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">+ FOLLOW</button>
+          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
@@ -35,7 +35,7 @@ const account = computed(() => AppState.account)
         <h3 class="text-success p-5 mt-5">Recent Posts</h3>
       </div>
       <div class="col-md-3">
-        <h3 class="text-success p-5 mt-5">{{ account.rating.length }} Reviews</h3>
+        <h3 class="text-success p-5 mt-5">Reviews</h3>
       </div>
     </div>
   </div>
