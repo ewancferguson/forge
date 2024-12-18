@@ -1,9 +1,21 @@
 @import "./_variables.scss";
 @import "./_utilities.scss";
 @import "./loaders.scss";
+@import url('https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@800&display=swap');
 
 body {
   overscroll-behavior: none;
+}
+
+
+
+h1,
+h2,
+h3 {
+  font-family: "Stick No Bills", serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
 }
 
 #app {
@@ -20,4 +32,3 @@ main {
 a {
   text-decoration: none;
 }
-
