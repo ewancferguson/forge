@@ -5,6 +5,7 @@ import { ListingSchema } from '../models/Listing';
 import { ServiceSchema } from '../models/Services';
 import { CommentSchema } from '../models/Comment';
 import { ReviewSchema } from '../models/Review';
+import { MessageSchema } from '../models/Message';
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -12,7 +13,8 @@ class DbContext {
   Listing = mongoose.model('Listing', ListingSchema);
   Service = mongoose.model('Service', ServiceSchema);
   Comment = mongoose.model('Comment', CommentSchema);
-  Review = mongoose.model('Review', ReviewSchema)
+  Review = mongoose.model('Review', ReviewSchema);
+  Message = mongoose.model('Message', MessageSchema);
 }
 
 export const dbContext = new DbContext()
