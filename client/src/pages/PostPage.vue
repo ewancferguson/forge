@@ -1,10 +1,21 @@
 <script setup>
+import PostCard from '@/components/PostCard.vue';
+
 
 </script>
 
 
 <template>
-    <h4>this is the post page</h4>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-success d-flex justify-content-between py-4">
+                <h3>Sort By</h3>
+                <h3>Following</h3>
+                <h3>Recent Posts</h3>
+            </div>
+        </div>
+    </div>
+    <PostCard />
 </template>
 
 
