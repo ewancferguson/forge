@@ -29,12 +29,12 @@ defineProps({
       <p>{{ }}</p>
     </div>
     <div class="d-flex justify-content-between align-items-center text-primary">
-      <div class="pb-3 p-3">
+      <div class="pb-3 ps-5">
         <b>
           3 Comments
         </b>
       </div>
-      <div class="pb-3 p-3 d-flex gap-2 align-items-center">
+      <div class="pb-3 pe-5 d-flex gap-2 align-items-center">
         <b>
           3 Likes
         </b>
