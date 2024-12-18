@@ -9,13 +9,19 @@ const account = computed(() => AppState.account)
 <template>
   <div class="container-fluid bg-grey">
     <div v-if="account">
-      <div>
-        <!-- <img :src="account.coverImg" alt=""> -->
-        <img class="profile-img" :src="account.picture" alt="" />
-        <h1 class="text-primary"> {{ account.name }}</h1>
-        <!-- <p>{{ account. }}</p> -->
-        <p>{{ account.email }}</p>
-        <button class="btn btn-success fw-bold text-primary">EDIT ACCOUNT</button>
+      <img :src="account.coverImg" alt="">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="ps-5 ms-5">
+          <img class="profile-img" :src="account.picture" alt="" />
+          <h1 class="text-primary text-capitalize"> {{ account.name }}</h1>
+          <p>{{ account.email }}</p>
+          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">EDIT ACCOUNT</button>
+        </div>
+        <div class="card bg-primary text-light p-3 rounded-4 me-5 fw-bold">
+          <a class="pb-5 text-light" :href="account.facebook">FACEBOOK</a>
+          <a class="pb-5 text-light" :href="account.linkedIn">LINKEDIN</a>
+          <a class="text-light" :href="account.website">COMPANY SITE</a>
+        </div>
       </div>
     </div>
     <div v-else>
