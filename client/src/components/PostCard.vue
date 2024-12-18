@@ -19,7 +19,7 @@ defineProps({
         </b>
         {{ listing.createdAt.getHours() }}h
       </div>
-      <span><i class="mdi mdi-storefront-outline fs-1"></i></span>
+      <span v-if="listing.creator.isBusiness"><i class="mdi mdi-storefront-outline fs-1"></i></span>
     </div>
     <div class="ps-5">
       <p>{{ listing.body }}</p>
@@ -54,5 +54,7 @@ defineProps({
 
 .listing-pictures {
   object-fit: cover;
+  object-position: center;
+  max-height: 25em;
 }
 </style>
