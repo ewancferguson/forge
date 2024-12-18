@@ -19,14 +19,15 @@ function toggleTheme() {
 
 <template>
   <nav class="navbar navbar-expand-sm navbar-dark bg-warning px-3 container-fluid">
-    <div class="col-md-3">
-      <div class="d-flex align-items-center">
+    <div class="col-md-3 p-3">
+      <div class="d-flex align-self-center">
         <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
           <div class="p-2">
-            <img alt="logo" src="../assets/img/forge.png" height="55" />
+            <img alt="logo" src="../assets/img/forge.png" height="55"
+              style="object-fit: cover; object-position: center;" />
           </div>
-          <div class="ms-3 align-self-center text-dark">
-            <h3>Forge</h3>
+          <div class="ms-3 mb-0 mt-2 align-self-center text-dark">
+            <h2>Forge</h2>
           </div>
         </router-link>
       </div>
