@@ -1,5 +1,9 @@
 <script setup>
+import { AppState } from '@/AppState';
+import { computed } from 'vue';
 
+
+const listings = computed(() => AppState.listings)
 </script>
 
 <template>

@@ -10,6 +10,7 @@ defineProps({
 
 
 <template>
+<<<<<<< HEAD
 
   <div class="rounded rounded-4 card bg-grey text-dark">
     <div class="d-flex">
@@ -19,6 +20,10 @@ defineProps({
       </span>
       {{ listing.creator.createdAt }}
     </div>
+=======
+  <div class="col-12">
+    {{ listing }}
+>>>>>>> 225ea18 (get listings on homepage)
   </div>
 </template>
 
