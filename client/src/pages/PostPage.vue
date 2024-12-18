@@ -4,12 +4,12 @@
 
 
 <template>
-    <h1>this is the post page</h1>
+    <h4>this is the post page</h4>
 </template>
 
 
 <style lang="scss" scoped>
-h1 {
+h4 {
     margin-top: 2em;
     text-align: center;
 }
