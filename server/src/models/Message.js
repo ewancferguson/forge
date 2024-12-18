@@ -4,7 +4,6 @@ import { Schema } from "mongoose";
 export const MessageSchema = new Schema({
     body: {type: String, minLength: 5, maxLength: 500, required: true},
     creatorId: {type: Schema.ObjectId, required: true, ref: 'Account'},
-    time: {type: Date, required: true},
     listingId: {type: Schema.ObjectId, required: true, ref: 'Listing'},
     accountId: {type: Schema.ObjectId, required: true, ref: 'Account'}
 

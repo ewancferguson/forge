@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import { pointSchema } from "./Location";
 
 
 export const ListingSchema = new Schema({
@@ -6,7 +7,7 @@ export const ListingSchema = new Schema({
     type: {type: String, Enumerator: ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other'], required: true},
     body: {type: String, required: true, minLength: 15, maxLength: 1000},
     pictures: {type: [String], maxLength: 2000},
-    location: {type: Object},
+    location: {type: pointSchema},
     isResolved: {type: Boolean, required: true, default: false},
     minBudget: {type: Number, min: 0, max: 100000, required: true},
     maxBudget: {type: Number, min: 0, max: 100000, required: true}
