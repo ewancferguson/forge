@@ -47,9 +47,23 @@ const listings = computed(() => AppState.listings)
         </div>
       </div>
     </div>
-    <h3 class="text-center mt-5">
-      Recent Posts
-    </h3>
+    <div class="text-center mt-5">
+      <h3>
+        Recent Posts
+      </h3>
+    </div>
+    <section class="row mt-5 d-flex justify-content-center align-items-center">
+      <div class="col-md-3 align-self-center text-center w-25">
+        <button class="btn btn-success">Create Post</button>
+      </div>
+      <div class="d-flex col-md-3 align-self-center text-center">
+        <input class="w-75" type="text" id="searchBar">
+        <span class="mdi mdi-magnify fs-3 align-self-center ms-3"></span>
+      </div>
+      <div class="col-md-3 align-self-center text-center w-25">
+        <button class="btn btn-success">Sort Posts</button>
+      </div>
+    </section>
     <div class="row justify-content-center d-flex mt-5">
       <div class="card bg-secondary text-dark col-md-3 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
         <ListingCard :listing="listing" />
@@ -67,6 +81,13 @@ const listings = computed(() => AppState.listings)
   font-weight: bold;
   text-transform: uppercase;
 }
+
+#searchBar {
+  background-color: darkgrey;
+  border: 1px solid black;
+  border-radius: 12px;
+}
+
 
 #homeImage {
   object-fit: cover;
