@@ -12,6 +12,7 @@ export class ListingController extends BaseController {
             .get('/:listingId', this.getListingById)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createListing)
+            .put('/:listingId', this.listingIsResolved)
     }
 
     /**
@@ -53,6 +54,24 @@ export class ListingController extends BaseController {
         try {
             const listingId = request.params.listingId
             const listing = await listingService.getListingById(listingId)
+            response.send(listing)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
+        /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+    async listingIsResolved(request, response, next){
+        try {
+            const listingData = request.body
+            const userId = request.userInfo.id
+            const listingId = request.params.listingId
+            const listing = await listingService.listingIsResolved(listingData, userId, listingId)
             response.send(listing)
         } catch (error) {
             next(error)

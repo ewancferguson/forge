@@ -21,6 +21,15 @@ class ListingService {
         if(listing.id == null) {throw new Error(`Listing ID of ${listing.id} is invalid`)}
         return listing
     }
+
+    async listingIsResolved(listingData, userId, listingId) {
+        const listing = await dbContext.Listing.findById(listingId)
+        if(listing.creatorId != userId) {throw new Error('cannot update post that is not yours')}
+        listing.isResolved = !listing.isResolved
+        await listing.save()
+        return listing
+    }
+
 }
 
 export const listingService = new ListingService()
