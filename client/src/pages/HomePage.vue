@@ -1,7 +1,22 @@
 <script setup>
 import { AppState } from '@/AppState';
-import { computed } from 'vue';
+import ListingCard from '@/components/ListingCard.vue';
+import { postsService } from '@/services/PostsService';
+import Pop from '@/utils/Pop';
+import { computed, onMounted } from 'vue';
 
+onMounted(() =>
+  getAllPosts()
+)
+
+async function getAllPosts() {
+  try {
+    await postsService.getAllPosts()
+  }
+  catch (error) {
+    Pop.meow(error);
+  }
+}
 
 const listings = computed(() => AppState.listings)
 </script>
@@ -14,7 +29,7 @@ const listings = computed(() => AppState.listings)
     <div class="row">
       <img id="homeImage" src="../assets/img/backgroundImage.jpg" alt="">
     </div>
-    <div id="aboutInfo" class="row d-flex justify-content-between">
+    <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-secondary">
       <div class="d-flex align-items-center">
         <div class="col-md-8 ms-4 mt-3 mb-3 p-3">
           <h1>Welcome To Forge</h1>
@@ -32,9 +47,12 @@ const listings = computed(() => AppState.listings)
         </div>
       </div>
     </div>
-    <div class="row d-flex mt-3">
-      <div class="card">
-
+    <h3 class="text-center mt-5">
+      Recent Posts
+    </h3>
+    <div class="row justify-content-center d-flex mt-5">
+      <div class="card bg-secondary text-dark w-25 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
+        <ListingCard :listing="listing" />
       </div>
     </div>
   </section>
@@ -63,9 +81,8 @@ const listings = computed(() => AppState.listings)
 }
 
 #aboutInfo {
-  padding: 0px;
+  padding: 1em;
   overflow: hidden;
-  margin-top: 1em;
   margin-bottom: 1em;
 }
 
