@@ -51,7 +51,7 @@ const listings = computed(() => AppState.listings)
       Recent Posts
     </h3>
     <div class="row justify-content-center d-flex mt-5">
-      <div class="card bg-secondary text-dark w-25 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
+      <div class="card bg-secondary text-dark col-md-3 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
         <ListingCard :listing="listing" />
       </div>
     </div>
