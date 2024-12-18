@@ -62,11 +62,14 @@ function toggleTheme() {
         :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
         <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
       </button> -->
-      <button class="btn btn-secondary text-primary"><i class="mdi mdi-plus-box fs-2"></i></button>
+      <button data-bs-toggle="modal" data-bs-target="#createPostModal" class="btn btn-secondary text-primary"><i
+          class="mdi mdi-plus-box fs-2"></i></button>
 
       <Login />
     </div>
   </nav>
+
+
 </template>
 
 <style scoped>
