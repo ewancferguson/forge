@@ -16,7 +16,8 @@ async function logout() {
 
 <template>
   <span class="navbar-text">
-    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login" v-if="!identity">
+    <button class="btn selectable text-info login-btn lighten-30 text-uppercase my-2 my-lg-0" @click="login"
+      v-if="!identity">
       Login
     </button>
     <div v-else>
@@ -45,4 +46,8 @@ async function logout() {
   </span>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.login-btn {
+  text-shadow: 1px 1px black;
+}
+</style>
