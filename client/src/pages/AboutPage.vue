@@ -4,14 +4,14 @@
 
 <template>
   <div class="container-fluid ">
-    <section class="ms-3 row d-flex">
-      <div class="justify-content-start col-md-9">
+    <section id="aboutInfo" class="row d-flex">
+      <div id="aboutText" class="justify-content-start col-md-9">
         <div class="about">
-          <h1 class="text-lime my-5">How does the Forge Work?</h1>
+          <h1 class="text-lime ms-5 my-5">How does the Forge Work?</h1>
         </div>
         <div class="ms-5">
           <div class="d-flex ps-5 ms-3">
-            <p class="col-7 text-light fw-thin mb-5 fs-4">The Forge is a platform designed to bridge the gap between
+            <p class="col-md-9 text-light fw-thin mb-5 fs-4">The Forge is a platform designed to bridge the gap between
               consumers and local businesses. Consumers can post their specific business needs—whether it's a repair
               job,
               a
@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="justify-content-end col-md-3">
+      <div class="justify-content-end col-md-3 forgeContainer">
         <span><img id="forgeCropped" src="../assets/img/forge.png" alt="Forge Image"></span>
       </div>
     </section>
@@ -47,10 +47,33 @@
   background-color: #D9D9D9;
 }
 
+#aboutInfo {
+  min-height: 75dvh;
+  align-content: center;
+}
+
 #forgeCropped {
-  height: 500px;
+  height: 450px;
   aspect-ratio: 1/1;
   object-fit: cover;
   object-position: center;
+  overflow: hidden;
+}
+
+.forgeContainer {
+  height: 600;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  align-content: center;
+}
+
+@media (min-width: 1400px) {
+  #aboutInfo {
+    min-height: 80dvh;
+  }
+
+  #forgeCropped {
+    height: 425px;
+  }
 }
 </style>
