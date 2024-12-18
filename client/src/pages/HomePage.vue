@@ -19,8 +19,8 @@ async function getAllPosts() {
 }
 
 
-
 const listings = computed(() => AppState.homePageListings)
+const identity = computed(() => AppState.identity)
 </script>
 
 <template>
@@ -56,7 +56,8 @@ const listings = computed(() => AppState.homePageListings)
     </div>
     <section class="row mt-5 d-flex justify-content-center align-items-center">
       <div class="col-md-3 align-self-center text-center w-25">
-        <button class="btn btn-success">Create Listings</button>
+        <button v-if="identity" class="btn btn-success">Create Listings </button>
+        <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
       </div>
       <div class="d-flex col-md-3 align-self-center text-center">
         <input class="w-75" type="text" id="searchBar">
@@ -76,8 +77,8 @@ const listings = computed(() => AppState.homePageListings)
   </section>
   <section class="text-center ms-5 mt-1 mb-5">
     <router-link :to="{ name: 'Posts' }">
-      <button class="btn btn-success text-light p-3">
-        <h4 class="m-0">Show More Posts</h4>
+      <button class="btn btn-success text-dark p-3">
+        <p class="m-0">Show More Posts</p>
       </button>
     </router-link>
   </section>
