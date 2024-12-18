@@ -61,7 +61,7 @@
 }
 
 .forgeContainer {
-  height: 600;
+  height: 600px;
   aspect-ratio: 1/1;
   overflow: hidden;
   align-content: center;

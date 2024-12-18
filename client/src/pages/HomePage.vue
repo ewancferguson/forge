@@ -10,6 +10,24 @@
     <div class="row">
       <img id="homeImage" src="../assets/img/backgroundImage.jpg" alt="">
     </div>
+    <div id="aboutInfo" class="row d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <div class="col-md-8 ms-4 mt-3 mb-3 p-3">
+          <h1>Welcome To Forge</h1>
+          <p class="mt-4 ms-3 col-md-10"> The platform where businesses and consumers in the construction and trade
+            industry
+            come
+            together. Whether
+            you’re a contractor looking to connect with others, a consumer seeking reliable services, or a business
+            aiming
+            to promote your expertise, Forge makes it easy to grow and succeed. Post your needs, explore professional
+            services, and build meaningful connections that will take your projects to the next level</p>
+        </div>
+        <div class="align-items-center col-md-3">
+          <img id="forgeImg" src="../assets/img/forge.png" alt="">
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -33,5 +51,20 @@
   filter: brightness(50%);
   user-select: none;
   -webkit-user-drag: none;
+}
+
+#aboutInfo {
+  padding: 0px;
+  overflow: hidden;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#forgeImg {
+  height: 375px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
+  overflow: hidden;
 }
 </style>
