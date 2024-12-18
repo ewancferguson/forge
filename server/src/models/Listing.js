@@ -10,7 +10,8 @@ export const ListingSchema = new Schema({
     location: {type: pointSchema},
     isResolved: {type: Boolean, required: true, default: false},
     minBudget: {type: Number, min: 0, max: 100000, required: true},
-    maxBudget: {type: Number, min: 0, max: 100000, required: true}
+    maxBudget: {type: Number, min: 0, max: 100000, required: true},
+    
 },{
     timestamps: true,
     toJSON: {virtuals: true}
@@ -22,4 +23,11 @@ ListingSchema.virtual('creator', {
     ref: 'Account',
     foreignField: '_id',
     justOne: true
+})
+
+ListingSchema.virtual('likeCount', {
+    localField: '_id',
+    ref: 'Like',
+    foreignField: 'listingId',
+    count: true
 })
