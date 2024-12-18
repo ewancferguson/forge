@@ -13,7 +13,7 @@ const account = computed(() => AppState.account)
       <div class="d-flex justify-content-between align-items-center">
         <div class="ps-5 ms-5">
           <img class="profile-img" :src="account.picture" alt="" />
-          <h1 class="text-primary text-capitalize pt-3"> {{ account.name }}</h1>
+          <h3 class="text-primary text-capitalize pt-3"> {{ account.name }}</h3>
           <p>{{ account.email }}</p>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">EDIT ACCOUNT</button>
         </div>
