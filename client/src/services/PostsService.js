@@ -10,7 +10,6 @@ class PostsService {
     const listings = response.data.map(listingPOJO => new Listing(listingPOJO))
     AppState.listings = listings
     AppState.homePageListings = listings.slice(0, 6);
-
   }
 
 }

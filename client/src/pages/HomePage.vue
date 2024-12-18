@@ -18,6 +18,8 @@ async function getAllPosts() {
   }
 }
 
+
+
 const listings = computed(() => AppState.homePageListings)
 </script>
 
@@ -66,11 +68,18 @@ const listings = computed(() => AppState.homePageListings)
         </router-link>
       </div>
     </section>
-    <div class="row justify-content-center d-flex mt-5">
+    <div class="row justify-content-center d-flex mt-5 mb-5">
       <div class="card bg-secondary text-dark col-md-3 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
         <ListingCard :listing="listing" />
       </div>
     </div>
+  </section>
+  <section class="text-center ms-5 mt-1 mb-5">
+    <router-link :to="{ name: 'Posts' }">
+      <button class="btn btn-success text-light p-3">
+        <h4 class="m-0">Show More Posts</h4>
+      </button>
+    </router-link>
   </section>
 </template>
 
