@@ -1,3 +1,3 @@
-export const domain = 'dev-1t6ykrr6svu8teqk.us.auth0.com'
-export const clientId = 'ESKt933uiprVk6qFAaWFOxnqYXHFmnP'
-export const audience = 'https://auth.speedwagonfoundation.com/'
+export const domain = ''
+export const clientId = ''
+export const audience = ''
