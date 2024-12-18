@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
+import CreatePostModal from './CreatePostModal.vue';
 
 const theme = ref(loadState('theme') || 'light')
 
@@ -67,6 +68,7 @@ function toggleTheme() {
 
       <Login />
     </div>
+    <CreatePostModal />
   </nav>
 
 
