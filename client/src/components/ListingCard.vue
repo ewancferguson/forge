@@ -25,7 +25,6 @@ async function likePost(listingId) {
 }
 
 const account = computed(() => AppState.account)
-const likes = computed(() => AppState.likes)
 
 
 </script>
