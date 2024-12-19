@@ -3,7 +3,7 @@ import { Forbidden } from "../utils/Errors"
 
 
 class ListingService {
-
+    
     async getAllListings() {
         const listings = dbContext.Listing.find().populate('creator', 'name picture isBusiness').populate('likeCount')
         return listings
@@ -42,7 +42,11 @@ class ListingService {
         return 'listing has been deleted'
     }
 
-
+   async getListingsByAccountId(accountId) {
+        const listings = await dbContext.Listing.find({accountId: accountId})
+        return listings
+      }
+  
 }
 
 export const listingService = new ListingService()

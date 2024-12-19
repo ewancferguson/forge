@@ -19,7 +19,10 @@ class FollowersService{
         return 'No longer following account'
     }
 
-
+   async getFollowersByAccountId(accountId) {
+        const followers = await dbContext.Follower.find(accountId).populate('follower', 'name picture')
+        return followers
+    }
 }
 
 export const followersService = new FollowersService()
