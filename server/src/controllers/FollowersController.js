@@ -9,6 +9,7 @@ export class FollowersController extends BaseController{
         this.router
         .use(Auth0Provider.getAuthorizedUserInfo)
         .post('', this.createFollower)
+        .delete('/:followerId', this.deleteFollower)
     }
 
         /**
@@ -16,12 +17,28 @@ export class FollowersController extends BaseController{
 * @param {import("express").Response} response
 * @param {import("express").NextFunction} next
 */
-    async createFollower(request, response, next){
+async createFollower(request, response, next){
+    try {
+        const followerData = request.body
+        followerData.accountId = request.userInfo.id
+        const follower = await followersService.createFollower(followerData)
+        response.send(follower)
+    } catch (error) {
+        next(error)
+    }
+}
+
+/**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+    async deleteFollower(request, response, next){
         try {
-            const followerData = request.body
-            followerData.accountId = request.userInfo.id
-            const follower = await followersService.createFollower(followerData)
-            response.send(follower)
+            const followerId = request.params.followerId
+            const userId = request.userInfo.id
+            const followerToDelete = await followersService.deleteFollower(followerId, userId)
+            response.send(followerToDelete)
         } catch (error) {
             next(error)
         }
