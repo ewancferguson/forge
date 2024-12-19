@@ -13,8 +13,9 @@ const listings = computed(() => AppState.listings)
 <template>
   <div class="container-fluid bg-grey">
     <div v-if="account">
-      <img :src="account.coverImg" alt="">
+      <img class="cover-img" :src="account.coverImg" alt="">
       <div class="d-flex justify-content-between align-items-center">
+        <img :src="account.coverImg" alt="">
         <div class="ps-5 ms-5">
           <img class="profile-img" :src="account.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ account.name }}</h3>
@@ -37,9 +38,9 @@ const listings = computed(() => AppState.listings)
     <div class="row">
       <div class="col-md-8">
         <h3 class="text-success p-5 mt-5">Recent Posts</h3>
-        <!-- <div v-for="listing in listings" :key="listing.id">
-            <PostCard :listing="listing" />
-          </div> -->
+        <div v-for="listing in listings" :key="listing.id">
+          <PostCard :listing="listing" />
+        </div>
       </div>
       <div class="col-md-3">
         <h3 class="text-success p-5 mt-5">Reviews</h3>
@@ -56,6 +57,10 @@ img {
 
 .profile-img {
   border-radius: 100em;
+}
+
+.cover-img {
+  min-height: 10em;
 }
 
 .bg-grey {
