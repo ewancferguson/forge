@@ -41,9 +41,9 @@ async function getAllPosts() {
 <template>
     <div class="container">
         <section class="row">
-            <div class="col-md-12 text-success d-flex justify-content-between py-4">
+            <div class="col-md-12 text-success mt-3 d-flex justify-content-between py-4">
                 <h3 class="dropdown">
-                    <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="ms-2 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Sort By
                     </span>
                     <ul class="dropdown-menu">
@@ -54,7 +54,7 @@ async function getAllPosts() {
                     </ul>
                 </h3>
                 <h3>Following</h3>
-                <h3>Recent Posts</h3>
+                <h3 class="me-2">Recent Posts</h3>
             </div>
         </section>
         <section class="row">
