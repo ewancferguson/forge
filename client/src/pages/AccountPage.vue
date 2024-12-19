@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import EditAccountModal from '@/components/EditAccountModal.vue';
 import PostCard from '@/components/PostCard.vue';
 import { computed } from 'vue';
 
@@ -18,7 +19,8 @@ const listings = computed(() => AppState.listings)
           <img class="profile-img" :src="account.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ account.name }}</h3>
           <p>{{ account.email }}</p>
-          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">EDIT ACCOUNT</button>
+          <button data-bs-toggle="modal" data-bs-target="#editAccountModal"
+            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">EDIT ACCOUNT</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
           <a class="pb-5 text-light" :href="account.facebook">FACEBOOK</a>
@@ -36,14 +38,15 @@ const listings = computed(() => AppState.listings)
       <div class="col-md-8">
         <h3 class="text-success p-5 mt-5">Recent Posts</h3>
         <!-- <div v-for="listing in listings" :key="listing.id">
-          <PostCard :listing="listing" />
-        </div> -->
+            <PostCard :listing="listing" />
+          </div> -->
       </div>
       <div class="col-md-3">
         <h3 class="text-success p-5 mt-5">Reviews</h3>
       </div>
     </div>
   </div>
+  <EditAccountModal />
 </template>
 
 <style scoped lang="scss">
