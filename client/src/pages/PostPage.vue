@@ -49,7 +49,8 @@ async function getAllPosts() {
                     <ul class="dropdown-menu">
                         <li v-for="type in types" :key="'filter-' + type.name" @click="activeFilterType = type.name">
                             <button class="dropdown-item" type="button">{{
-                                type.name }}</button></li>
+                                type.name }}</button>
+                        </li>
                     </ul>
                 </h3>
                 <h3>Following</h3>
