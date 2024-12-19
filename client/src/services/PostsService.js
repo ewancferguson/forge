@@ -10,7 +10,7 @@ class PostsService {
   }
   async getAllPosts() {
     const response = await api.get('api/listings')
-    logger.log(response.data)
+    logger.log('[Get All Posts]', response.data)
     const listings = response.data.map(listingPOJO => new Listing(listingPOJO))
     AppState.listings = listings
     AppState.homePageListings = listings.slice(0, 6);
