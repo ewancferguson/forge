@@ -69,7 +69,7 @@ onMounted(() => {
         <button data-bs-toggle="modal" data-bs-target="#createPostModal" class="btn btn-secondary text-primary"><i
             class="mdi mdi-plus-box fs-2"></i></button>
         <router-link :to="{ name: 'Messaging' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
-          <i class="mdi mdi-chat-outline fs-1"></i>
+          <i class="mdi mdi-chat-outline fs-2"></i>
         </router-link>
         <Login />
       </div>
