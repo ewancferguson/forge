@@ -2,10 +2,20 @@
 import { AppState } from '@/AppState';
 import { Listing } from '@/models/Listing';
 import { computed } from 'vue';
+import { likesService } from '@/services/LikesService';
+import Pop from '@/utils/Pop';
 
 defineProps({
     listing: { type: Listing, required: true }
 })
+
+async function likePost(listingId) {
+    try {
+        await likesService.likePost(listingId)
+    } catch (error) {
+        Pop.error(error)
+    }
+}
 
 const account = computed(() => AppState.account)
 
@@ -52,7 +62,10 @@ const account = computed(() => AppState.account)
 
         <div class="d-flex justify-content-between align-items-center">
             <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
-            <p class="d-flex align-items-center mb-0">0 <i class="mdi mdi-heart-outline fs-3 ms-2"></i></p>
+            <p class="d-flex align-items-center mb-0">0
+                <i :onclick="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable>
+                </i>
+            </p>
         </div>
     </div>
 </template>
