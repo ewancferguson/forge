@@ -3,8 +3,8 @@ import { api } from "./AxiosService.js"
 
 class LikesService {
   async likePost(listingId) {
-    const response = await api.post('api/likes', { listingId: listingId })
-    Pop.success('Liked Post' + response)
+    await api.post('api/likes', { listingId: listingId })
+    Pop.success('Liked Post')
   }
 
 }
