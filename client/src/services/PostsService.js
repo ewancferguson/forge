@@ -4,6 +4,9 @@ import { Listing } from "@/models/Listing.js"
 import { AppState } from "@/AppState.js"
 
 class PostsService {
+  createListing(value) {
+    throw new Error('Method not implemented.')
+  }
   async getAllPosts() {
     const response = await api.get('api/listings')
     logger.log(response.data)

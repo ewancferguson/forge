@@ -1,11 +1,29 @@
 <script setup>
+import { postsService } from '@/services/PostsService';
+import Pop from '@/utils/Pop';
+import { ref } from 'vue';
+
 
 const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other']
 
-const editablePostData = 5
+const editablePostData = ref({
+  location: '',
+  minBudget: '',
+  maxBudget: '',
+  pictures: '',
+  type: '',
+  description: ''
+})
 
 
-
+async function createListing() {
+  try {
+    await postsService.createListing(editablePostData.value)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 
 
 </script>
@@ -23,23 +41,23 @@ const editablePostData = 5
           <div class="modal-body">
             <div class="mb-3">
               <label for="location" class="form-label">Location</label>
-              <input type="text" class="form-control" id="location">
+              <input v-model="editablePostData.location" type="text" class="form-control" id="location">
             </div>
             <div class="mb-3">
               <label for="minBudget" class="form-label">Min Budget</label>
-              <input type="number" class="form-control" id="minBudget">
+              <input v-model="editablePostData.minBudget" type="number" class="form-control" id="minBudget">
             </div>
             <div class="mb-3">
               <label for="maxBudget" class="form-label">Max Budget</label>
-              <input type="number" class="form-control" id="maxBudget">
+              <input v-model="editablePostData.maxBudget" type="number" class="form-control" id="maxBudget">
             </div>
             <div class="mb-3">
               <label for="pictures" class="form-label">Pictures</label>
-              <input type="url" class="form-control" id="pictures">
+              <input v-model="editablePostData.pictures" type="url" class="form-control" id="pictures">
             </div>
             <div class="input-group mb-3">
               <label class="input-group-text" for="type">Type</label>
-              <select class="form-select" id="type">
+              <select v-model="editablePostData.type" class="form-select" id="type">
                 <option selected value="">Choose...</option>
                 <option v-for="category in categories" :key="category" value="">
                   {{ category }}
@@ -48,7 +66,7 @@ const editablePostData = 5
             </div>
             <div class="mb-3">
               <label for="body" class="form-label">Description</label>
-              <textarea class="form-control" id="body" rows="3"></textarea>
+              <textarea v-model="editablePostData.description" class="form-control" id="body" rows="3"></textarea>
             </div>
 
           </div>
