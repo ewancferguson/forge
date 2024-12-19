@@ -14,18 +14,17 @@ defineProps({
 
 </script>
 
-
 <template>
   <div class="rounded rounded-4 card bg-secondary text-primary my-3">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center col-9">
-        <img class="profile-img m-3 ms-5" :src="listing.creator.picture" alt="">
-        <div class="d-flex align-items-between">
+        <router-link :to="{ name: 'Profile' }">
+          <img class="profile-img m-3 ms-5" :src="listing.creator.picture" alt="">
           <b>
             @{{ listing.creator.name }}
           </b>
-          {{ listing.createdAt.getHours() }}h
-        </div>
+        </router-link>
+        {{ listing.createdAt.getHours() }}h
         <span v-if="listing.creator.isBusiness"><i class="mdi mdi-storefront-outline fs-1"></i></span>
       </div>
       <div class="col-3 d-flex align-items-center justify-content-end">

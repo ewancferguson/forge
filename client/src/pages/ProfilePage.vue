@@ -1,8 +1,13 @@
 <script setup>
 import { computed } from 'vue';
 import { AppState } from '../AppState.js';
+import { useRoute } from 'vue-router';
 
 const account = computed(() => AppState.account)
+
+const route = useRoute()
+
+const profile = computed(() => AppState.activeProfile)
 
 </script>
 

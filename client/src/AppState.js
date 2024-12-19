@@ -11,6 +11,10 @@ export const AppState = reactive({
   /** @type {import('./models/Listing.js').Listing[]} */
   homePageListings: [],
   /** @type {import('./models/Likes.js').Likes[]} */
-  likes: []
+  likes: [],
+    /** @type {import('./models/Profile.js').Profile} user info from the database*/
+    activeProfile: null,
+  /** @type {import('./models/Listing.js').Listing[]} user info from the database*/
+  profileListings: [],
 })
 
