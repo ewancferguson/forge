@@ -1,5 +1,6 @@
 <script setup>
 import { postsService } from '@/services/PostsService';
+import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { ref } from 'vue';
 
@@ -7,17 +8,18 @@ import { ref } from 'vue';
 const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other']
 
 const editablePostData = ref({
-  location: '',
   minBudget: '',
   maxBudget: '',
   pictures: '',
   type: '',
-  description: ''
+  body: ''
 })
 
 
 async function createListing() {
   try {
+    logger.log(editablePostData.value)
+
     await postsService.createListing(editablePostData.value)
   }
   catch (error) {
@@ -41,7 +43,7 @@ async function createListing() {
           <div class="modal-body">
             <div class="mb-3">
               <label for="location" class="form-label">Location</label>
-              <input v-model="editablePostData.location" type="text" class="form-control" id="location">
+              <input type="text" class="form-control" id="location">
             </div>
             <div class="mb-3">
               <label for="minBudget" class="form-label">Min Budget</label>
@@ -59,14 +61,14 @@ async function createListing() {
               <label class="input-group-text" for="type">Type</label>
               <select v-model="editablePostData.type" class="form-select" id="type">
                 <option selected value="">Choose...</option>
-                <option v-for="category in categories" :key="category" value="">
+                <option v-for="category in categories" :key="category" :value="category">
                   {{ category }}
                 </option>
               </select>
             </div>
             <div class="mb-3">
               <label for="body" class="form-label">Description</label>
-              <textarea v-model="editablePostData.description" class="form-control" id="body" rows="3"></textarea>
+              <textarea v-model="editablePostData.body" class="form-control" id="body" rows="3"></textarea>
             </div>
 
           </div>
