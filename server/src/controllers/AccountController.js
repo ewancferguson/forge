@@ -9,9 +9,9 @@ export class AccountController extends BaseController {
   constructor() {
     super('account')
     this.router
-      .get('/:accountId/followers', this.getFollowersByAccountId)
-      .get('/:accountId/listings', this.getListingsByAccountId)
-      .get('/:accountId/reviews', this.getReviewsByAccountId)
+      .get('/:profileId/followers', this.getFollowersByAccountId)
+      .get('/:profileId/listings', this.getListingsByAccountId)
+      .get('/:profileId/reviews', this.getReviewsByAccountId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .put('', this.editUserAccount)
