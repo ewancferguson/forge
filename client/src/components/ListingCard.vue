@@ -5,6 +5,7 @@ import { computed } from 'vue';
 import { likesService } from '@/services/LikesService';
 import Pop from '@/utils/Pop';
 
+const account = computed(() => AppState.account)
 defineProps({
     listing: { type: Listing, required: true }
 })
@@ -19,7 +20,6 @@ async function likePost(listingId) {
     }
 }
 
-const account = computed(() => AppState.account)
 
 </script>
 
