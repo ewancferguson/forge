@@ -11,9 +11,9 @@ defineProps({
 
 
 
-async function likePost() {
+async function likePost(listingId) {
     try {
-        await likesService.likePost()
+        await likesService.likePost(listingId)
     } catch (error) {
         Pop.error(error)
     }
@@ -65,7 +65,7 @@ const account = computed(() => AppState.account)
         <div class="d-flex justify-content-between align-items-center">
             <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
             <p class="d-flex align-items-center mb-0">0
-                <i :onclick="likePost()" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable>
+                <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable>
                 </i>
             </p>
         </div>
