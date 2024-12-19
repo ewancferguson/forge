@@ -20,7 +20,7 @@ const props = defineProps({
       <div class="d-flex align-items-center col-9">
         <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
           <img class="profile-img m-3 ms-5" :src="listing.creator.picture" alt="">
-          <b>
+          <b class="text-primary">
             @{{ listing.creator.name }}
           </b>
         </router-link>

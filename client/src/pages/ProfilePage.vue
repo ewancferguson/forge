@@ -62,9 +62,9 @@ async function getProfileById() {
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
-          <a class="pb-5 text-light" :href="profile.facebook">FACEBOOK</a>
-          <a class="pb-5 text-light" :href="profile.linkedIn">LINKEDIN</a>
-          <a class="text-light" :href="profile.website">COMPANY SITE</a>
+          <a v-if="profile.facebook" class="pb-5 text-light" :href="profile.facebook">FACEBOOK</a>
+          <a v-if="profile.linkedIn" class="pb-5 text-light" :href="profile.linkedIn">LINKEDIN</a>
+          <a v-if="profile.website" class="text-light" :href="profile.website">COMPANY SITE</a>
         </div>
       </div>
     </div>
