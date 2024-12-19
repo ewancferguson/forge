@@ -51,20 +51,20 @@ async function getProfileById() {
 
 <template>
   <div class="container-fluid bg-grey">
-    <div v-if="account">
-      <img :src="account.coverImg" alt="">
+    <div v-if="profile">
+      <img :src="profile.coverImg" alt="">
       <div class="d-flex justify-content-between align-items-center">
         <div class="ps-5 ms-5">
-          <img class="profile-img" :src="account.picture" alt="" />
-          <h3 class="text-primary text-capitalize pt-3"> {{ account.name }}</h3>
-          <p>{{ account.email }}</p>
+          <img class="profile-img" :src="profile.picture" alt="" />
+          <h3 class="text-primary text-capitalize pt-3"> {{ profile.name }}</h3>
+          <p>{{ profile.email }}</p>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
-          <a class="pb-5 text-light" :href="account.facebook">FACEBOOK</a>
-          <a class="pb-5 text-light" :href="account.linkedIn">LINKEDIN</a>
-          <a class="text-light" :href="account.website">COMPANY SITE</a>
+          <a class="pb-5 text-light" :href="profile.facebook">FACEBOOK</a>
+          <a class="pb-5 text-light" :href="profile.linkedIn">LINKEDIN</a>
+          <a class="text-light" :href="profile.website">COMPANY SITE</a>
         </div>
       </div>
     </div>
