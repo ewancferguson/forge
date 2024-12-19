@@ -68,7 +68,7 @@ const identity = computed(() => AppState.identity)
         </router-link>
       </div>
       <div class="col-md-4 col-sm-3">
-        <h3>
+        <h3 class="gradient-text">
           Recent Listings
         </h3>
       </div>
@@ -81,7 +81,7 @@ const identity = computed(() => AppState.identity)
 
     <section id="mobilePostTitle" class="row d-flex justify-content-center text-center mt-5">
       <div>
-        <h3>
+        <h3 class="gradient-text">
           Recent Listings
         </h3>
       </div>

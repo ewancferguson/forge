@@ -36,7 +36,7 @@ const account = computed(() => AppState.account)
             <div class="d-flex">
                 <div class="align-items-center d-flex">
                     <img id="creatorImage" :src="listing?.creator.picture" alt="">
-                    <div class="ms-2 align-items-center text-success">
+                    <div class="ms-2 align-items-center text-primary">
                         <h3 class="mb-0">{{ listing?.creator.name }}</h3>
                         <p class="m-0 p-0" v-if="listing?.creator.isBusiness">Business</p>
                     </div>
