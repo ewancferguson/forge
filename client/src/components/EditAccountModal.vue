@@ -21,7 +21,7 @@ const editableAccountData = ref({
 async function editAccount() {
   try {
     await accountService.editAccount(editableAccountData.value)
-    Pop.success
+    Pop.success()
   }
   catch (error) {
     Pop.error(error);
