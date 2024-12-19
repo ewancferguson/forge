@@ -10,5 +10,7 @@ export const AppState = reactive({
   listings: [],
   /** @type {import('./models/Listing.js').Listing[]} */
   homePageListings: [],
+  /** @type {import('./models/Likes.js').Likes[]} */
+  likes: []
 })
 

@@ -1,13 +1,15 @@
 <script setup>
 import { AppState } from '@/AppState';
 import ListingCard from '@/components/ListingCard.vue';
+import { likesService } from '@/services/LikesService';
 import { postsService } from '@/services/PostsService';
 import Pop from '@/utils/Pop';
 import { computed, onMounted } from 'vue';
 
-onMounted(() =>
+onMounted(() => {
   getAllPosts()
-)
+  getLikes()
+})
 
 async function getAllPosts() {
   try {
@@ -15,6 +17,15 @@ async function getAllPosts() {
   }
   catch (error) {
     Pop.meow(error);
+  }
+}
+
+async function getLikes() {
+  try {
+    await likesService.getLikes()
+  }
+  catch (error) {
+    Pop.error(error);
   }
 }
 
