@@ -56,7 +56,8 @@ const identity = computed(() => AppState.identity)
     </div>
     <section class="row mt-5 d-flex justify-content-center align-items-center">
       <div class="col-md-3 align-self-center text-center w-25">
-        <button v-if="identity" class="btn btn-success">Create Listings </button>
+        <button data-bs-toggle="modal" data-bs-target="#createPostModal" v-if="identity" class="btn btn-success">Create
+          Listings </button>
         <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
       </div>
       <div class="d-flex col-md-3 align-self-center text-center">
