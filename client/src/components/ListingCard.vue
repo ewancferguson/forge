@@ -64,7 +64,7 @@ async function likePost(listingId) {
 
         <div class="d-flex justify-content-between align-items-center">
             <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
-            <p class="d-flex align-items-center mb-0">0
+            <p class="d-flex align-items-center mb-0">{{ listing?.likeCount }}
                 <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable>
                 </i>
             </p>
