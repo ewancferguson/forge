@@ -1,5 +1,13 @@
 <script setup>
 
+const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other']
+
+const editablePostData =
+
+
+
+
+
 </script>
 
 
@@ -25,13 +33,17 @@
               <label for="maxBudget" class="form-label">Max Budget</label>
               <input type="number" class="form-control" id="maxBudget">
             </div>
+            <div class="mb-3">
+              <label for="pictures" class="form-label">Pictures</label>
+              <input type="url" class="form-control" id="pictures">
+            </div>
             <div class="input-group mb-3">
               <label class="input-group-text" for="type">Type</label>
               <select class="form-select" id="type">
-                <option selected>Choose...</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option selected value="">Choose...</option>
+                <option v-for="category in categories" :key="category" value="">
+                  {{ category }}
+                </option>
               </select>
             </div>
             <div class="mb-3">
