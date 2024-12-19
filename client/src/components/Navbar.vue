@@ -59,14 +59,19 @@ function toggleTheme() {
 
 
     <div class="justify-content-end align-items-center col-md-3 d-flex">
-      <!-- <button class="btn text-dark" @click="toggleTheme"
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- <button class="btn text-dark" @click="toggleTheme"
         :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
         <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
       </button> -->
-      <button data-bs-toggle="modal" data-bs-target="#createPostModal" class="btn btn-secondary text-primary"><i
-          class="mdi mdi-plus-box fs-2"></i></button>
 
-      <Login />
+        <button data-bs-toggle="modal" data-bs-target="#createPostModal" class="btn btn-secondary text-primary"><i
+            class="mdi mdi-plus-box fs-2"></i></button>
+        <router-link :to="{ name: 'Messaging' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
+          <i class="mdi mdi-chat-outline fs-1"></i>
+        </router-link>
+        <Login />
+      </div>
     </div>
     <CreatePostModal />
   </nav>

@@ -27,6 +27,11 @@ const routes = [
     component: loadPage('ProfilePage')
   },
   {
+    path: '/messages',
+    name: 'Messaging',
+    component: loadPage('MessagingPage')
+  },
+  {
     path: '/account',
     name: 'Account',
     component: loadPage('AccountPage'),
