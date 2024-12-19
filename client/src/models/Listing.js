@@ -11,6 +11,7 @@ export class Listing{
     this.maxBudget = data.maxBudget
     this.creator = data.creator
     this.createdAt = new Date (data.createdAt)
+    this.likeCount = data.likeCount
 
   }
 }

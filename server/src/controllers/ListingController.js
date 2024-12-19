@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { listingService } from "../services/ListingService";
 import BaseController from "../utils/BaseController";
+import { likeService } from "../services/LikeService";
 
 
 
@@ -10,6 +11,7 @@ export class ListingController extends BaseController {
         this.router
             .get('', this.getAllListings)
             .get('/:listingId', this.getListingById)
+            .get('/:listingId/likes', this.getLikesByListingId)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createListing)
             .put('/:listingId', this.listingIsResolved)
@@ -90,6 +92,21 @@ export class ListingController extends BaseController {
         const listingId = request.params.listingId
         const listing = await listingService.deleteListing(userId, listingId)
         response.send(listing)
+    } catch (error) {
+        next(error)
+    }
+  }
+
+        /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+  async getLikesByListingId(request, response, next){
+    try {
+        const listingId = request.params.listingId
+        const likes = await likeService.getLikesByListingId(listingId)
+        response.send(likes)
     } catch (error) {
         next(error)
     }
