@@ -3,6 +3,11 @@ import { Forbidden } from "../utils/Errors"
 
 
 class LikeService {
+
+   async getAllLikes() {
+        const likes = await dbContext.Like.find().populate('account', 'name picture')
+        return likes
+    }
  
     async createLike(likeData) {
         const like = await dbContext.Like.create(likeData)
