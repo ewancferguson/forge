@@ -1,5 +1,5 @@
-export class Listing{
-  constructor(data){
+export class Listing {
+  constructor(data) {
     this.id = data.id
     this.creatorId = data.creatorId
     this.type = data.type
@@ -10,7 +10,8 @@ export class Listing{
     this.minBudget = data.minBudget
     this.maxBudget = data.maxBudget
     this.creator = data.creator
-    this.createdAt = new Date (data.createdAt)
+    this.createdAt = new Date(data.createdAt)
+    this.likeCount = data.likeCount
 
   }
 }

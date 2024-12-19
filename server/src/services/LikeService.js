@@ -3,7 +3,7 @@ import { Forbidden } from "../utils/Errors"
 
 
 class LikeService {
-   
+ 
     async createLike(likeData) {
         const like = await dbContext.Like.create(likeData)
         await like.populate('account')
@@ -27,6 +27,12 @@ class LikeService {
         await likeToDelete.deleteOne()
         return 'Like has been deleted'
     }
+
+   async getLikesByListingId(listingId) {
+        const likes = await dbContext.Like.find({listingId: listingId}).populate('account', 'name picture')
+        return likes
+    }
+   
 
 }
 
