@@ -1,13 +1,51 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
+import Pop from '@/utils/Pop.js';
+import { profilesService } from '@/services/ProfilesService.js';
+import { logger } from '@/utils/Logger.js';
+import { postsService } from '@/services/PostsService.js';
 
 const account = computed(() => AppState.account)
 
 const route = useRoute()
 
 const profile = computed(() => AppState.activeProfile)
+
+const listings = computed(() => AppState.listings)
+
+onMounted(() => {
+  getProfileById()
+  // getListingsByProfileId()
+})
+
+watch(route, () => {
+  getProfileById()
+  // getListingsByProfileId()
+})
+
+async function getProfileById() {
+  try {
+    const profileId = route.params.profileId
+    await profilesService.getProfileById(profileId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log('getting profile by id', error)
+  }
+}
+
+// async function getListingsByProfileId() {
+//   try {
+//     const profileId = route.params.profileId
+//     await postsService.getListingsByProfileId(profileId)
+//   }
+//   catch (error) {
+//     Pop.meow(error);
+//     logger.log('getting listings by profile by id', error)
+//   }
+
 
 </script>
 

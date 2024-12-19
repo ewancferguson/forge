@@ -5,7 +5,7 @@ import { computed } from 'vue';
 
 const account = computed(() => AppState.account)
 
-defineProps({
+const props = defineProps({
   listing: { type: Listing, required: true }
 })
 
@@ -18,7 +18,7 @@ defineProps({
   <div class="rounded rounded-4 card bg-secondary text-primary my-3">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center col-9">
-        <router-link :to="{ name: 'Profile' }">
+        <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
           <img class="profile-img m-3 ms-5" :src="listing.creator.picture" alt="">
           <b>
             @{{ listing.creator.name }}
