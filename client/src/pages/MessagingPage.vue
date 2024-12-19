@@ -36,7 +36,7 @@
             alt="">
           <div class="">
             <p class="text-light fs-5 ps-3">Mickey Mouse</p>
-            <p class="text-light ps-3">It's the Micky Mouse Party</p>
+            <p class="text-light ps-3 pb-2">It's the Micky Mouse Party</p>
           </div>
           <span class="text-secondary align-self-end">3:30</span>
         </div>
@@ -44,12 +44,18 @@
           <div class="">
             <p class="text-light fs-5 ps-3 d-flex justify-content-end">You</p>
             <p class="text-light ps-3 d-flex justify-content-end">It's the Micky Mouse Party</p>
+            <span class="text-secondary d-flex justify-content-end">3:30</span>
           </div>
-          <span class="text-secondary align-self-end">3:30</span>
-          <img class="contact-img"
+          <img class="contact-img ms-3"
             src="https://images.unsplash.com/photo-1722816738620-5eb5fc059487?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fG1pY2tleSUyMG1vdXNlfGVufDB8fDB8fHww"
             alt="">
         </div>
+        <div class="d-flex mb-3 sticky-bottom ms-5 ps-5 my-3 pb-3">
+          <input type="text" class="form-control bg-green text-success border-green rounded-end-0" id="input"
+            placeholder="Your Message">
+          <button class="btn bg-green text-success rounded-start-0" type="button"><i class="mdi mdi-send"></i></button>
+        </div>
+
       </div>
     </section>
   </div>
@@ -65,5 +71,23 @@
 .message-pin {
   max-height: 2em;
   transform: rotate(45deg);
+}
+
+.message-send {
+  max-height: 2em;
+  transform: rotate(45deg);
+}
+
+input::placeholder {
+  opacity: 0.75;
+  color: #E3FFCC;
+}
+
+.bg-green {
+  background-color: #194348;
+}
+
+.border-green {
+  border-color: #194348;
 }
 </style>
