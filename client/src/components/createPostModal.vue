@@ -31,7 +31,7 @@ async function createListing() {
 
 <template>
   <div class="modal" id="createPostModal" tabindex="-1">
-    <form>
+    <form @submit.prevent="createListing()">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
