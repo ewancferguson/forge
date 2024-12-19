@@ -36,7 +36,7 @@ const identity = computed(() => AppState.identity)
 
 <template>
   <section class="container-fluid">
-    <div class="row mt-4 mb-4 p-3 text-center">
+    <div id="announcement" class="row mt-4 mb-4 p-3 text-center">
       <h1 class="text-light">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
     <div class="row">
@@ -137,6 +137,7 @@ const identity = computed(() => AppState.identity)
   padding: 1em;
 }
 
+
 #homeImage {
   object-fit: cover;
   object-position: bottom;
@@ -161,6 +162,13 @@ const identity = computed(() => AppState.identity)
   object-fit: cover;
   object-position: center;
   overflow: hidden;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  #announcement {
+    display: none !important;
+  }
 }
 
 @media (min-width: 675px) {
