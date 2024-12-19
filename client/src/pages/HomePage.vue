@@ -44,7 +44,7 @@ const identity = computed(() => AppState.identity)
     </div>
     <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-secondary">
       <div class="d-flex align-items-center">
-        <div class="col-md-8 ms-4 mt-3 mb-3 p-3">
+        <div id="homeDescription" class="col-md-8 mt-3 mb-3 p-3">
           <h1>Welcome To Forge</h1>
           <p class="mt-4 ms-3 col-md-10"> The platform where businesses and consumers in the construction and trade
             industry
@@ -60,34 +60,54 @@ const identity = computed(() => AppState.identity)
         </div>
       </div>
     </div>
-    <div class="text-center mt-5">
-      <h3>
-        Recent Posts
-      </h3>
-    </div>
-    <section class="row mt-5 d-flex justify-content-center align-items-center">
-      <div class="col-md-3 align-self-center text-center w-25">
-        <button data-bs-toggle="modal" data-bs-target="#createPostModal" v-if="identity" class="btn btn-success">Create
-          Listings </button>
-        <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
-      </div>
-      <div class="d-flex col-md-3 align-self-center text-center">
-        <input class="w-75" type="text" id="searchBar">
-        <span class="mdi mdi-magnify fs-3 align-self-center ms-3"></span>
-      </div>
-      <div class="col-md-3 align-self-center text-center w-25">
+
+    <section id="postTitle" class="row d-flex justify-content-around text-center mt-5">
+      <div class="col-md-4 col-sm-3">
         <router-link :to="{ name: 'Posts' }">
           <button class="btn btn-success">Sort Listings</button>
         </router-link>
       </div>
+      <div class="col-md-4 col-sm-3">
+        <h3>
+          Recent Listings
+        </h3>
+      </div>
+      <div class="col-md-4 col-sm-3">
+        <button data-bs-toggle="modal" data-bs-target="#createPostModal" v-if="identity" class="btn btn-success">Create
+          Listings </button>
+        <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
+      </div>
     </section>
-    <div class="row justify-content-center d-flex mt-5 mb-5">
-      <div class="card bg-secondary text-dark col-md-3 g-3 m-3" v-for="listing in listings" v-bind:key="listing.id">
+
+    <section id="mobilePostTitle" class="row d-flex justify-content-center text-center mt-5">
+      <div>
+        <h3>
+          Recent Listings
+        </h3>
+      </div>
+      <div class="justify-content-center d-flex">
+        <div class="m-1">
+          <button data-bs-toggle="modal" data-bs-target="#createPostModal" v-if="identity"
+            class="btn btn-success">Create
+            Listings </button>
+          <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
+        </div>
+        <div class="m-1">
+          <router-link :to="{ name: 'Posts' }">
+            <button class="btn btn-success">Sort Listings</button>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <div id="listingContainer" class="row d-flex mt-5 mb-5">
+      <div id="cardListing" class=" text-dark col-xl-3 col-lg-4 col-md-5 col-sm-5 " v-for="listing in listings"
+        v-bind:key="listing.id">
         <ListingCard :listing="listing" />
       </div>
     </div>
   </section>
-  <section class="text-center ms-5 mt-1 mb-5">
+  <section class="text-center mt-1 mb-5">
     <router-link :to="{ name: 'Posts' }">
       <button class="btn btn-success text-dark p-3">
         <p class="m-0">Show More Posts</p>
@@ -109,9 +129,13 @@ const identity = computed(() => AppState.identity)
 #searchBar {
   background-color: darkgrey;
   border: 1px solid black;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
+#cardListing {
+  margin-top: 1em;
+  padding: 1em;
+}
 
 #homeImage {
   object-fit: cover;
@@ -137,5 +161,53 @@ const identity = computed(() => AppState.identity)
   object-fit: cover;
   object-position: center;
   overflow: hidden;
+}
+
+@media (min-width: 675px) {
+  #mobilePostTitle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 675px) {
+  #cardListing {
+    padding: 6px;
+    width: 100%;
+  }
+
+  #listingContainer {
+    padding: 1em;
+  }
+
+  #homeDescription {
+    text-align: center;
+    margin: 0px;
+  }
+
+  #postTitle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #forgeImg {
+    display: none;
+  }
+
+  #cardListing {
+    margin: 12px;
+    padding: 12px;
+  }
+
+  #listingContainer {
+    justify-content: center;
+  }
+}
+
+
+@media (max-width: 992px) {
+  #listingContainer {
+    justify-content: center;
+  }
 }
 </style>
