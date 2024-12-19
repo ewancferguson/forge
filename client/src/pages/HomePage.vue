@@ -30,6 +30,8 @@ async function getLikes() {
 }
 
 
+
+
 const listings = computed(() => AppState.homePageListings)
 const identity = computed(() => AppState.identity)
 </script>
