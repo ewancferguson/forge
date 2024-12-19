@@ -5,7 +5,7 @@ import { Forbidden } from "../utils/Errors"
 class ListingService {
 
     async getAllListings() {
-        const listings = dbContext.Listing.find().populate('creator', 'name picture isBusiness')
+        const listings = dbContext.Listing.find().populate('creator', 'name picture isBusiness').populate('likeCount')
         return listings
     }
 
@@ -17,7 +17,7 @@ class ListingService {
     }
 
     async getListingById(listingId) {
-        const listing = await dbContext.Listing.findById(listingId).populate('creator', 'name picture')
+        const listing = await dbContext.Listing.findById(listingId).populate('creator', 'name picture').populate('likeCount')
         if(listing.id == null) {throw new Error(`Listing ID of ${listing.id} is invalid`)}
         return listing
     }
