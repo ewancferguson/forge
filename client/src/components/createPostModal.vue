@@ -2,7 +2,7 @@
 
 const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other']
 
-const editablePostData =
+const editablePostData = 5
 
 
 
