@@ -31,7 +31,8 @@ const account = computed(() => AppState.account)
 
 
 <template>
-    <div id="listingCard" class="card bg-secondary text-dark flex-column d-flex align-content-between">
+    <RouterLink :to="{ name: 'Listing', params: { listingId: listing.id } }" id="listingCard"
+        class="card bg-secondary text-dark flex-column d-flex align-content-between">
         <div class="card-header">
             <div class="d-flex">
                 <RouterLink :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }"
@@ -90,7 +91,7 @@ const account = computed(() => AppState.account)
                 <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable></i>
             </p>
         </div>
-    </div>
+    </RouterLink>
 </template>
 
 

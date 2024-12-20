@@ -1,10 +1,39 @@
 <script setup>
+import { AppState } from '@/AppState';
+import { listingsService } from '@/services/ListingsService';
+import { logger } from '@/utils/Logger';
+import Pop from '@/utils/Pop';
+import { computed, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
+
+const route = useRoute()
+
+const listings = computed(() => AppState.activeListing)
+
+onMounted(() => {
+  getListingById()
+})
+
+watch(route, () => {
+  getListingById()
+})
+
+async function getListingById() {
+  try {
+    const listingId = route.params.listingId
+    await listingsService.getListingById(listingId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log('getting listing by id', error)
+  }
+}
 </script>
 
 
 <template>
-  <div class="container mt-5">
+  <div v-if="listings" class="container mt-5">
     <div class="card shadow">
       <div class="card-header bg-primary text-white">
         <h3>Listing Details</h3>
@@ -26,7 +55,7 @@
         </div>
         <div class="mb-3">
           <strong>Pictures:</strong>
-          <img id="listing-pictures" src="example.jpg" alt="Listing Image" class="img-fluid rounded">
+          <img id="listing-pictures" src="" alt="Listing Image" class="img-fluid rounded">
         </div>
         <div class="mb-3">
           <strong>Budget Range:</strong>
@@ -50,6 +79,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div v-else>
+    <h1 class="text-light mt-5">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
   </div>
 </template>
 

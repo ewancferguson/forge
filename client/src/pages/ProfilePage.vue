@@ -11,9 +11,9 @@ const account = computed(() => AppState.account)
 
 const route = useRoute()
 
-const profile = computed(() => AppState.activeProfile)
-
 const listings = computed(() => AppState.listings)
+
+const profile = computed(() => AppState.activeProfile)
 
 onMounted(() => {
   getProfileById()

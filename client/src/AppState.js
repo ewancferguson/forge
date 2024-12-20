@@ -16,5 +16,7 @@ export const AppState = reactive({
     activeProfile: null,
   /** @type {import('./models/Listing.js').Listing[]} user info from the database*/
   profileListings: [],
+      /** @type {import('./models/Listing.js').Listing} user info from the database*/
+      activeListing: null,
 })
 
