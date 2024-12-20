@@ -21,3 +21,10 @@ ServiceSchema.virtual('creator', {
     justOne: true
 })
 
+ServiceSchema.virtual('likeCount', {
+    localField: '_id',
+    ref: 'Like',
+    foreignField: 'serviceId',
+    count: true
+})
+

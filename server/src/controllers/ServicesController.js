@@ -7,7 +7,7 @@ export class ServicesController extends BaseController {
     constructor() {
         super('api/services')
         this.router
-            // .get('', this.getAllServices)
+            .get('', this.getAllServices)
             // .get('/:listingId', this.getServiceById)
             // .get('/:listingId/likes', this.getLikesByServiceId)
             // .get('/:listingId/comments', this.getCommentsByServiceId)
@@ -18,6 +18,20 @@ export class ServicesController extends BaseController {
     }
 
 
+
+    /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+    async getAllServices(request, response, next){
+        try {
+            const service = await servicesService.getAllServices()
+            response.send(service)
+        } catch (error) {
+            next(error)
+        }
+    }
         /**
     * @param {import("express").Request} request
     * @param {import("express").Response} response

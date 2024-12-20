@@ -2,7 +2,8 @@ import { Schema } from "mongoose";
 
 export const LikesSchema = new Schema({
   listingId: { type: Schema.ObjectId, required: true, ref: 'Listing' },
-  accountId: { type: Schema.ObjectId, required: true, ref: 'Account' }
+  accountId: { type: Schema.ObjectId, required: true, ref: 'Account' },
+  serviceId: {type: Schema.ObjectId, required: true, ref: 'Service'}
 }, {
   timestamps: true,
   toJSON: { virtuals: true }
@@ -25,3 +26,9 @@ LikesSchema.virtual('listing', {
   justOne: true
 })
 
+LikesSchema.virtual('service', {
+  localField: 'serviceId',
+  ref: 'Service',
+  foreignField: '_id',
+  justOne: true
+})
