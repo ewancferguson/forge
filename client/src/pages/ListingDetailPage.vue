@@ -34,56 +34,81 @@ async function getListingById() {
 
 <template>
   <div v-if="listings" class="container mt-5">
-    <div class="card shadow">
-      <div class="card-header bg-primary text-white">
-        <h3>Listing Details</h3>
+    <div class="bg-green shadow rounded-4 pb-2">
+      <div class="d-flex card-header text-light outline outline-primary rounded-top-4 p-2">
+        <img class="profile-img m-2" :src="listings.creator.picture" alt="">
+        <div class="align-items-space-between">
+          <h3>{{ listings.creator.name }}</h3>
+          <p class="text-secondary">{{ listings.createdAt.toLocaleTimeString() }}</p>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card mx-5 my-4 ps-2 pt-2">
         <div class="mb-3">
           <strong>Type:</strong>
-          <span id="listing-type">Construction</span>
+          <span id="listing-type" class="ps-1 text-capitalize">{{ listings.type }}</span>
         </div>
         <div class="mb-3">
           <strong>Location:</strong>
-          <span id="listing-location">60a76bf1b3c7e1a2d8b2e222</span>
+          <span id="listing-location" class="ps-1">{{ listings.location }}</span>
         </div>
         <div class="mb-3">
           <strong>Body:</strong>
           <p id="listing-body">
-            Seeking experienced subcontractors for steel structure erection in a factory.
+            {{ listings.body }}
           </p>
         </div>
         <div class="mb-3">
           <strong>Pictures:</strong>
-          <img id="listing-pictures" src="" alt="Listing Image" class="img-fluid rounded">
+          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded">
         </div>
         <div class="mb-3">
           <strong>Budget Range:</strong>
-          <span id="listing-budget">$15,000 - $35,000</span>
+          <span id="listing-budget" class="ps-1">${{ listings.minBudget }} - ${{ listings.maxBudget }}</span>
         </div>
         <div class="mb-3">
           <strong>Status:</strong>
-          <span id="listing-status" class="badge bg-warning">Unresolved</span>
+          <span id="listing-status" class="badge bg-warning text-primary ms-1">{{ listings.isResolved }}</span>
         </div>
         <div class="mb-3">
           <strong>Created At:</strong>
-          <span id="listing-created-at">2024-12-15</span>
+          <span id="listing-created-at" class="ps-1">{{ listings.createdAt.toDateString() }}</span>
         </div>
         <div class="mb-3">
           <strong>Likes:</strong>
-          <span id="listing-likes">3</span>
+          <span id="listing-likes" class="ps-1">{{ listings.likeCount }}</span>
         </div>
-        <div class="d-flex justify-content-end">
-          <button class="btn btn-danger me-2" id="delete-post">Delete</button>
-          <button class="btn btn-success" id="mark-resolved">Mark as Resolved</button>
+        <div class="d-flex align-items-center justify-content-end m-2">
+          <button class="btn btn-primary">Message Us <i class="mdi mdi-chat"></i></button>
+          <div class="justify-content-end">
+            <button class="btn btn-danger me-2" id="delete-post">Delete</button>
+            <button class="btn btn-success" id="mark-resolved">Mark as Resolved</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div v-else>
-    <h1 class="text-light mt-5">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
+    <h1 class="text-light mt-5 text-center">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
   </div>
 </template>
 
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.profile-img {
+  border-radius: 100em;
+  max-height: 4em;
+}
+
+.post-img {
+  max-height: 10em;
+
+}
+
+.bg-green {
+  background-color: #194348;
+}
+
+.corner {
+  border-radius: 5em;
+}
+</style>
