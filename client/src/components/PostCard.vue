@@ -15,7 +15,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="rounded rounded-4 card bg-secondary text-primary my-3">
+  <router-link :to="{ name: 'Listing', params: { listingId: listing.id } }" id="listingCard"
+    class="rounded rounded-4 card bg-secondary text-primary my-3">
     <div class="d-flex justify-content-between align-items-center">
       <div class="d-flex align-items-center col-9">
         <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
@@ -62,7 +63,7 @@ const props = defineProps({
         <i class="mdi mdi-heart-outline fs-1"></i>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 
