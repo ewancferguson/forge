@@ -42,8 +42,8 @@ class ListingService {
         return 'listing has been deleted'
     }
 
-    async getListingsByAccountId(accountId) {
-        const listings = await dbContext.Listing.find({ accountId: accountId }).populate('creator', 'name picture').populate('likeCount')
+    async getListingsByAccountId(creatorId) {
+        const listings = await dbContext.Listing.find({ creatorId: creatorId }).populate('creator', 'name picture').populate('likeCount')
         return listings
     }
 

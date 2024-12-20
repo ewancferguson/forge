@@ -45,8 +45,8 @@ export class AccountController extends BaseController {
 */
   async getFollowersByAccountId(request, response, next) {
     try {
-      const accountId = request.params.profileId
-      const followers = await followersService.getFollowersByAccountId(accountId)
+      const followerId = request.params.profileId
+      const followers = await followersService.getFollowersByAccountId(followerId)
       response.send(followers)
     } catch (error) {
       next(error)
@@ -60,8 +60,8 @@ export class AccountController extends BaseController {
 */
   async getListingsByAccountId(request, response, next) {
     try {
-      const accountId = request.params.profileId
-      const listings = await listingService.getListingsByAccountId(accountId)
+      const creatorId = request.params.profileId
+      const listings = await listingService.getListingsByAccountId(creatorId)
       response.send(listings)
     } catch (error) {
       next(error)

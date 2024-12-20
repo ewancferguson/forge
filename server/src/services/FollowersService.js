@@ -19,8 +19,8 @@ class FollowersService {
         return 'No longer following account'
     }
 
-    async getFollowersByAccountId(accountId) {
-        const followers = await dbContext.Follower.find({ accountId: accountId }).populate('follower', 'name picture')
+    async getFollowersByAccountId(followerId) {
+        const followers = await dbContext.Follower.find({ followerId: followerId }).populate('follower', 'name picture')
         return followers
     }
 }
