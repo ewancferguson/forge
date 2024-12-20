@@ -3,14 +3,14 @@
 </script>
 
 <template>
-  <div class="container-fluid ">
+  <div id="desktopAboutUs" class="container-fluid ">
     <section id="aboutInfo" class="row d-flex">
       <div id="aboutText" class="justify-content-start col-md-9">
         <div class="about">
-          <h1 class="text-lime ms-5 my-5">How does the Forge Work?</h1>
+          <h1 class="text-lime my-5">How does the Forge Work?</h1>
         </div>
         <div class="ms-5">
-          <div class="d-flex ps-5 ms-3">
+          <div id="forgeInfo" class="d-flex ps-5">
             <p class="col-md-9 text-light fw-thin mb-5 fs-4">The Forge is a platform designed to bridge the gap between
               consumers and local businesses. Consumers can post their specific business needs—whether it's a repair
               job,
@@ -35,6 +35,12 @@
 </template>
 
 <style scoped lang="scss">
+.about {
+  margin-inline-start: 1em
+}
+
+
+
 .text-lime {
   color: #E3FFCC;
 }
@@ -69,6 +75,30 @@
 
 div {
   scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+  .about {
+    justify-content: center;
+    text-align: center;
+  }
+
+  #forgeInfo {
+    text-align: center;
+    justify-content: center;
+  }
+
+  #forgeCropped {
+    display: none !important;
+  }
+
+  .forgeContainer {
+    display: none !important;
+  }
+
+  #desktopAboutUs {
+    display: none !important;
+  }
 }
 
 @media (min-width: 1400px) {

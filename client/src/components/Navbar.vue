@@ -182,7 +182,7 @@ const account = computed(() => AppState.account)
       <!-- Footer Section for Login -->
       <div class="footer mt-auto d-flex justify-content-center text-center py-3">
         <button @click="toggleSideMenu" data-bs-toggle="modal" data-bs-target="#createPostModal"
-          class="side-menu-item btn btn-primary">
+          class="side-menu-item btn btn-primary text-light">
           Create Post <i class="mdi mdi-plus-box"></i>
         </button>
       </div>
@@ -286,7 +286,7 @@ nav {
   height: 12dvh;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 768.1px) {
   #mobileNav {
     display: none !important
   }
