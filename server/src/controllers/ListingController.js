@@ -66,12 +66,12 @@ export class ListingController extends BaseController {
         }
     }
 
-        /**
+    /**
 * @param {import("express").Request} request
 * @param {import("express").Response} response
 * @param {import("express").NextFunction} next
 */
-    async editListing(request, response, next){
+    async editListing(request, response, next) {
         try {
             const listingData = request.body
             const listingId = request.params.listingId
@@ -114,20 +114,20 @@ export class ListingController extends BaseController {
         }
     }
 
-        /**
+    /**
 * @param {import("express").Request} request
 * @param {import("express").Response} response
 * @param {import("express").NextFunction} next
 */
-   async getCommentsByListingId(request, response, next){
-    try {
-        const listingId = request.params.listingId
-        const comments = await commentService.getCommentsByListingId(listingId)
-        response.send(comments)
-    } catch (error) {
-        next(error)
+    async getCommentsByListingId(request, response, next) {
+        try {
+            const listingId = request.params.listingId
+            const comments = await commentService.getCommentsByListingId(listingId)
+            response.send(comments)
+        } catch (error) {
+            next(error)
+        }
     }
-   }
 
 }
 
