@@ -60,7 +60,7 @@ async function getListingById() {
         <div class="mb-3">
           <strong v-if="listings.pictures > 1">Images:</strong>
           <strong v-else>Image:</strong>
-          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded post-img">
+          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded">
         </div>
         <div class="mb-3">
           <strong>Budget Range:</strong>
@@ -78,11 +78,17 @@ async function getListingById() {
           <strong>Likes:</strong>
           <span id="listing-likes" class="ps-1">{{ listings.likeCount }}</span>
         </div>
-        <div class="d-flex align-items-center justify-content-end pb-2">
-          <button v-if="listings.creator" class="btn btn-primary me-2">Message Us <i class="mdi mdi-chat"></i></button>
-          <div class="justify-content-end">
-            <button v-if="!listings.creator" class="btn btn-danger me-2" id="delete-post">Delete</button>
-            <button v-if="!listings.creator" class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+        <div class="d-flex align-items-center pb-2">
+          <div>
+            <span><i class="mdi mdi-heart-outline fs-1"></i></span>
+          </div>
+          <div class="d-flex align-items-center justify-content-end pb-2">
+            <button v-if="listings.creator" class="btn btn-primary me-2">Message Us <i
+                class="mdi mdi-chat"></i></button>
+            <div class="justify-content-end">
+              <button v-if="!listings.creator" class="btn btn-danger me-2" id="delete-post">Delete</button>
+              <button v-if="!listings.creator" class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+            </div>
           </div>
         </div>
       </div>
@@ -98,11 +104,6 @@ async function getListingById() {
 .profile-img {
   border-radius: 100em;
   max-height: 4em;
-}
-
-.post-img {
-  max-height: 40em;
-
 }
 
 .bg-green {
