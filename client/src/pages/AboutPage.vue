@@ -32,6 +32,33 @@
     </div>
   </div>
 
+
+  <div id="mobileAboutUs" class="container-fluid ">
+    <section id="aboutInfo" class="row d-flex bg-secondary">
+      <div id="aboutText" class="justify-content-center col-12">
+        <div class="about mt-3">
+          <h1 class="text-green">How does the Forge Work?</h1>
+        </div>
+        <div id="forgeInfo" class="d-flex">
+          <p class=" fw-thin mb-5 fs-4 p-3 text-dark">The Forge is a platform designed to bridge the
+            gap
+            between
+            consumers and local businesses. Consumers can post their specific business needs—whether it's a repair
+            job,
+            a
+            service, or a custom request—and businesses can respond in the comments with tailored offers, pricing, or
+            availability. On the flip side, businesses can showcase their services and special offers, making it
+            easier
+            for consumers to discover and connect with the right providers.
+          </p>
+        </div>
+      </div>
+    </section>
+    <div class="bg-primary row">
+      <h1 class="text-light m-5 col-3">Contributors</h1>
+    </div>
+  </div>
+
 </template>
 
 <style scoped lang="scss">
@@ -75,6 +102,16 @@
 
 div {
   scroll-behavior: smooth;
+}
+
+@media (min-width: 768px) {
+  #mobileAboutUs {
+    display: none !important;
+  }
+
+  #aboutInfo {
+    margin-top: 2em;
+  }
 }
 
 @media (max-width: 768px) {
