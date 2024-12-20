@@ -79,15 +79,21 @@ async function getListingById() {
           <span id="listing-likes" class="ps-1">{{ listings.likeCount }}</span>
         </div>
         <div class="d-flex align-items-center pb-2">
-          <div>
-            <span><i class="mdi mdi-heart-outline fs-1"></i></span>
+
+          <div class="d-flex">
+            <div class="d-flex input-group">
+              <span><i class="mdi mdi-heart-outline fs-2 mx-2"></i></span>
+              <input type="text" class="bg-secondary form-control text-primary rounded mx-2" id="input"
+                placeholder="Add a Comment...">
+            </div>
           </div>
-          <div class="d-flex align-items-center justify-content-end pb-2">
-            <button v-if="listings.creator" class="btn btn-primary me-2">Message Us <i
-                class="mdi mdi-chat"></i></button>
-            <div class="justify-content-end">
-              <button v-if="!listings.creator" class="btn btn-danger me-2" id="delete-post">Delete</button>
-              <button v-if="!listings.creator" class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+          <div class="d-flex justify-content-end">
+            <div class="d-flex justify-space-between">
+              <button class="btn btn-primary me-2">Message Us <i class="mdi mdi-chat"></i></button>
+              <div>
+                <button class="btn btn-danger me-2" id="delete-post">Delete</button>
+                <button class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+              </div>
             </div>
           </div>
         </div>
