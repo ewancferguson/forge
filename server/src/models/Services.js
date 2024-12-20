@@ -13,3 +13,10 @@ export const ServiceSchema = new Schema({
     toJSON: {virtuals: true}
 })
 
+ServiceSchema.virtual('creator', {
+    localField: 'creatorId',
+    ref: 'Account',
+    foreignField: '_id',
+    justOne: true
+})
+
