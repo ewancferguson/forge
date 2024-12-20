@@ -18,7 +18,7 @@ class ReviewService {
     async deleteReview(reviewId, userId) {
         const reviewToDelete = await dbContext.Review.findById(reviewId)
         if (reviewToDelete == null) {
-            throw new Error(`invalid listing ID: ${reviewId}`)
+            throw new Error(`invalid review ID: ${reviewId}`)
         }
         if (reviewToDelete.creatorId != userId) {
             throw new Forbidden('Cannot delete a listing that is not yours')
