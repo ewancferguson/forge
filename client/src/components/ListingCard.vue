@@ -8,7 +8,7 @@ import Pop from '@/utils/Pop';
 
 
 
-defineProps({
+const props = defineProps({
     listing: { type: Listing, required: true }
 })
 
@@ -34,13 +34,15 @@ const account = computed(() => AppState.account)
     <div id="listingCard" class="card bg-secondary text-dark flex-column d-flex align-content-between">
         <div class="card-header">
             <div class="d-flex">
-                <div class="align-items-center d-flex">
+                <RouterLink :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }"
+                    class="align-items-center d-flex">
+
                     <img id="creatorImage" :src="listing?.creator.picture" alt="">
                     <div class="ms-2 align-items-center text-primary">
                         <h3 class="mb-0">{{ listing?.creator.name }}</h3>
                         <p class="m-0 p-0" v-if="listing?.creator.isBusiness">Business</p>
                     </div>
-                </div>
+                </RouterLink>
                 <div class="text-end" v-if="account?.id == listing?.creatorId">
                     <i class="mdi mdi-dots-horizontal"></i>
                 </div>
