@@ -8,7 +8,7 @@ export class ServicesController extends BaseController {
         super('api/services')
         this.router
             .get('', this.getAllServices)
-            // .get('/:listingId', this.getServiceById)
+            .get('/:serviceId', this.getServiceById)
             // .get('/:listingId/likes', this.getLikesByServiceId)
             // .get('/:listingId/comments', this.getCommentsByServiceId)
             .use(Auth0Provider.getAuthorizedUserInfo)
@@ -24,14 +24,30 @@ export class ServicesController extends BaseController {
 * @param {import("express").Response} response
 * @param {import("express").NextFunction} next
 */
-    async getAllServices(request, response, next){
-        try {
-            const service = await servicesService.getAllServices()
-            response.send(service)
-        } catch (error) {
-            next(error)
-        }
+async getAllServices(request, response, next){
+    try {
+        const service = await servicesService.getAllServices()
+        response.send(service)
+    } catch (error) {
+        next(error)
     }
+}
+
+/**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+async getServiceById(request, response, next){
+    try {
+        const serviceId = request.params.serviceId
+        const service = await servicesService.getServiceById(serviceId)
+        response.send(service)
+    } catch (error) {
+        next(error)
+    }
+}
+
         /**
     * @param {import("express").Request} request
     * @param {import("express").Response} response
