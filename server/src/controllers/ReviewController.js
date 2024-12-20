@@ -10,6 +10,7 @@ export class ReviewController extends BaseController {
         this.router
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createReview)
+            .put('/:reviewId', this.editReview)
             .delete('/:reviewId', this.deleteReview)
     }
 
@@ -23,6 +24,23 @@ export class ReviewController extends BaseController {
             const reviewData = request.body
             reviewData.creatorId = request.userInfo.id
             const review = await reviewService.createReview(reviewData)
+            response.send(review)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+       /**
+  * @param {import("express").Request} request
+  * @param {import("express").Response} response
+  * @param {import("express").NextFunction} next
+  */
+    async editReview(request, response, next){
+        try {
+            const reviewData = request.body
+            const reviewId = request.params.reviewId
+            const userId = request.userInfo.id
+            const review = await reviewService.editReview(reviewData, reviewId, userId)
             response.send(review)
         } catch (error) {
             next(error)

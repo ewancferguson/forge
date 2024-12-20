@@ -4,7 +4,6 @@ import { Forbidden } from "../utils/Errors"
 
 class ReviewService {
 
-
     async getReviewsByAccountId(accountId) {
         const reviews = await dbContext.Review.find({ accountId: accountId }).populate('creator', 'name picture')
         return reviews
@@ -14,6 +13,18 @@ class ReviewService {
         const review = (await (await dbContext.Review.create(reviewData)).populate('creator', 'name picture')).populate('account', 'name picture')
         return review
     }
+
+    async editReview(reviewData, reviewId, userId) {
+        const review = await dbContext.Review.findById(reviewId)
+        if (review.creatorId != userId) {
+            throw new Forbidden('Cannot edit a listing that is not yours')
+        }
+        if(reviewData.body) review.body = reviewData.body ?? review.body
+        if(reviewData.rating) review.rating = reviewData.rating ?? review.rating
+        await review.save()
+        return review
+    }
+
 
     async deleteReview(reviewId, userId) {
         const reviewToDelete = await dbContext.Review.findById(reviewId)
