@@ -4,6 +4,19 @@ import { Forbidden } from "../utils/Errors"
 
 class ListingService {
 
+    async editListing(listingData, userId, listingId) {
+        const listing = await dbContext.Listing.findById(listingId)
+        if (listing.creatorId != userId) { throw new Error('cannot update post that is not yours') }
+        if(listing.body) listing.body = listingData.body ?? listing.body
+        if(listing.type) listing.type = listingData.type ?? listing.type
+        if(listing.pictures) listing.pictures = listingData.pictures ?? listing.pictures
+        if(listing.minBudget) listing.minBudget = listingData.minBudget ?? listing.minBudget
+        if(listing.maxBudget) listing.maxBudget = listingData.maxBudget ?? listing.maxBudget
+        listing.isResolved = !listing.isResolved
+        await listing.save()
+        return listing
+    }
+
     async getAllListings() {
         const listings = dbContext.Listing.find().populate('creator', 'name picture isBusiness').populate('likeCount')
         return listings
@@ -22,13 +35,6 @@ class ListingService {
         return listing
     }
 
-    async listingIsResolved(listingData, userId, listingId) {
-        const listing = await dbContext.Listing.findById(listingId)
-        if (listing.creatorId != userId) { throw new Error('cannot update post that is not yours') }
-        listing.isResolved = !listing.isResolved
-        await listing.save()
-        return listing
-    }
 
     async deleteListing(userId, listingId) {
         const listingToDelete = await dbContext.Listing.findById(listingId)

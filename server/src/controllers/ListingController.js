@@ -17,7 +17,7 @@ export class ListingController extends BaseController {
             .get('/:listingId/comments', this.getCommentsByListingId)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createListing)
-            .put('/:listingId', this.listingIsResolved)
+            .put('/:listingId', this.editListing)
             .delete('/:listingId', this.deleteListing)
     }
 
@@ -66,18 +66,17 @@ export class ListingController extends BaseController {
         }
     }
 
-
-    /**
+        /**
 * @param {import("express").Request} request
 * @param {import("express").Response} response
 * @param {import("express").NextFunction} next
 */
-    async listingIsResolved(request, response, next) {
+    async editListing(request, response, next){
         try {
             const listingData = request.body
-            const userId = request.userInfo.id
             const listingId = request.params.listingId
-            const listing = await listingService.listingIsResolved(listingData, userId, listingId)
+            const userId = request.userInfo.id
+            const listing = await listingService.editListing(listingData, userId, listingId)
             response.send(listing)
         } catch (error) {
             next(error)
