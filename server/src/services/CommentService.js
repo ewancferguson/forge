@@ -5,6 +5,16 @@ import { listingService } from "./ListingService"
 
 class CommentService {
 
+    async editComment(commentData, commentId, userId) {
+        const comment = await dbContext.Comment.findById(commentId)
+        if (comment.creatorId != userId) {
+            throw new Forbidden('Cannot edit comment that is not yours')
+        }
+        if(commentData.body) comment.body = commentData.body ?? comment.body
+        await comment.save()
+        return comment
+    }
+
     async deleteComment(commentId, userId) {
         const commentToDelete = await dbContext.Comment.findById(commentId)
         if (commentToDelete == null) {

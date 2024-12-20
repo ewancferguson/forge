@@ -9,6 +9,7 @@ export class CommentController extends BaseController {
         this.router
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createComment)
+            .put('/:commentId', this.editComment)
             .delete('/:commentId', this.deleteComment)
     }
 
@@ -22,6 +23,23 @@ export class CommentController extends BaseController {
             const commentData = request.body
             commentData.creatorId = request.userInfo.id
             const comment = await commentService.createComment(commentData)
+            response.send(comment)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+        /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+    async editComment(request, response, next){
+        try {
+            const commentData = request.body
+            const commentId = request.params.commentId
+            const userId = request.userInfo.id
+            const comment = await commentService.editComment(commentData, commentId, userId)
             response.send(comment)
         } catch (error) {
             next(error)
