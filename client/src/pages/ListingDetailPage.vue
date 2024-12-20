@@ -58,8 +58,9 @@ async function getListingById() {
           </p>
         </div>
         <div class="mb-3">
-          <strong>Pictures:</strong>
-          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded">
+          <strong v-if="listings.pictures > 1">Images:</strong>
+          <strong v-else>Image:</strong>
+          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded post-img">
         </div>
         <div class="mb-3">
           <strong>Budget Range:</strong>
@@ -77,11 +78,11 @@ async function getListingById() {
           <strong>Likes:</strong>
           <span id="listing-likes" class="ps-1">{{ listings.likeCount }}</span>
         </div>
-        <div class="d-flex align-items-center justify-content-end m-2">
-          <button class="btn btn-primary">Message Us <i class="mdi mdi-chat"></i></button>
+        <div class="d-flex align-items-center justify-content-end pb-2">
+          <button v-if="listings.creator" class="btn btn-primary me-2">Message Us <i class="mdi mdi-chat"></i></button>
           <div class="justify-content-end">
-            <button class="btn btn-danger me-2" id="delete-post">Delete</button>
-            <button class="btn btn-success" id="mark-resolved">Mark as Resolved</button>
+            <button v-if="!listings.creator" class="btn btn-danger me-2" id="delete-post">Delete</button>
+            <button v-if="!listings.creator" class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
           </div>
         </div>
       </div>
@@ -100,7 +101,7 @@ async function getListingById() {
 }
 
 .post-img {
-  max-height: 10em;
+  max-height: 40em;
 
 }
 
