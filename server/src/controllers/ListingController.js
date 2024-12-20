@@ -3,7 +3,7 @@ import { listingService } from "../services/ListingService";
 import BaseController from "../utils/BaseController";
 import { likeService } from "../services/LikeService";
 import { commentService } from "../services/CommentService";
-import { followersService } from "../services/FollowersService";
+
 
 
 
