@@ -55,7 +55,6 @@
             placeholder="Your Message">
           <button class="btn bg-green text-success rounded-start-0" type="button"><i class="mdi mdi-send"></i></button>
         </div>
-
       </div>
     </section>
   </div>
