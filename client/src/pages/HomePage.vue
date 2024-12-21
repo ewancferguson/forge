@@ -130,6 +130,11 @@ const identity = computed(() => AppState.identity)
   animation: animate-gradient 2.5s linear infinite;
 }
 
+button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .gradient-background {
   background: linear-gradient(to right, #142f32, #4f5749, #5d793e);
 }
@@ -150,7 +155,6 @@ const identity = computed(() => AppState.identity)
   margin-top: 1em;
   padding: 1em;
 }
-
 
 #homeImage {
   object-fit: cover;

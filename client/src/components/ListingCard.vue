@@ -31,8 +31,7 @@ const account = computed(() => AppState.account)
 
 
 <template>
-    <RouterLink :to="{ name: 'Listing', params: { listingId: listing.id } }" id="listingCard"
-        class="card bg-secondary text-dark flex-column d-flex align-content-between">
+    <div id="listingCard" class="card bg-secondary text-dark flex-column d-flex align-content-between">
         <div class="card-header">
             <div class="d-flex">
                 <RouterLink :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }"
@@ -50,48 +49,51 @@ const account = computed(() => AppState.account)
             </div>
         </div>
         <div class="card-body">
-            <img class="img-fluid card-img mb-2" id="listingImage" :src="listing?.pictures" alt="">
-            <p class="listing-description" v-if="listing?.isResolved !== true && listing?.creator.isBusiness">
-                Service Still Available
-            </p>
-            <p class="listing-description" v-else-if="listing?.isResolved === true && listing?.creator.isBusiness">
-                Service No Longer Available
-            </p>
-            <p class="listing-description" v-else-if="listing?.isResolved !== true && !listing?.creator.isBusiness">
-                {{ listing?.creator.name }} Is Still Seeking Help
-            </p>
-            <p class="listing-description" v-else>
-                {{ listing?.creator.name }} Is No Longer Seeking Help
-            </p>
-            <div class="text-start fw-bold">
-                <div v-if="listing?.creator.isBusiness">
-                    <span>Service Cost:</span>
-                </div>
-                <div v-else>
-                    <span>Budget:</span>
-                </div>
-            </div>
-            <div class="text-start ms-3 mt-1">
-                <p v-if="listing?.creator.isBusiness">
-                    ${{ listing?.minBudget }} - ${{ listing?.maxBudget }}
+            <RouterLink :to="{ name: 'Listing', params: { listingId: listing.id } }" class="text-dark">
+                <img class="img-fluid card-img mb-2" id="listingImage" :src="listing?.pictures" alt="">
+                <p class="listing-description" v-if="listing?.isResolved !== true && listing?.creator.isBusiness">
+                    Service Still Available
                 </p>
-                <p v-else>
-                    ${{ listing?.minBudget }} - ${{ listing?.maxBudget }}
+                <p class="listing-description" v-else-if="listing?.isResolved === true && listing?.creator.isBusiness">
+                    Service No Longer Available
                 </p>
-            </div>
-            <span class="fw-bold mt-1">Description:</span>
-            <div id="listingDescription">
-                <p class="mt-2"> {{ listing?.body }}</p>
+                <p class="listing-description" v-else-if="listing?.isResolved !== true && !listing?.creator.isBusiness">
+                    {{ listing?.creator.name }} Is Still Seeking Help
+                </p>
+                <p class="listing-description" v-else>
+                    {{ listing?.creator.name }} Is No Longer Seeking Help
+                </p>
+                <div class="text-start fw-bold">
+                    <div v-if="listing?.creator.isBusiness">
+                        <span>Service Cost:</span>
+                    </div>
+                    <div v-else>
+                        <span>Budget:</span>
+                    </div>
+                </div>
+                <div class="text-start ms-3 mt-1">
+                    <p v-if="listing?.creator.isBusiness">
+                        ${{ listing?.minBudget }} - ${{ listing?.maxBudget }}
+                    </p>
+                    <p v-else>
+                        ${{ listing?.minBudget }} - ${{ listing?.maxBudget }}
+                    </p>
+                </div>
+                <span class="fw-bold mt-1">Description:</span>
+                <div id="listingDescription">
+                    <p class="mt-2"> {{ listing?.body }}</p>
+                </div>
+            </RouterLink>
+            <div class="card-footer">
+                <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
+                <p class="d-flex align-items-center mb-0">
+                    {{ listing?.likeCount || 0 }}
+                    <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2"
+                        selectable></i>
+                </p>
             </div>
         </div>
-        <div class="card-footer">
-            <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
-            <p class="d-flex align-items-center mb-0">
-                {{ listing?.likeCount || 0 }}
-                <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2" selectable></i>
-            </p>
-        </div>
-    </RouterLink>
+    </div>
 </template>
 
 
@@ -107,14 +109,23 @@ const account = computed(() => AppState.account)
 }
 
 
+
+
 .card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
     padding: 1rem;
-    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+}
+
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .card-header,
