@@ -10,7 +10,7 @@ import { useRoute } from 'vue-router';
 const route = useRoute()
 
 const listings = computed(() => AppState.activeListing)
-
+const account = computed(() => AppState.account)
 onMounted(() => {
   getListingById()
 })
@@ -33,70 +33,101 @@ async function getListingById() {
 
 
 <template>
-  <div v-if="listings" class="container mt-5">
-    <div class="bg-green shadow rounded-4 pb-2">
-      <div class="d-flex card-header text-light outline outline-primary rounded-top-4 p-2">
-        <img class="profile-img m-2" :src="listings.creator.picture" alt="">
-        <div class="align-items-space-between">
-          <h3>{{ listings.creator.name }}</h3>
-          <p class="text-secondary">{{ listings.createdAt.toLocaleTimeString() }}</p>
-        </div>
-      </div>
-      <div class="card mx-5 my-4 ps-2 pt-2">
+  <div v-if="listings" class="container mt-5 p-2 mb-3">
+    <div class="bg-secondary shadow-lg rounded-4 pb-2">
+      <div class="card bg-secondary border-0 mx-5 my-4 ps-2 pt-2">
+        <span id="listing-created-at" class="ps-1 mt-2  ms-3 align-self-center">Posted {{
+          listings.createdAt.toDateString()
+        }}</span>
         <div class="mb-3">
-          <strong>Type:</strong>
-          <span id="listing-type" class="ps-1 text-capitalize">{{ listings.type }}</span>
+          <div v-if="listings.pictures.length" id="carouselListing" class="mt-5 carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button v-for="(picture, index) in listings.pictures" :key="index" type="button"
+                :data-bs-target="'#carouselListing'" :data-bs-slide-to="index" :class="{ active: index === 0 }"
+                aria-current="true" :aria-label="'Slide ' + (index + 1)"></button>
+            </div>
+
+            <div class="carousel-inner">
+              <div v-for="(picture, index) in listings.pictures" :key="index"
+                :class="['carousel-item', { active: index === 0 }]">
+                <img :src="picture" alt="Listing Image" class="d-block w-100 img-fluid rounded" style="height: 75dvh;">
+              </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselListing" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselListing" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
         </div>
-        <div class="mb-3">
-          <strong>Location:</strong>
-          <span id="listing-location" class="ps-1">{{ listings.location }}</span>
+        <div>
+          <div class="d-flex justify-content-between p-2">
+            <div class="d-flex align-content-center">
+              <img class=" profile-img m-2" :src="listings.creator.picture" alt="">
+              <h3 class="align-self-center text-dark ms-3">{{ listings.creator.name }}</h3>
+            </div>
+            <div v-if="account?.id != listings?.creatorId">
+              <button class="btn btn-primary ms-3 align-self-center" style="height: 50px;">Message Us <i
+                  class="mdi mdi-chat"></i></button>
+            </div>
+            <div v-if="account?.id == listings?.creator.id" class="align-self-center me-3">
+              <button class="btn btn-danger me-2" id="delete-post">Delete</button>
+              <button class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+            </div>
+          </div>
+          <div class="mb-3 mt-3 text-center">
+            <p id="listing-body" class="fs-5">
+              {{ listings.body }}
+            </p>
+          </div>
         </div>
-        <div class="mb-3">
-          <strong>Body:</strong>
-          <p id="listing-body">
-            {{ listings.body }}
-          </p>
+        <hr>
+        <div v-if="listings?.location != undefined" class="mb-3">
+          <h4>Location:</h4>
+          <span id="listing-location">{{ listings.location }}</span>
         </div>
-        <div class="mb-3">
-          <strong v-if="listings.pictures > 1">Images:</strong>
-          <strong v-else>Image:</strong>
-          <img id="listing-pictures" :src="listings.pictures" alt="Listing Image" class="img-fluid rounded">
-        </div>
-        <div class="mb-3">
-          <strong>Budget Range:</strong>
-          <span id="listing-budget" class="ps-1">${{ listings.minBudget }} - ${{ listings.maxBudget }}</span>
-        </div>
-        <div class="mb-3">
-          <strong>Status:</strong>
-          <span id="listing-status" class="badge bg-warning text-primary ms-1">{{ listings.isResolved }}</span>
-        </div>
-        <div class="mb-3">
-          <strong>Created At:</strong>
-          <span id="listing-created-at" class="ps-1">{{ listings.createdAt.toDateString() }}</span>
-        </div>
-        <div class="mb-3">
-          <strong>Likes:</strong>
-          <span id="listing-likes" class="ps-1">{{ listings.likeCount }}</span>
+        <div class="d-flex justify-content-between">
+
+          <div class=" align-content-center my-2 d-flex">
+            <i class="mdi mdi-currency-usd fs-3 m-0 align-self-center"></i>
+            <p id="listing-budget" class=" m-0 align-self-center ">{{ listings.minBudget }} - {{
+              listings.maxBudget
+            }}</p>
+          </div>
+          <div class="align-content-center my-2 d-flex">
+            <i class="mdi mdi-list-status fs-3 m-0 align-self-center"></i>
+            <div class="ps-1 mt-2  ms-3">
+              <p class="m-0 align-self-center" v-if="listings?.isResolved == true">Listing Is No Longer Accepting Offers
+              </p>
+              <p class="m-0 align-self-center" v-else>Listing Is Accepting Offers</p>
+            </div>
+          </div>
+          <div class="mb-3 align-content-center d-flex">
+            <span><i class="mdi mdi-heart-outline fs-2 mx-2 align-self-center"></i></span>
+            <p id="listing-likes" class="ms-2 m-0 align-self-center">{{ listings.likeCount }}</p>
+          </div>
         </div>
         <div class="d-flex align-items-center pb-2">
 
           <div class="d-flex">
             <div class="d-flex input-group">
-              <span><i class="mdi mdi-heart-outline fs-2 mx-2"></i></span>
-              <input type="text" class="bg-secondary form-control text-primary rounded mx-2" id="input"
-                placeholder="Add a Comment...">
             </div>
           </div>
           <div class="d-flex justify-content-end">
             <div class="d-flex justify-space-between">
-              <button class="btn btn-primary me-2">Message Us <i class="mdi mdi-chat"></i></button>
-              <div>
-                <button class="btn btn-danger me-2" id="delete-post">Delete</button>
-                <button class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
-              </div>
+              <textarea type="text" class="p-2 bg-secondary form-control text-primary rounded mx-2" id="input"
+                placeholder="Add a Comment..." style="height: 45px;"></textarea>
             </div>
           </div>
         </div>
+      </div>
+      <div class="mb-2 d-flex justify-content-between align-content-center">
+        <p id="listing-type" class="ms-5">Service Type: {{ listings.type }}</p>
+        <p class="text-dark text-end me-5">{{ listings.createdAt.toLocaleTimeString() }}</p>
       </div>
     </div>
   </div>
@@ -108,8 +139,12 @@ async function getListingById() {
 
 <style lang="scss" scoped>
 .profile-img {
-  border-radius: 100em;
-  max-height: 4em;
+  border-radius: 50%;
+  height: 65px;
+  aspect-ratio: 1/1;
+  object-position: center;
+  object-fit: cover;
+  align-self: center;
 }
 
 .bg-green {
