@@ -88,7 +88,7 @@ const pictures = computed(() => {
           </div>
         </div>
         <div>
-          <div class="mb-3 mt-3 text-center">
+          <div class="mb-3 mt-3 text-start">
             <p id="listing-body" class="fs-5">
               {{ listings.body }}
             </p>
