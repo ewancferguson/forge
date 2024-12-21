@@ -29,6 +29,15 @@ async function getListingById() {
     logger.log('getting listing by id', error)
   }
 }
+
+const pictures = computed(() => {
+  return listings.value?.pictures
+    ? Array.isArray(listings.value.pictures)
+      ? listings.value.pictures
+      : [listings.value.pictures]
+    : [];
+});
+
 </script>
 
 
@@ -39,18 +48,32 @@ async function getListingById() {
         <span id="listing-created-at" class="ps-1 mt-2  ms-3 align-self-center">Posted {{
           listings.createdAt.toDateString()
         }}</span>
+        <div class="d-flex justify-content-between align-content-center mt-3">
+          <div class="d-flex align-content-center">
+            <img class=" profile-img m-2" :src="listings.creator.picture" alt="">
+            <h3 class="align-self-center text-dark ms-3">{{ listings.creator.name }}</h3>
+          </div>
+          <div v-if="account?.id != listings?.creatorId">
+            <button class="btn btn-primary ms-3 align-self-center" style="height: 50px;">Message Us <i
+                class="mdi mdi-chat"></i></button>
+          </div>
+          <div v-if="account?.id == listings?.creator.id" class="align-self-center me-3">
+            <button class="btn btn-danger me-2" id="delete-post">Delete</button>
+            <button class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
+          </div>
+        </div>
         <div class="mb-3">
-          <div v-if="listings.pictures.length" id="carouselListing" class="mt-5 carousel slide" data-bs-ride="carousel">
+          <div v-if="pictures.length" id="carouselListing" class="mt-3 carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-              <button v-for="(picture, index) in listings.pictures" :key="index" type="button"
+              <button v-for="(picture, index) in pictures" :key="index" type="button"
                 :data-bs-target="'#carouselListing'" :data-bs-slide-to="index" :class="{ active: index === 0 }"
                 aria-current="true" :aria-label="'Slide ' + (index + 1)"></button>
             </div>
 
             <div class="carousel-inner">
-              <div v-for="(picture, index) in listings.pictures" :key="index"
+              <div v-for="(picture, index) in pictures" :key="index"
                 :class="['carousel-item', { active: index === 0 }]">
-                <img :src="picture" alt="Listing Image" class="d-block w-100 img-fluid rounded" style="height: 75dvh;">
+                <img :src="picture" alt="Listing Image" class="d-block w-100 img-fluid rounded" />
               </div>
             </div>
 
@@ -65,20 +88,6 @@ async function getListingById() {
           </div>
         </div>
         <div>
-          <div class="d-flex justify-content-between p-2">
-            <div class="d-flex align-content-center">
-              <img class=" profile-img m-2" :src="listings.creator.picture" alt="">
-              <h3 class="align-self-center text-dark ms-3">{{ listings.creator.name }}</h3>
-            </div>
-            <div v-if="account?.id != listings?.creatorId">
-              <button class="btn btn-primary ms-3 align-self-center" style="height: 50px;">Message Us <i
-                  class="mdi mdi-chat"></i></button>
-            </div>
-            <div v-if="account?.id == listings?.creator.id" class="align-self-center me-3">
-              <button class="btn btn-danger me-2" id="delete-post">Delete</button>
-              <button class="btn btn-success me-2" id="mark-resolved">Mark as Resolved</button>
-            </div>
-          </div>
           <div class="mb-3 mt-3 text-center">
             <p id="listing-body" class="fs-5">
               {{ listings.body }}
@@ -118,16 +127,25 @@ async function getListingById() {
             </div>
           </div>
           <div class="d-flex justify-content-end">
-            <div class="d-flex justify-space-between">
-              <textarea type="text" class="p-2 bg-secondary form-control text-primary rounded mx-2" id="input"
-                placeholder="Add a Comment..." style="height: 45px;"></textarea>
-            </div>
           </div>
         </div>
       </div>
+      <div class="p-3 mx-4">
+        <textarea type="text" class="form-control p-3 bg-light text-dark form-control text-primary rounded mx-2"
+          id="input" placeholder="Add a Comment..." rows="5"></textarea>
+        <div class="text-end mt-3">
+          <button class="btn btn-primary">Post Comment</button>
+        </div>
+      </div>
       <div class="mb-2 d-flex justify-content-between align-content-center">
-        <p id="listing-type" class="ms-5">Service Type: {{ listings.type }}</p>
-        <p class="text-dark text-end me-5">{{ listings.createdAt.toLocaleTimeString() }}</p>
+        <div>
+
+          <p id="listing-type" class="ms-5">Service Type: {{ listings.type }}</p>
+        </div>
+        <div>
+          <p class="text-dark text-end me-5">{{ listings.createdAt.toLocaleTimeString() }}</p>
+
+        </div>
       </div>
     </div>
   </div>
@@ -138,6 +156,27 @@ async function getListingById() {
 
 
 <style lang="scss" scoped>
+textarea {
+  outline: none;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+textarea:focus {
+  outline: none;
+  border: 2px solid green;
+  box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+}
+
+.carousel-item img {
+  object-fit: cover;
+  width: 100%;
+  max-height: 60dvh;
+  height: 375px;
+  border-radius: 0.5rem;
+}
+
 .profile-img {
   border-radius: 50%;
   height: 65px;
