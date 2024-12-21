@@ -102,7 +102,7 @@ const identity = computed(() => AppState.identity)
       </div>
     </section>
 
-    <div id="listingContainer" class="row d-flex mt-5 mb-5">
+    <div id="listingContainer" class="row d-flex mt-5 mb-5 header finisher-header">
       <div id="cardListing" class=" text-dark col-xl-3 col-lg-4 col-md-5 col-sm-5 " v-for="listing in listings"
         v-bind:key="listing.id">
         <ListingCard :listing="listing" />
@@ -116,16 +116,25 @@ const identity = computed(() => AppState.identity)
       </button>
     </router-link>
   </section>
+
 </template>
 
 <style scoped lang="scss">
 .gradient-text {
-  background: linear-gradient(90deg, #5A6B5E, #C8F1B0);
-  background-clip: inherit;
+  background: linear-gradient(to right, #142f32, #e3ffcc, #D9D9D9);
+  background-clip: text;
+  background-size: 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bold;
   text-transform: uppercase;
+  animation: animate-gradient 2.5s linear infinite;
+}
+
+@keyframes animate-gradient {
+  to {
+    background-position: 200%;
+  }
 }
 
 #searchBar {

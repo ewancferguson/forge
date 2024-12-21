@@ -105,8 +105,8 @@ const account = computed(() => AppState.account)
             <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
               <img alt="logo" src="../assets/img/forge.png" height="55"
                 style="object-fit: cover; object-position: center;" />
-              <div class="ms-3 mb-0 mt-2 align-self-center text-dark">
-                <h2>Forge</h2>
+              <div class="ms-3 mb-0 mt-2 align-self-center">
+                <h2 class="text-dark">Forge</h2>
               </div>
             </router-link>
           </div>
@@ -201,6 +201,23 @@ const account = computed(() => AppState.account)
 </template>
 
 <style scoped>
+.gradient-text {
+  background: linear-gradient(to right, #142f32, #e3ffcc, #D9D9D9);
+  background-clip: text;
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  text-transform: uppercase;
+  animation: animate-gradient 2.5s linear infinite;
+}
+
+@keyframes animate-gradient {
+  to {
+    background-position: 200%;
+  }
+}
+
 .dropdown-menu {
   background-color: #333;
 }
