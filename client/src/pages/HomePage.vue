@@ -30,8 +30,6 @@ async function getLikes() {
 }
 
 
-
-
 const listings = computed(() => AppState.homePageListings)
 const identity = computed(() => AppState.identity)
 </script>
@@ -46,7 +44,7 @@ const identity = computed(() => AppState.identity)
     </div>
     <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-secondary">
       <div class="d-flex align-items-center">
-        <div id="homeDescription" class="col-md-8 mt-3 mb-3 p-3">
+        <div id="homeDescription" class="col-md-8 mt-3 p-3">
           <h1>Welcome To Forge</h1>
           <p class="mt-4 ms-3 col-md-10"> The platform where businesses and consumers in the construction and trade
             industry
@@ -63,7 +61,7 @@ const identity = computed(() => AppState.identity)
       </div>
     </div>
 
-    <section id="postTitle" class="row d-flex justify-content-around text-center mt-5">
+    <section id="postTitle" class="gradient-background row d-flex justify-content-around text-center p-5">
       <div class="col-md-4 col-sm-3">
         <router-link :to="{ name: 'Posts' }">
           <button class="btn btn-success">Sort Listings</button>
@@ -81,7 +79,8 @@ const identity = computed(() => AppState.identity)
       </div>
     </section>
 
-    <section id="mobilePostTitle" class="row d-flex justify-content-center text-center mt-5">
+
+    <section id="mobilePostTitle" class=" gradient-background row d-flex justify-content-center text-center p-5">
       <div>
         <h3 class="gradient-text">
           Recent Listings
@@ -102,14 +101,14 @@ const identity = computed(() => AppState.identity)
       </div>
     </section>
 
-    <div id="listingContainer" class="row d-flex mt-5 mb-5 header finisher-header">
+    <div id="listingContainer" class=" gradient-background  row d-flex header finisher-header">
       <div id="cardListing" class=" text-dark col-xl-3 col-lg-4 col-md-5 col-sm-5 " v-for="listing in listings"
         v-bind:key="listing.id">
         <ListingCard :listing="listing" />
       </div>
     </div>
   </section>
-  <section class="text-center mt-1 mb-5">
+  <section class=" gradient-background text-center p-5">
     <router-link :to="{ name: 'Posts' }">
       <button class="btn btn-success text-dark p-3">
         <p class="m-0">Show More Posts</p>
@@ -129,6 +128,10 @@ const identity = computed(() => AppState.identity)
   font-weight: bold;
   text-transform: uppercase;
   animation: animate-gradient 2.5s linear infinite;
+}
+
+.gradient-background {
+  background: linear-gradient(to right, #142f32, #4f5749, #5d793e);
 }
 
 @keyframes animate-gradient {
@@ -164,7 +167,7 @@ const identity = computed(() => AppState.identity)
 #aboutInfo {
   padding: 1em;
   overflow: hidden;
-  margin-bottom: 1em;
+
 }
 
 #forgeImg {
