@@ -1,6 +1,19 @@
 import { dbContext } from "../db/DbContext"
+import { Forbidden } from "../utils/Errors"
 
 class ServicesService{
+
+    async deleteService(userId, serviceId) {
+        const serviceToDelete = await dbContext.Service.findById(serviceId)
+        if (serviceToDelete == null) {
+                    throw new Error(`invalid service ID: ${serviceId}`)
+                }
+                if (serviceToDelete.creatorId != userId) {
+                    throw new Forbidden('Cannot delete a service that is not yours')
+                }
+                await serviceToDelete.deleteOne()
+                return 'Service has been deleted'
+    }
 
     async editService(serviceData, serviceId, userId) {
         const service = await dbContext.Service.findById(serviceId)
