@@ -1,6 +1,7 @@
 import { dbContext } from "../db/DbContext"
 import { Forbidden } from "../utils/Errors"
 import { listingService } from "./ListingService"
+import { servicesService } from "./ServicesService"
 
 
 class CommentService {
@@ -10,7 +11,7 @@ class CommentService {
         if (comment.creatorId != userId) {
             throw new Forbidden('Cannot edit comment that is not yours')
         }
-        if(commentData.body) comment.body = commentData.body ?? comment.body
+        if (commentData.body) comment.body = commentData.body ?? comment.body
         await comment.save()
         return comment
     }
@@ -29,15 +30,28 @@ class CommentService {
 
     async createComment(commentData) {
         const listing = await listingService.getListingById(commentData.listingId)
-        const comment = await dbContext.Comment.create(commentData)
-        await comment.populate('creator', 'name picture')
-        return comment
+        if (commentData.listingId != null) {
+            const comment = await dbContext.Comment.create(commentData)
+            await comment.populate('creator', 'name picture')
+            return comment
+        } else {
+            const service = await servicesService.getServiceById(commentData.serviceId)
+            const comment = await dbContext.Comment.create(commentData)
+            await comment.populate('creator', 'name picture')
+            return comment
+        }
     }
 
     async getCommentsByListingId(listingId) {
         const comments = dbContext.Comment.find({ listingId: listingId }).populate('creator', 'name picture')
         return comments
     }
+
+    async getCommentsByServiceId(serviceId) {
+        const comments = dbContext.Comment.find({ serviceId: serviceId }).populate('creator', 'name picture')
+        return comments
+    }
+
 
 }
 
