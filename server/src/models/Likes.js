@@ -1,9 +1,9 @@
 import { Schema } from "mongoose";
 
 export const LikesSchema = new Schema({
-  listingId: { type: Schema.ObjectId, required: true, ref: 'Listing' },
+  listingId: { type: Schema.ObjectId, ref: 'Listing' },
   accountId: { type: Schema.ObjectId, required: true, ref: 'Account' },
-  serviceId: {type: Schema.ObjectId, required: true, ref: 'Service'}
+  serviceId: {type: Schema.ObjectId, ref: 'Service'}
 }, {
   timestamps: true,
   toJSON: { virtuals: true }

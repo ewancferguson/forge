@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController";
 import { servicesService } from "../services/ServicesService";
+import { likeService } from "../services/LikeService";
 
 
 export class ServicesController extends BaseController {
@@ -9,7 +10,7 @@ export class ServicesController extends BaseController {
         this.router
             .get('', this.getAllServices)
             .get('/:serviceId', this.getServiceById)
-            // .get('/:listingId/likes', this.getLikesByServiceId)
+            .get('/:serviceId/likes', this.getLikesByServiceId)
             // .get('/:listingId/comments', this.getCommentsByServiceId)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createService)
@@ -93,8 +94,22 @@ export class ServicesController extends BaseController {
             const service = await servicesService.deleteService(userId, serviceId)
             response.send(service)
         } catch (error) {
-            
+            next(error)
         }
     }
 
+    /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+    async getLikesByServiceId(request, response, next){
+        try {
+            const serviceId = request.params.serviceId
+            const likes = await likeService.getLikesByServiceId(serviceId)
+            response.send(likes)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
