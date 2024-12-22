@@ -13,7 +13,7 @@ export class ServicesController extends BaseController {
             // .get('/:listingId/comments', this.getCommentsByServiceId)
             .use(Auth0Provider.getAuthorizedUserInfo)
             .post('', this.createService)
-            // .put('/:listingId', this.editService)
+            .put('/:serviceId', this.editService)
             // .delete('/:listingId', this.deleteService)
     }
 
@@ -53,14 +53,33 @@ async getServiceById(request, response, next){
     * @param {import("express").Response} response
     * @param {import("express").NextFunction} next
     */
-        async createService(request, response, next) {
-            try {
-                const serviceData = request.body
-                serviceData.creatorId = request.userInfo.id
-                const service = await servicesService.createListing(serviceData)
-                response.send(service)
-            } catch (error) {
-                next(error)
-            }
+   async createService(request, response, next) {
+       try {
+           const serviceData = request.body
+           serviceData.creatorId = request.userInfo.id
+           const service = await servicesService.createListing(serviceData)
+           response.send(service)
+        } catch (error) {
+            next(error)
         }
+    }
+    
+            /**
+        * @param {import("express").Request} request
+        * @param {import("express").Response} response
+        * @param {import("express").NextFunction} next
+        */
+    async editService(request, response, next){
+        try {
+            const serviceData = request.body
+            const serviceId = request.params.serviceId
+            const userId = request.userInfo.id
+            const service = await servicesService.editService(serviceData, serviceId, userId)
+            response.send(service)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+
 }
