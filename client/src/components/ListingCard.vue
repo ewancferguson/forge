@@ -120,6 +120,7 @@ const account = computed(() => AppState.account)
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 
