@@ -85,12 +85,12 @@ async function getProfileById() {
 </template>
 
 <style scoped lang="scss">
-img {
-  max-width: 150px;
-}
-
 .profile-img {
-  border-radius: 100em;
+  border-radius: 50%;
+  height: 150px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  object-position: center;
 }
 
 .bg-grey {
