@@ -1,9 +1,10 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { likesService } from '@/services/LikesService';
 import { listingsService } from '@/services/ListingsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 
@@ -23,6 +24,7 @@ async function getListingById() {
   try {
     const listingId = route.params.listingId
     await listingsService.getListingById(listingId)
+
   }
   catch (error) {
     Pop.meow(error);
@@ -38,6 +40,55 @@ const pictures = computed(() => {
     : [];
 });
 
+
+
+
+const localListing = reactive({
+  likeCount: listings.value?.likeCount,
+});
+
+const likes = computed(() => AppState.likes);
+
+const isLiked = computed(() => {
+  return likes.value.some(
+    (like) =>
+      like.listingId === route.params.listingId &&
+      like.accountId === account.value?.id
+  );
+});
+
+const likeId = computed(() => {
+  const like = likes.value.find(
+    (like) =>
+      like.listingId === route.params.listingId &&
+      like.accountId === account.value?.id
+  );
+  return like?.id;
+});
+
+async function likePost(listingId) {
+  try {
+    if (isLiked.value) {
+      await likesService.unlikePost(likeId.value);
+
+      const likeIndex = AppState.likes.findIndex(
+        (like) => like.id === likeId.value
+      );
+      if (likeIndex !== -1) {
+        AppState.likes.splice(likeIndex, 1);
+      }
+
+      localListing.likeCount = Math.max(0, localListing.likeCount - 1);
+    } else {
+      await likesService.likePost(listingId);
+
+
+      localListing.likeCount += 1;
+    }
+  } catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 
@@ -115,10 +166,12 @@ const pictures = computed(() => {
               <p class="m-0 align-self-center" v-else>Listing Is Accepting Offers</p>
             </div>
           </div>
-          <div class="mb-3 align-content-center d-flex">
-            <span><i class="mdi mdi-heart-outline fs-2 mx-2 align-self-center"></i></span>
-            <p id="listing-likes" class="ms-2 m-0 align-self-center">{{ listings.likeCount }}</p>
-          </div>
+          <p class="d-flex align-items-center mb-3">
+            {{ localListing.likeCount || 0 }}
+            <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+              @click="likePost(listings?.id)" role="button" selectable>
+            </i>
+          </p>
         </div>
         <div class="d-flex align-items-center pb-2">
 
