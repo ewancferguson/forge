@@ -1,34 +1,63 @@
 <script setup>
 import { AppState } from '@/AppState';
 import { Listing } from '@/models/Listing';
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { likesService } from '@/services/LikesService';
 import Pop from '@/utils/Pop';
 
-
-
-
 const props = defineProps({
     listing: { type: Listing, required: true }
-})
+});
 
+const account = computed(() => AppState.account);
+const likes = computed(() => AppState.likes);
 
+const localListing = reactive({
+    likeCount: props.listing.likeCount,
+    ...props.listing
+});
 
+const isLiked = computed(() => {
+    return likes.value.some(
+        (like) =>
+            like.listingId === props.listing.id &&
+            like.accountId === account.value?.id
+    );
+});
 
+const likeId = computed(() => {
+    const like = likes.value.find(
+        (like) =>
+            like.listingId === props.listing.id &&
+            like.accountId === account.value?.id
+    );
+    return like?.id;
+});
 
 async function likePost(listingId) {
     try {
-        await likesService.likePost(listingId)
+        if (isLiked.value) {
+            await likesService.unlikePost(likeId.value);
+
+            const likeIndex = AppState.likes.findIndex(
+                (like) => like.id === likeId.value
+            );
+            if (likeIndex !== -1) {
+                AppState.likes.splice(likeIndex, 1);
+            }
+
+            localListing.likeCount = Math.max(0, localListing.likeCount - 1);
+        } else {
+            await likesService.likePost(listingId);
+
+
+            localListing.likeCount += 1;
+        }
     } catch (error) {
-        Pop.error(error)
+        Pop.error(error);
     }
 }
-
-const account = computed(() => AppState.account)
-
-
 </script>
-
 
 <template>
     <div id="listingCard" class="card bg-secondary text-dark flex-column d-flex align-content-between">
@@ -36,7 +65,6 @@ const account = computed(() => AppState.account)
             <div class="d-flex">
                 <RouterLink :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }"
                     class="align-items-center d-flex">
-
                     <img id="creatorImage" :src="listing?.creator.picture" alt="">
                     <div class="ms-2 align-items-center text-primary">
                         <h3 class="mb-0">{{ listing?.creator.name }}</h3>
@@ -87,15 +115,15 @@ const account = computed(() => AppState.account)
             <div class="card-footer">
                 <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
                 <p class="d-flex align-items-center mb-0">
-                    {{ listing?.likeCount || 0 }}
-                    <i @click="likePost(listing?.id)" role="button" class="mdi mdi-heart-outline fs-3 ms-2"
-                        selectable></i>
+                    {{ localListing.likeCount || 0 }}
+                    <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+                        @click="likePost(localListing.id)" role="button" selectable>
+                    </i>
                 </p>
             </div>
         </div>
     </div>
 </template>
-
 
 <style lang="scss" scoped>
 .listing-description {
@@ -108,9 +136,6 @@ const account = computed(() => AppState.account)
     scrollbar-width: none;
 }
 
-
-
-
 .card {
     display: flex;
     flex-direction: column;
@@ -122,7 +147,6 @@ const account = computed(() => AppState.account)
     border-radius: 8px;
     cursor: pointer;
 }
-
 
 .card:hover {
     transform: translateY(-5px);

@@ -6,6 +6,12 @@ import { AppState } from "@/AppState.js"
 
 class LikesService {
 
+
+  async unlikePost(listingId) {
+    await api.delete(`api/likes/${listingId}`)
+    Pop.success('You Have Un-liked The Post')
+  }
+
   async getLikes() {
     AppState.likes = []
     const response = await api.get('api/likes')
@@ -15,8 +21,10 @@ class LikesService {
   }
 
   async likePost(listingId) {
-    await api.post('api/likes', { listingId: listingId })
+    const response = await api.post('api/likes', { listingId: listingId })
     Pop.success('Liked Post')
+    const like = new Likes(response.data)
+    AppState.likes.push(like)
   }
 
 }

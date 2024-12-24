@@ -1,22 +1,67 @@
 <script setup>
 import { AppState } from '@/AppState';
 import { Listing } from '@/models/Listing';
-import { computed } from 'vue';
+import { likesService } from '@/services/LikesService';
+import Pop from '@/utils/Pop';
+import { computed, reactive } from 'vue';
 
-const account = computed(() => AppState.account)
+const account = computed(() => AppState.account);
 
 const props = defineProps({
   listing: { type: Listing, required: true }
-})
+});
+
+const localListing = reactive({
+  likeCount: props.listing.likeCount,
+  ...props.listing
+});
+
+const likes = computed(() => AppState.likes);
+
+const isLiked = computed(() => {
+  return likes.value.some(
+    (like) =>
+      like.listingId === props.listing.id &&
+      like.accountId === account.value?.id
+  );
+});
+
+const likeId = computed(() => {
+  const like = likes.value.find(
+    (like) =>
+      like.listingId === props.listing.id &&
+      like.accountId === account.value?.id
+  );
+  return like?.id;
+});
+
+async function likePost(listingId) {
+  try {
+    if (isLiked.value) {
+      await likesService.unlikePost(likeId.value);
+
+      const likeIndex = AppState.likes.findIndex(
+        (like) => like.id === likeId.value
+      );
+      if (likeIndex !== -1) {
+        AppState.likes.splice(likeIndex, 1);
+      }
+
+      localListing.likeCount = Math.max(0, localListing.likeCount - 1);
+    } else {
+      await likesService.likePost(listingId);
 
 
-
-
+      localListing.likeCount += 1;
+    }
+  } catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 <template>
-  <router-link :to="{ name: 'Listing', params: { listingId: listing.id } }" id="listingCard"
-    class="rounded rounded-4 card bg-secondary mx-3 my-3 text-primary">
+  <div id="listingCard" class="rounded rounded-4 card bg-secondary mx-3 my-3 text-primary">
     <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
       <div id="accountInfo" class="d-flex justify-content-between align-items-center mx-3 mt-3 mb-3 ">
         <div class="d-flex align-items-center">
@@ -32,27 +77,29 @@ const props = defineProps({
         </div>
       </div>
     </router-link>
-    <div class="col-3 d-flex align-items-center justify-content-end">
-      <span v-if="listing.creatorId == account?.id" class="d-flex justify-content-end fs-1 pe-5" role="button">
-        <div class="dropdown">
-          <button class="btn btn-secondary  mdi mdi-menu fs-1" type="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-          </button>
-          <ul class="dropdown-menu">
-            <li><button class="dropdown-item" type="button">Delete</button>
-            </li>
-            <li><button class="dropdown-item" type="button">Edit</button></li>
-            <li><button class="dropdown-item" type="button">Mark as Resolved</button></li>
-          </ul>
-        </div>
-      </span>
-    </div>
-    <div class="cardImage">
-      <img class="listing-pictures mb-auto img-fluid" v-if="listing.pictures" :src="listing.pictures" alt="">
-    </div>
-    <div id="card-body" class="mt-3 text-center mx-4 mb-2 p-1">
-      <p>{{ listing.body }}</p>
-    </div>
+    <router-link class="text-dark" :to="{ name: 'Listing', params: { listingId: listing.id } }">
+      <div class="col-3 d-flex align-items-center justify-content-end">
+        <span v-if="listing.creatorId == account?.id" class="d-flex justify-content-end fs-1 pe-5" role="button">
+          <div class="dropdown">
+            <button class="btn btn-secondary  mdi mdi-menu fs-1" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" type="button">Delete</button>
+              </li>
+              <li><button class="dropdown-item" type="button">Edit</button></li>
+              <li><button class="dropdown-item" type="button">Mark as Resolved</button></li>
+            </ul>
+          </div>
+        </span>
+      </div>
+      <div class="cardImage">
+        <img class="listing-pictures mb-auto img-fluid" v-if="listing.pictures" :src="listing.pictures" alt="">
+      </div>
+      <div id="card-body" class="mt-3 text-center mx-4 mb-2 p-1">
+        <p>{{ listing.body }}</p>
+      </div>
+    </router-link>
     <div id="cardFooter">
       <div class="d-flex justify-content-between align-items-center text-primary">
         <div class="pb-3 ps-5">
@@ -61,14 +108,16 @@ const props = defineProps({
           </b>
         </div>
         <div class="pb-3 pe-5 d-flex gap-2 align-items-center">
-          <b>
-            3 Likes
-          </b>
-          <i class="mdi mdi-heart-outline fs-1"></i>
+          <p class="d-flex align-items-center mb-0">
+            {{ localListing.likeCount || 0 }}
+            <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+              @click="likePost(localListing.id)" role="button" selectable>
+            </i>
+          </p>
         </div>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 

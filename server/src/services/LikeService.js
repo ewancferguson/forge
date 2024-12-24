@@ -33,7 +33,7 @@ class LikeService {
             throw new Error(`invalid like ID: ${likeId}`)
         }
         if (likeToDelete.accountId != userId) {
-            throw new Forbidden('You cannot remove your like')
+            throw new Forbidden('You cannot remove another users like')
         }
         await likeToDelete.deleteOne()
         return 'Like has been deleted'
