@@ -47,11 +47,12 @@ async function createListing() {
             </div>
             <div class="mb-3">
               <label for="minBudget" class="form-label">Min Budget</label>
-              <input v-model="editablePostData.minBudget" type="number" class="form-control" id="minBudget">
+              <input v-model="editablePostData.minBudget" min="0" type="number" class="form-control" id="minBudget">
             </div>
             <div class="mb-3">
               <label for="maxBudget" class="form-label">Max Budget</label>
-              <input v-model="editablePostData.maxBudget" type="number" class="form-control" id="maxBudget">
+              <input v-model="editablePostData.maxBudget" max="100000" type="number" class="form-control"
+                id="maxBudget">
             </div>
             <div class="mb-3">
               <label for="pictures" class="form-label">Pictures</label>
