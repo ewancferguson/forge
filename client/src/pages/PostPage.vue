@@ -58,7 +58,7 @@ async function getAllPosts() {
             </div>
         </section>
         <section class="row d-flex">
-            <div class="col-lg-4 col-md-6 col-12" v-for="listing in listings" :key="listing.id">
+            <div class="col-xxl-3 col-xl-4 col-md-6 col-12" v-for="listing in listings" :key="listing.id">
                 <PostCard :listing="listing" />
             </div>
         </section>
