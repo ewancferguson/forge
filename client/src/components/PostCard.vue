@@ -62,7 +62,7 @@ async function likePost(listingId) {
 </script>
 
 <template>
-  <div id="listingCard" class="rounded rounded-4 card bg-page mx-3 my-3 text-secondary">
+  <div id="listingCard" class="rounded rounded-4 card shadow-lg bg-dark mx-3 my-3 text-secondary">
     <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
       <div id="accountInfo" class="d-flex justify-content-between align-items-center mx-3 mt-2 mb-1 ">
         <div class="d-flex align-items-center">
@@ -152,6 +152,11 @@ async function likePost(listingId) {
 .cardImage {
   min-height: 10em;
   align-content: center;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .listing-pictures {
