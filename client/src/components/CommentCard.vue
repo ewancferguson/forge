@@ -27,7 +27,7 @@ defineProps({
       <p class="card-text">
         {{ commentProp.body }}
       </p>
-      <div v-if="commentProp.creatorId == account.id" class="text-end">
+      <div v-if="commentProp.creatorId == account?.id" class="text-end">
         <button class="delete-button">
           <svg class="delete-svgIcon" viewBox="0 0 448 512">
             <path
