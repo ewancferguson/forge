@@ -17,12 +17,12 @@ const profile = computed(() => AppState.activeProfile)
 
 onMounted(() => {
   getProfileById()
-  // getListingsByProfileId()
+  getListingsByProfileId()
 })
 
 watch(route, () => {
   getProfileById()
-  // getListingsByProfileId()
+  getListingsByProfileId()
 })
 
 async function getProfileById() {
@@ -36,15 +36,16 @@ async function getProfileById() {
   }
 }
 
-// async function getListingsByProfileId() {
-//   try {
-//     const profileId = route.params.profileId
-//     await postsService.getListingsByProfileId(profileId)
-//   }
-//   catch (error) {
-//     Pop.meow(error);
-//     logger.log('getting listings by profile by id', error)
-//   }
+async function getListingsByProfileId() {
+  try {
+    const profileId = route.params.profileId
+    await postsService.getListingsByProfileId(profileId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log('getting listings by profile by id', error)
+  }
+}
 
 
 </script>
