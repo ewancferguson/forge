@@ -18,8 +18,6 @@ const localListing = reactive({
 
 const likes = computed(() => AppState.likes);
 
-const comments = computed(() => AppState.comments)
-
 const isLiked = computed(() => {
   return likes.value.some(
     (like) =>
@@ -80,25 +78,10 @@ async function likePost(listingId) {
       </div>
     </router-link>
     <router-link class="text-dark" :to="{ name: 'Listing', params: { listingId: listing.id } }">
-      <div class="col-3 d-flex align-items-center justify-content-end">
-        <span v-if="listing.creatorId == account?.id" class="d-flex justify-content-end fs-1 pe-1" role="button">
-          <div class="dropdown">
-            <button class="btn btn-secondary  mdi mdi-menu fs-5" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-            </button>
-            <ul class="dropdown-menu">
-              <li><button class="dropdown-item" type="button">Delete</button>
-              </li>
-              <li><button class="dropdown-item" type="button">Edit</button></li>
-              <li><button class="dropdown-item" type="button">Mark as Resolved</button></li>
-            </ul>
-          </div>
-        </span>
-      </div>
       <div class="cardImage">
         <img class="listing-pictures mb-auto img-fluid" v-if="listing.pictures" :src="listing.pictures" alt="">
       </div>
-      <div id="card-body" class="mt-3 text-center mx-4 mb-2 p-1">
+      <div id="card-body" class="mt-3 text-center mx-4 mb-1 p-1">
         <p>{{ listing.body }}</p>
       </div>
     </router-link>
@@ -106,7 +89,7 @@ async function likePost(listingId) {
       <div class="d-flex justify-content-between align-items-center text-primary">
         <div class="pb-3 ps-5">
           <b>
-            {{ comments.length || 0 }} Comments
+            {{ listing.comments || 0 }} Comments
           </b>
         </div>
         <div class="pb-3 pe-5 d-flex gap-2 align-items-center">
@@ -164,7 +147,7 @@ async function likePost(listingId) {
 }
 
 .cardImage {
-  min-height: 15em;
+  min-height: 10em;
   align-content: center;
 }
 
