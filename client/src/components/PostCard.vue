@@ -81,9 +81,9 @@ async function likePost(listingId) {
     </router-link>
     <router-link class="text-dark" :to="{ name: 'Listing', params: { listingId: listing.id } }">
       <div class="col-3 d-flex align-items-center justify-content-end">
-        <span v-if="listing.creatorId == account?.id" class="d-flex justify-content-end fs-1 pe-5" role="button">
+        <span v-if="listing.creatorId == account?.id" class="d-flex justify-content-end fs-1 pe-1" role="button">
           <div class="dropdown">
-            <button class="btn btn-secondary  mdi mdi-menu fs-1" type="button" data-bs-toggle="dropdown"
+            <button class="btn btn-secondary  mdi mdi-menu fs-5" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">
             </button>
             <ul class="dropdown-menu">
