@@ -17,8 +17,10 @@ class PostsService {
   }
 
   async getListingsByProfileId(profileId) {
-AppState.profileListings = []
-const response = await api.get(`api/posts?creatorId=${profileId}`)
+    AppState.profileListings = []
+    const response = await api.get(`api/profiles/?creatorId=${profileId}/posts`)
+    logger.log(`[GOT POSTS BY PROFILE ID]`, response.data)
+    AppState.profileListings = response.data.map(listingData => new Listing (listingData))
   }
 }
 
