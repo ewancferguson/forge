@@ -29,17 +29,11 @@ class CommentService {
     }
 
     async createComment(commentData) {
-        const listing = await listingService.getListingById(commentData.listingId)
-        if (commentData.listingId != null) {
-            const comment = await dbContext.Comment.create(commentData)
-            await comment.populate('creator', 'name picture')
-            return comment
-        } else {
-            const service = await servicesService.getServiceById(commentData.serviceId)
-            const comment = await dbContext.Comment.create(commentData)
-            await comment.populate('creator', 'name picture')
-            return comment
-        }
+
+        const comment = await dbContext.Comment.create(commentData)
+        await comment.populate('creator', 'name picture')
+        return comment
+
     }
 
     async getCommentsByListingId(listingId) {
