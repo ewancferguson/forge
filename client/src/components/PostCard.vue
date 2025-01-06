@@ -13,10 +13,12 @@ const props = defineProps({
 
 const localListing = reactive({
   likeCount: props.listing.likeCount,
-  ...props.listing
+  ...props.listing,
 });
 
 const likes = computed(() => AppState.likes);
+
+const comments = computed(() => AppState.comments)
 
 const isLiked = computed(() => {
   return likes.value.some(
@@ -104,7 +106,7 @@ async function likePost(listingId) {
       <div class="d-flex justify-content-between align-items-center text-primary">
         <div class="pb-3 ps-5">
           <b>
-            3 Comments
+            {{ comments.length || 0 }} Comments
           </b>
         </div>
         <div class="pb-3 pe-5 d-flex gap-2 align-items-center">
