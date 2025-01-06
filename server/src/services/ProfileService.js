@@ -4,19 +4,19 @@ import { dbContext } from '../db/DbContext.js'
 
 class ProfileService {
   /**
-    * Returns a user profile from its id
+   * Returns a user profile from its id
     * @param {string} id
-   */
+  */
   async getProfileById(id) {
     const profile = await dbContext.Account.findById(id)
     return profile
   }
 
   /**
-    * Returns a list user profiles from a query search of name likeness
-    * limits to first 20 without offset
+   * Returns a list user profiles from a query search of name likeness
+   * limits to first 20 without offset
     * @param {string} name
-   */
+  */
   async findProfiles(name = '', offset = 0) {
     const filter = new RegExp(name, 'ig')
     return await dbContext.Account
