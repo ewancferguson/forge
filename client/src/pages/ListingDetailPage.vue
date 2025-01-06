@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import CommentCard from '@/components/CommentCard.vue';
 import { commentService } from '@/services/CommentService';
 import { likesService } from '@/services/LikesService';
 import { listingsService } from '@/services/ListingsService';
@@ -210,6 +211,9 @@ async function getCommentsbyListingId() {
           <button class="btn btn-primary">Post Comment</button>
         </div>
       </div>
+      <section v-for="comment in comments" :key="comment.id" class="row p-3 mx-4">
+        <CommentCard :comment-prop="comment" />
+      </section>
       <div class="mb-2 d-flex justify-content-between align-content-center">
         <div>
 
