@@ -1,6 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState';
 import CommentCard from '@/components/CommentCard.vue';
+import CommentForm from '@/components/CommentForm.vue';
 import { commentService } from '@/services/CommentService';
 import { likesService } from '@/services/LikesService';
 import { listingsService } from '@/services/ListingsService';
@@ -205,11 +206,7 @@ async function getCommentsbyListingId() {
         </div>
       </div>
       <div class="p-3 mx-4">
-        <textarea type="text" class="form-control p-3 bg-light text-dark form-control text-primary rounded mx-2"
-          id="input" placeholder="Add a Comment..." rows="5"></textarea>
-        <div class="text-end mt-3">
-          <button class="btn btn-primary">Post Comment</button>
-        </div>
+        <CommentForm />
       </div>
       <section v-for="comment in comments" :key="comment.id" class="row p-3 mx-4">
         <CommentCard :comment-prop="comment" />
