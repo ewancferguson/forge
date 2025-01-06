@@ -62,24 +62,24 @@ async function likePost(listingId) {
 </script>
 
 <template>
-  <div id="listingCard" class="rounded rounded-4 card bg-secondary mx-3 my-3 text-primary">
+  <div id="listingCard" class="rounded rounded-4 card bg-page mx-3 my-3 text-secondary">
     <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
       <div id="accountInfo" class="d-flex justify-content-between align-items-center mx-3 mt-2 mb-1 ">
         <div class="d-flex align-items-center">
           <img class="profile-img" :src="listing.creator.picture" alt="">
-          <b class="text-primary ms-2">
+          <b class="text-secondary ms-2">
             @{{ listing.creator.name }}
           </b>
         </div>
-        <div class="align-items-center d-flex text-dark">
+        <div class="align-items-center d-flex text-secondary">
           <p class="align-self-center m-0">{{ listing.createdAt.getHours() }}h</p>
           <p class="align-self-center m-0" v-if="listing.creator.isBusiness"><i
               class="mdi mdi-storefront-outline fs-3"></i></p>
         </div>
       </div>
-      <hr class="text-dark mt-0">
+      <hr class="text-secondary mt-0">
     </router-link>
-    <router-link class="text-dark" :to="{ name: 'Listing', params: { listingId: listing.id } }">
+    <router-link class="text-secondary" :to="{ name: 'Listing', params: { listingId: listing.id } }">
       <div class="cardImage">
         <img class="listing-pictures mb-auto img-fluid" v-if="listing.pictures" :src="listing.pictures" alt="">
       </div>
@@ -87,9 +87,9 @@ async function likePost(listingId) {
         <p>{{ listing.body }}</p>
       </div>
     </router-link>
-    <hr class="text-dark m-0">
+    <hr class="text-secondary m-0">
     <div id="cardFooter">
-      <div class="d-flex justify-content-between align-items-center text-primary">
+      <div class="d-flex justify-content-between align-items-center text-secondary">
         <div class="pb-3 ps-3">
           <b>
             0 Comments
