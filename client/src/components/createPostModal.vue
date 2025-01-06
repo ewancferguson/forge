@@ -2,6 +2,7 @@
 import { postsService } from '@/services/PostsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
 import { ref } from 'vue';
 
 
@@ -19,8 +20,17 @@ const editablePostData = ref({
 async function createListing() {
   try {
     logger.log(editablePostData.value)
-
     await postsService.createListing(editablePostData.value)
+    editablePostData.value = {
+      minBudget: '',
+      pictures: '',
+      maxBudget: '',
+      type: '',
+      body: '',
+    }
+    // close the modal
+    Modal.getInstance('#createPostModal').hide()
+    Pop.success('Listing Created')
   }
   catch (error) {
     Pop.error(error);
