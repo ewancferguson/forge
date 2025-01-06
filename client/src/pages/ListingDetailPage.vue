@@ -1,5 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
+import { commentService } from '@/services/CommentService';
 import { likesService } from '@/services/LikesService';
 import { listingsService } from '@/services/ListingsService';
 import { logger } from '@/utils/Logger';
@@ -86,6 +87,17 @@ async function likePost(listingId) {
       localListing.likeCount += 1;
     }
   } catch (error) {
+    Pop.error(error);
+  }
+}
+
+
+async function getCommentsbyListingId() {
+  try {
+    const listingId = route.params.listingId
+    await commentService.getCommentsbyListingId(listingId)
+  }
+  catch (error) {
     Pop.error(error);
   }
 }
