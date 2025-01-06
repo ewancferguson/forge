@@ -15,10 +15,12 @@ const listings = computed(() => AppState.activeListing)
 const account = computed(() => AppState.account)
 onMounted(() => {
   getListingById()
+  getCommentsbyListingId()
 })
 
 watch(route, () => {
   getListingById()
+  getCommentsbyListingId()
 })
 
 async function getListingById() {
@@ -91,7 +93,7 @@ async function likePost(listingId) {
   }
 }
 
-
+const comments = computed(() => AppState.comments)
 async function getCommentsbyListingId() {
   try {
     const listingId = route.params.listingId
