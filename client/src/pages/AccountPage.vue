@@ -24,9 +24,9 @@ const listings = computed(() => AppState.listings)
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">EDIT ACCOUNT</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
-          <a class="pb-5 text-light" :href="account.facebook">FACEBOOK</a>
-          <a class="pb-5 text-light" :href="account.linkedIn">LINKEDIN</a>
-          <a class="text-light" :href="account.website">COMPANY SITE</a>
+          <a v-if="account.facebook" class="pb-5 text-light" :href="account.facebook">FACEBOOK</a>
+          <a v-if="account.linkedIn" class="pb-5 text-light" :href="account.linkedIn">LINKEDIN</a>
+          <a v-if="account.website" class="text-light" :href="account.website">COMPANY SITE</a>
         </div>
       </div>
     </div>
