@@ -18,6 +18,7 @@ const localListing = reactive({
 
 const likes = computed(() => AppState.likes);
 
+
 const isLiked = computed(() => {
   return likes.value.some(
     (like) =>
@@ -63,7 +64,7 @@ async function likePost(listingId) {
 <template>
   <div id="listingCard" class="rounded rounded-4 card bg-secondary mx-3 my-3 text-primary">
     <router-link :to="{ name: 'Profile', params: { profileId: props.listing.creatorId } }">
-      <div id="accountInfo" class="d-flex justify-content-between align-items-center mx-3 mt-3 mb-3 ">
+      <div id="accountInfo" class="d-flex justify-content-between align-items-center mx-3 mt-2 mb-1 ">
         <div class="d-flex align-items-center">
           <img class="profile-img" :src="listing.creator.picture" alt="">
           <b class="text-primary ms-2">
@@ -73,26 +74,28 @@ async function likePost(listingId) {
         <div class="align-items-center d-flex text-dark">
           <p class="align-self-center m-0">{{ listing.createdAt.getHours() }}h</p>
           <p class="align-self-center m-0" v-if="listing.creator.isBusiness"><i
-              class="mdi mdi-storefront-outline fs-1"></i></p>
+              class="mdi mdi-storefront-outline fs-3"></i></p>
         </div>
       </div>
+      <hr class="text-dark mt-0">
     </router-link>
     <router-link class="text-dark" :to="{ name: 'Listing', params: { listingId: listing.id } }">
       <div class="cardImage">
         <img class="listing-pictures mb-auto img-fluid" v-if="listing.pictures" :src="listing.pictures" alt="">
       </div>
-      <div id="card-body" class="mt-3 text-center mx-4 mb-1 p-1">
+      <div id="card-body" class="mt-3 text-center mx-4 mb-2 p-1">
         <p>{{ listing.body }}</p>
       </div>
     </router-link>
+    <hr class="text-dark m-0">
     <div id="cardFooter">
       <div class="d-flex justify-content-between align-items-center text-primary">
-        <div class="pb-3 ps-5">
+        <div class="pb-3 ps-3">
           <b>
-            {{ listing.comments || 0 }} Comments
+            0 Comments
           </b>
         </div>
-        <div class="pb-3 pe-5 d-flex gap-2 align-items-center">
+        <div class="pb-2 pe-3 d-flex gap-2 align-items-center">
           <p class="d-flex align-items-center mb-0">
             {{ localListing.likeCount || 0 }}
             <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
