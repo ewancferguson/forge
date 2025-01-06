@@ -56,7 +56,7 @@ class ListingService {
 
     async postsByProfileId(profileId) {
         logger.log('profileId', profileId)
-        const postsByProfileId = await dbContext.Listing.find({ profileId: profileId }).populate('creator', 'name picture')
+        const postsByProfileId = await dbContext.Listing.find({ creatorId: profileId }).populate('creator', 'name picture')
         if (postsByProfileId == null) throw new Error(`Invalid id: ${profileId}`)
         return postsByProfileId
     }

@@ -15,13 +15,6 @@ class PostsService {
     AppState.listings = listings
     AppState.homePageListings = listings.slice(0, 6);
   }
-
-  async getListingsByProfileId(profileId) {
-    AppState.profileListings = []
-    const response = await api.get(`api/profiles/?creatorId=${profileId}/posts`)
-    logger.log(`[GOT POSTS BY PROFILE ID]`, response.data)
-    AppState.profileListings = response.data.map(listingData => new Listing (listingData))
-  }
 }
 
 export const postsService = new PostsService()

@@ -13,6 +13,8 @@ const route = useRoute()
 
 const listings = computed(() => AppState.listings)
 
+const profileListings = computed(() => AppState.profileListings)
+
 const profile = computed(() => AppState.activeProfile)
 
 onMounted(() => {
@@ -39,7 +41,7 @@ async function getProfileById() {
 async function getListingsByProfileId() {
   try {
     const profileId = route.params.profileId
-    await postsService.getListingsByProfileId(profileId)
+    await profilesService.getListingsByProfileId(profileId)
   }
   catch (error) {
     Pop.meow(error);

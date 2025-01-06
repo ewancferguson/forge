@@ -9,7 +9,7 @@ export class ProfilesController extends BaseController {
     this.router
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
-      .get('/:id/posts', this.getPostsByProfileId)
+      .get('/:profileId/posts', this.getPostsByProfileId)
   }
 
   async getProfiles(req, res, next) {
@@ -32,9 +32,9 @@ export class ProfilesController extends BaseController {
 
   async getPostsByProfileId(req, res, next) {
     try {
-      const profileId = request.params.profileId
+      const profileId = req.params.profileId
       const postsByProfileId = await listingService.postsByProfileId(profileId)
-      res.send(profileId)
+      res.send(postsByProfileId)
     } catch (error) {
       next(error)
     }
