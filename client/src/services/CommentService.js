@@ -4,6 +4,12 @@ import { AppState } from "@/AppState.js"
 import { logger } from "@/utils/Logger.js"
 
 class CommentService {
+  async deleteComment(commentId) {
+    const response = await api.delete(`api/comments/${commentId}`)
+    logger.log(response.data)
+    const commentIndex = AppState.comments.findIndex(comment => comment.id == commentId)
+    AppState.comments.splice(commentIndex, 1)
+  }
   async createComment(commentData) {
     const response = await api.post('api/comments', commentData)
     const comment = new Comment(response.data)
