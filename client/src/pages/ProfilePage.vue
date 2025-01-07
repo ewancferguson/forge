@@ -94,7 +94,8 @@ async function createFollower() {
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
         </div>
-        <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
+        <div v-if="profile.facebook && profile.linkedIn && profile.website"
+          class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
           <a v-if="profile.facebook" class="pb-5 text-light" :href="profile.facebook">FACEBOOK</a>
           <a v-if="profile.linkedIn" class="pb-5 text-light" :href="profile.linkedIn">LINKEDIN</a>
           <a v-if="profile.website" class="text-light" :href="profile.website">COMPANY SITE</a>
