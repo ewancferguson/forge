@@ -5,6 +5,7 @@ import express from 'express'
 import helmet from 'helmet'
 import { Paths, RegisterControllers, RegisterSocketHandlers, UseStaticPages } from '../Setup'
 import { logger } from './utils/Logger'
+import { socketProvider } from './SocketProvider';
 
 export class Startup {
   static ConfigureGlobalMiddleware(app) {
@@ -48,13 +49,16 @@ export class Startup {
     return corsOptions
   }
 
-  static ConfigureRoutes(app) {
-    const router = express.Router()
-    RegisterControllers(router)
-    RegisterSocketHandlers()
-    app.use(router)
-    UseStaticPages(app)
-    Startup.registerErrorHandlers(app)
+  static ConfigureRoutes(app, httpServer) {
+    const router = express.Router();
+    RegisterControllers(router);
+
+    // Initialize the SocketProvider with the HTTP server
+    socketProvider.initialize(httpServer);
+
+    app.use(router);
+    UseStaticPages(app);
+    Startup.registerErrorHandlers(app);
   }
 
   static registerErrorHandlers(app) {

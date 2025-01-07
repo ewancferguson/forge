@@ -10,7 +10,7 @@ import { postsService } from '@/services/PostsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { computed, onMounted, reactive, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 
 
 const route = useRoute()
@@ -128,14 +128,15 @@ async function getCommentsbyListingId() {
           listings.createdAt.toDateString()
         }}</span>
         <div class="d-flex justify-content-between align-content-center mt-3">
-          <div class="d-flex align-content-center">
+          <RouterLink :to="{ name: 'Profile', params: { profileId: listings.creatorId } }"
+            class="d-flex align-content-center">
             <img class=" profile-img m-2" :src="listings.creator.picture" alt="">
             <h3 class="align-self-center text-dark ms-3">{{ listings.creator.name }}</h3>
-          </div>
-          <div v-if="account?.id != listings?.creatorId">
+          </RouterLink>
+          <RouterLink :to="{ name: 'Messaging' }" v-if="account?.id != listings?.creatorId">
             <button class="btn btn-primary ms-3 align-self-center" style="height: 50px;">Message Us <i
                 class="mdi mdi-chat"></i></button>
-          </div>
+          </RouterLink>
           <div v-if="account?.id == listings?.creator.id" class="align-self-center me-3">
             <button @click="deleteListing(listings.id)" class="button-delete">
               <svg viewBox="0 0 448 512" class="svgIcon">
