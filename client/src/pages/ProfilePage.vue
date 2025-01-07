@@ -8,6 +8,7 @@ import { logger } from '@/utils/Logger.js';
 import { postsService } from '@/services/PostsService.js';
 import ListingCard from '@/components/ListingCard.vue';
 import PostCard from '@/components/PostCard.vue';
+import { followerService } from '@/services/FollowerService.js';
 
 const account = computed(() => AppState.account)
 
@@ -22,12 +23,26 @@ const profile = computed(() => AppState.activeProfile)
 onMounted(() => {
   getProfileById()
   getListingsByProfileId()
+  getFollowersByAccountId()
 })
 
 watch(route, () => {
   getProfileById()
   getListingsByProfileId()
+  getFollowersByAccountId()
 })
+
+async function getFollowersByAccountId(){
+  try {
+    const profileId = route.params.profileId
+    await followerService.getFollowersByAccountId(profileId)
+
+  }
+  catch (error){
+    Pop.error(error);
+    logger.log('getting followers by account Id', error)
+  }
+}
 
 async function getProfileById() {
   try {
@@ -54,7 +69,7 @@ async function getListingsByProfileId() {
 async function createFollower(){
   try {
     const profileData = {profileId: route.params.profileId}    
-    await profilesService.createFollower(profileData)
+    await followerService.createFollower(profileData)
   }
   catch (error){
     Pop.meow(error);

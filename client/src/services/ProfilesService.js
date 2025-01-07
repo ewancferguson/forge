@@ -8,10 +8,6 @@ import { Listing } from "@/models/Listing.js";
 
 class ProfilesService{
 
-  async createFollower(profileData) {
-    const response = await api.post('api/followers', profileData)
-    logger.log('creating follower', response.data)
-  }
   async getProfileById(profileId){
     const response = await api.get(`api/profiles/${profileId}`)
     logger.log('got profile by id', response.data)
