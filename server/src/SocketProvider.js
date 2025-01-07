@@ -38,6 +38,7 @@ class SocketProvider {
   onConnect(socket) {
     try {
       attachHandlers(this.io, socket)
+
       socket.emit(SOCKET_EVENTS.connected, {
         sid: socket.id,
         data: socket.data,

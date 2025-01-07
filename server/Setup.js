@@ -66,6 +66,7 @@ export async function RegisterSocketHandlers() {
   const directory = Paths.Handlers
   const handlers = fs.readdirSync(directory)
   handlers.forEach(async (handlerName) => {
+    logger.log(handlerName)
     try {
       if (!handlerName.endsWith('.js')) { return }
       const fileHandler = await import(directory + '/' + handlerName)

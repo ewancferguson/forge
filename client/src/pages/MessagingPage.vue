@@ -1,14 +1,15 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import { connectSocket, sendMessage, onMessage, disconnectSocket } from '../socket'
 import { Message } from '../models/Messages'
 import ChatMessage from '../components/ChatMessages.vue'
 import ChatInput from '../components/ChatInput.vue'
 import { logger } from '@/utils/Logger'
 import { AppState } from '@/AppState'
+import { testHandler } from '@/handlers/RoomHandler'
 
 const account = computed(() => AppState.account)
-const messages = ref(AppState.Messages);
+const messages = ref([]);
+
 const currentUser = ref({
   id: account?.value.id,
   name: account?.value.name,
@@ -16,25 +17,8 @@ const currentUser = ref({
   picture: account?.value.picture
 });
 
-const otherUser = computed(() => AppState.MessageProfile)
-
-let socket
-
 onMounted(() => {
-  socket = connectSocket()
-
-  onMessage((msg) => {
-    const newMessage = new Message({
-      name: otherUser.value.name,
-      picture: otherUser.value.picture,
-      content: msg,
-      userId: otherUser.value.id,
-      self: false
-    })
-    logger.log('New Message', newMessage)
-    const message = new Message(messages)
-    AppState.Messages.push(message)
-  })
+  testHandler.emit('JOIN_ROOM', 'tristansRoom')
 })
 
 const handleSendMessage = (text) => {
@@ -46,26 +30,21 @@ const handleSendMessage = (text) => {
     self: true
   })
 
-  sendMessage(text)
   const message = new Message(newMessage)
   logger.log('New Message', message)
   AppState.Messages.push(message)
 }
 
 onBeforeUnmount(() => {
-  disconnectSocket()
+  testHandler.emit('LEAVE_ROOM', 'tristansRoom')
 })
 
-const getUserForMessage = (message) => {
-  return message.userId === currentUser.value.id ? currentUser.value : otherUser.value
-}
 </script>
 
 <template>
   <div class="chat-container">
     <div class="chat-messages">
-      <ChatMessage v-for="message in messages" :key="message.id" :message="message"
-        :user="getUserForMessage(message)" />
+      <ChatMessage v-for="message in messages" :key="message.id" :message="message" />
     </div>
     <ChatInput @send="handleSendMessage" />
   </div>
