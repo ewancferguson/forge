@@ -1,29 +1,43 @@
 <script setup>
 import { AppState } from '@/AppState';
 import EditAccountModal from '@/components/EditAccountModal.vue';
+import ListingCard from '@/components/ListingCard.vue';
 import PostCard from '@/components/PostCard.vue';
+import { listingsService } from '@/services/ListingsService';
 import { postsService } from '@/services/PostsService';
+import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { computed, onMounted } from 'vue';
 
 const account = computed(() => AppState.account);
-const listings = computed(() => AppState.listings);
+const listings = computed(() => AppState.profileListings);
 
 const hasSocialLinks = computed(() => {
   return account.value?.facebook || account.value?.linkedIn || account.value?.website;
 });
 
-onMounted(
+onMounted(() => {
   getUsersPosts()
-)
+  getMyListings()
+})
 
 async function getUsersPosts() {
   try {
     const userId = account?.value.id
-    postsService.getUsersPosts(userId)
+    await postsService.getUsersPosts(userId)
   }
   catch (error) {
     Pop.error(error);
+  }
+}
+
+async function getMyListings() {
+  try {
+    await listingsService.getMyListings()
+  }
+  catch (error) {
+    Pop.error(error);
+    logger.error('getting my listings', error)
   }
 }
 </script>
@@ -32,7 +46,6 @@ async function getUsersPosts() {
   <div class="container-fluid p-0 bg-secondary">
     <div v-if="account" class="row m-0 p-0 d-flex justify-content-around">
       <div class="col-md-8 col-12 p-0 m-0 shadow-lg mt-2 mb-2 rounded">
-
         <div class="coverImg position-relative rounded-top" :style="account?.coverImg ?
           { 'background-image': `url(${account.coverImg})`, 'background-size': 'cover', 'background-position': 'center' }
           : { 'background': 'linear-gradient(to right, #142f32, #4f5749, #5d793e)' }">
@@ -45,8 +58,6 @@ async function getUsersPosts() {
               <h3 class="text-primary text-capitalize pt-3"> {{ account?.name }}</h3>
               <p>{{ account?.email }}</p>
               <div class="d-flex">
-
-
                 <button data-bs-toggle="modal" data-bs-target="#editAccountModal"
                   class="btn btn-success fw-bold text-primary py-2 px-4 mb-4 rounded-4 outline">
                   EDIT ACCOUNT
@@ -76,13 +87,12 @@ async function getUsersPosts() {
           </div>
         </div>
         <div class="justify-content-center row">
-
           <h3 class="text-primary text-center p-3">My Posts</h3>
-          <div class="w-75 justify-self-center text-center" v-for="listing in listings" :key="listing.id">
-            <div v-if="!listing">
-              <h3>Loading Posts <i class="mdi mdi-loading mdi-spin"></i></h3>
-            </div>
+          <div class="w-75 justify-self-center text-center" v-for="listing in listings" v-bind:key="listing.id">
             <PostCard :listing="listing" />
+          </div>
+          <div v-if="!listings" class="text-center">
+            <h3>Loading Posts... <i class="mdi mdi-loading mdi-spin"></i></h3>
           </div>
         </div>
       </div>

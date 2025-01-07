@@ -10,22 +10,22 @@ const categories = ['construction', 'manufacturing', 'maintenance', 'utilities',
 const editablePostData = ref({
   minBudget: '',
   maxBudget: '',
-  pictures: [], // Changed to an array
+  pictures: [], // Use an array to store image URLs
   type: '',
   body: ''
 });
 
-const newPictureUrl = ref(''); // Temporary input for a new picture URL
+const newPictureUrl = ref(''); // Temporary input for new image URL
 
 function addPicture() {
   if (newPictureUrl.value.trim()) {
     editablePostData.value.pictures.push(newPictureUrl.value.trim());
-    newPictureUrl.value = ''; // Clear the input field after adding
+    newPictureUrl.value = ''; // Clear input after adding
   }
 }
 
 function removePicture(index) {
-  editablePostData.value.pictures.splice(index, 1); // Remove a picture URL by index
+  editablePostData.value.pictures.splice(index, 1); // Remove image URL by index
 }
 
 async function createListing() {
@@ -37,7 +37,7 @@ async function createListing() {
       pictures: [],
       maxBudget: '',
       type: '',
-      body: '',
+      body: ''
     };
     Modal.getInstance('#createPostModal').hide(); // Close the modal
     Pop.success('Listing Created');
@@ -50,7 +50,7 @@ async function createListing() {
 <template>
   <div class="modal" id="createPostModal" tabindex="-1">
     <form @submit.prevent="createListing()">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Create a Post</h5>
@@ -72,17 +72,18 @@ async function createListing() {
             </div>
             <div class="mb-3">
               <label for="pictures" class="form-label">Pictures</label>
-              <div>
-                <input v-model="newPictureUrl" type="url" class="form-control mb-2" placeholder="Add picture URL">
-                <button type="button" class="btn btn-primary btn-sm" @click="addPicture">Add Picture</button>
+              <div class="d-flex align-items-start">
+                <input v-model="newPictureUrl" type="url" class="form-control me-2" placeholder="Add picture URL">
+                <button type="button" class="btn btn-primary" @click="addPicture">Add</button>
               </div>
-              <ul class="list-group mt-2">
-                <li v-for="(picture, index) in editablePostData.pictures" :key="index"
-                  class="list-group-item d-flex justify-content-between align-items-center">
-                  {{ picture }}
-                  <button type="button" class="btn btn-danger btn-sm" @click="removePicture(index)">Remove</button>
-                </li>
-              </ul>
+              <div class="mt-3 d-flex flex-wrap gap-3">
+                <div v-for="(picture, index) in editablePostData.pictures" :key="index" class="position-relative">
+                  <img :src="picture" class="rounded border" style="width: 150px; height: 100px; object-fit: cover;"
+                    :alt="'Picture ' + (index + 1)">
+                  <button type="button" class="btn-close position-absolute top-0 end-0 remove-btn"
+                    @click="removePicture(index)" aria-label="Remove"></button>
+                </div>
+              </div>
             </div>
             <div class="input-group mb-3">
               <label class="input-group-text" for="type">Type</label>
@@ -108,4 +109,20 @@ async function createListing() {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.modal-lg {
+  max-width: 900px;
+  /* Larger modal for better layout */
+}
+
+.remove-btn {
+  color: #000;
+  /* Default color */
+  transition: color 0.3s ease;
+}
+
+.remove-btn:hover {
+  color: red;
+  /* Red color on hover */
+}
+</style>

@@ -52,9 +52,7 @@ export class Startup {
   static ConfigureRoutes(app, httpServer) {
     const router = express.Router();
     RegisterControllers(router);
-
-    // Initialize the SocketProvider with the HTTP server
-    socketProvider.initialize(httpServer);
+    RegisterSocketHandlers()
 
     app.use(router);
     UseStaticPages(app);

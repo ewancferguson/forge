@@ -149,20 +149,18 @@ async function getCommentsbyListingId() {
           </div>
         </div>
         <div class="mb-3">
-          <div v-if="pictures.length" id="carouselListing" class="mt-3 carousel slide" data-bs-ride="carousel">
+          <div v-if="pictures.length > 1" id="carouselListing" class="mt-3 carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
               <button v-for="(picture, index) in pictures" :key="index" type="button"
                 :data-bs-target="'#carouselListing'" :data-bs-slide-to="index" :class="{ active: index === 0 }"
                 aria-current="true" :aria-label="'Slide ' + (index + 1)"></button>
             </div>
-
             <div class="carousel-inner">
-              <div v-for="(picture, index) in pictures" :key="index"
-                :class="['carousel-item', { active: index === 0 }]">
-                <img :src="picture" alt="Listing Image" class="d-block w-100 img-fluid rounded" />
+              <div v-for="(picture, index) in pictures" :key="index" class="carousel-item"
+                :class="{ active: index === 0 }">
+                <img :src="picture" class="d-block w-100" :alt="'Slide ' + (index + 1)">
               </div>
             </div>
-
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselListing" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Previous</span>
@@ -172,66 +170,73 @@ async function getCommentsbyListingId() {
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-        </div>
-        <div>
-          <div class="mb-3 mt-3 text-start">
-            <p id="listing-body" class="fs-5">
-              {{ listings.body }}
+
+          <div v-else class="mt-3">
+            <img v-if="pictures.length === 1" :src="pictures[0]" class="d-block w-100" alt="Single image">
+            <p v-else>No images available.</p>
+          </div>
+
+          <div>
+            <div class="mb-3 mt-3 text-start">
+              <p id="listing-body" class="fs-5">
+                {{ listings.body }}
+              </p>
+            </div>
+          </div>
+          <hr>
+          <div v-if="listings?.location != undefined" class="mb-3">
+            <h4>Location:</h4>
+            <span id="listing-location">{{ listings.location }}</span>
+          </div>
+          <div class="d-flex justify-content-between">
+
+            <div class=" align-content-center my-2 d-flex">
+              <i class="mdi mdi-currency-usd fs-3 m-0 align-self-center"></i>
+              <p id="listing-budget" class=" m-0 align-self-center ">{{ listings.minBudget }} - {{
+                listings.maxBudget
+              }}</p>
+            </div>
+            <div class="align-content-center my-2 d-flex">
+              <i class="mdi mdi-list-status fs-3 m-0 align-self-center"></i>
+              <div class="ps-1 mt-2  ms-3">
+                <p class="m-0 align-self-center" v-if="listings?.isResolved == true">Listing Is No Longer Accepting
+                  Offers
+                </p>
+                <p class="m-0 align-self-center" v-else>Listing Is Accepting Offers</p>
+              </div>
+            </div>
+            <p class="d-flex align-items-center mb-3">
+              {{ localListing.likeCount || 0 }}
+              <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+                @click="likePost(listings?.id)" role="button" selectable>
+              </i>
             </p>
           </div>
-        </div>
-        <hr>
-        <div v-if="listings?.location != undefined" class="mb-3">
-          <h4>Location:</h4>
-          <span id="listing-location">{{ listings.location }}</span>
-        </div>
-        <div class="d-flex justify-content-between">
+          <div class="d-flex align-items-center pb-2">
 
-          <div class=" align-content-center my-2 d-flex">
-            <i class="mdi mdi-currency-usd fs-3 m-0 align-self-center"></i>
-            <p id="listing-budget" class=" m-0 align-self-center ">{{ listings.minBudget }} - {{
-              listings.maxBudget
-            }}</p>
-          </div>
-          <div class="align-content-center my-2 d-flex">
-            <i class="mdi mdi-list-status fs-3 m-0 align-self-center"></i>
-            <div class="ps-1 mt-2  ms-3">
-              <p class="m-0 align-self-center" v-if="listings?.isResolved == true">Listing Is No Longer Accepting Offers
-              </p>
-              <p class="m-0 align-self-center" v-else>Listing Is Accepting Offers</p>
+            <div class="d-flex">
+              <div class="d-flex input-group">
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
             </div>
           </div>
-          <p class="d-flex align-items-center mb-3">
-            {{ localListing.likeCount || 0 }}
-            <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
-              @click="likePost(listings?.id)" role="button" selectable>
-            </i>
-          </p>
         </div>
-        <div class="d-flex align-items-center pb-2">
+        <div class="p-3 mx-4">
+          <CommentForm />
+        </div>
+        <section v-for="comment in comments" :key="comment.id" class="row p-3 mx-4">
+          <CommentCard :comment-prop="comment" />
+        </section>
+        <div class="mb-2 d-flex justify-content-between align-content-center">
+          <div>
 
-          <div class="d-flex">
-            <div class="d-flex input-group">
-            </div>
+            <p id="listing-type" class="ms-5">Service Type: {{ listings.type }}</p>
           </div>
-          <div class="d-flex justify-content-end">
+          <div>
+            <p class="text-dark text-end me-5">{{ listings.createdAt.toLocaleTimeString() }}</p>
+
           </div>
-        </div>
-      </div>
-      <div class="p-3 mx-4">
-        <CommentForm />
-      </div>
-      <section v-for="comment in comments" :key="comment.id" class="row p-3 mx-4">
-        <CommentCard :comment-prop="comment" />
-      </section>
-      <div class="mb-2 d-flex justify-content-between align-content-center">
-        <div>
-
-          <p id="listing-type" class="ms-5">Service Type: {{ listings.type }}</p>
-        </div>
-        <div>
-          <p class="text-dark text-end me-5">{{ listings.createdAt.toLocaleTimeString() }}</p>
-
         </div>
       </div>
     </div>
