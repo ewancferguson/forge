@@ -49,7 +49,19 @@ async function getListingsByProfileId() {
   }
 }
 
+async function createFollower(){
+  try {
+    const profileData = {profileId: route.params.profileId}    
+    await profilesService.createFollower(profileData)
+  }
+  catch (error){
+    Pop.meow(error);
+  }
+}
 
+  
+  
+  
 </script>
 
 <template>
@@ -61,7 +73,7 @@ async function getListingsByProfileId() {
           <img class="profile-img" :src="profile.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ profile.name }}</h3>
           <p>{{ profile.email }}</p>
-          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
+          <button @click="createFollower()" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
         </div>
         <div class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
