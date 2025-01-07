@@ -240,6 +240,8 @@ async function getCommentsbyListingId() {
         </div>
       </div>
     </div>
+  </div>
+  <div v-else>
     <h1 class="text-light mt-5 text-center">Loading... <i class="mdi mdi-loading mdi-spin"></i></h1>
   </div>
 </template>
