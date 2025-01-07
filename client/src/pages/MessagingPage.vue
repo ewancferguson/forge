@@ -18,7 +18,7 @@ const currentUser = ref({
 });
 
 onMounted(() => {
-  testHandler.emit('JOIN_ROOM', 'tristansRoom')
+  testHandler.emit('JOIN_ROOM', 'ForgeMessage')
 })
 
 const handleSendMessage = (text) => {
@@ -36,7 +36,7 @@ const handleSendMessage = (text) => {
 }
 
 onBeforeUnmount(() => {
-  testHandler.emit('LEAVE_ROOM', 'tristansRoom')
+  testHandler.emit('LEAVE_ROOM', 'ForgeMessage')
 })
 
 </script>
