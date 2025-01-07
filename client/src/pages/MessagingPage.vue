@@ -8,7 +8,7 @@ import { logger } from '@/utils/Logger'
 import { AppState } from '@/AppState'
 
 const account = computed(() => AppState.account)
-const messages = ref([]);
+const messages = ref(AppState.Messages);
 const currentUser = ref({
   id: account?.value.id,
   name: account?.value.name,
@@ -31,7 +31,9 @@ onMounted(() => {
       userId: otherUser.value.id,
       self: false
     })
-    messages.value.push(newMessage)
+    logger.log('New Message', newMessage)
+    const message = new Message(messages)
+    AppState.Messages.push(message)
   })
 })
 
@@ -45,8 +47,9 @@ const handleSendMessage = (text) => {
   })
 
   sendMessage(text)
-  logger.log('New Message', newMessage)
-  messages.value.push(newMessage)
+  const message = new Message(newMessage)
+  logger.log('New Message', message)
+  AppState.Messages.push(message)
 }
 
 onBeforeUnmount(() => {
