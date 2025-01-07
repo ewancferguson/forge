@@ -4,7 +4,7 @@ import { api } from "./AxiosService.js"
 class FollowerService{
 
  async getFollowersByAccountId(profileId) {
-   const response = await api.get(`api/account/${profileId}/followers`)
+   const response = await api.get(`api/profiles/${profileId}/followers`)
    logger.log('getting followers by ID', response.data)
  }
  async createFollower(profileData) {
