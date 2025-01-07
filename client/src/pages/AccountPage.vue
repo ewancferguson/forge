@@ -2,7 +2,9 @@
 import { AppState } from '@/AppState';
 import EditAccountModal from '@/components/EditAccountModal.vue';
 import PostCard from '@/components/PostCard.vue';
-import { computed } from 'vue';
+import { postsService } from '@/services/PostsService';
+import Pop from '@/utils/Pop';
+import { computed, onMounted } from 'vue';
 
 const account = computed(() => AppState.account);
 const listings = computed(() => AppState.listings);
@@ -10,12 +12,26 @@ const listings = computed(() => AppState.listings);
 const hasSocialLinks = computed(() => {
   return account.value?.facebook || account.value?.linkedIn || account.value?.website;
 });
+
+onMounted(
+  getUsersPosts()
+)
+
+async function getUsersPosts() {
+  try {
+    const userId = account?.value.id
+    postsService.getUsersPosts(userId)
+  }
+  catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
 
 <template>
   <div class="container-fluid p-0 bg-secondary">
     <div v-if="account" class="row m-0 p-0 d-flex justify-content-around">
-      <div class="col-md-8 col-12 p-0 m-0 shadow-lg mt-2">
+      <div class="col-md-8 col-12 p-0 m-0 shadow-lg mt-2 mb-2 rounded">
 
         <div class="coverImg position-relative rounded-top" :style="account?.coverImg ?
           { 'background-image': `url(${account.coverImg})`, 'background-size': 'cover', 'background-position': 'center' }
@@ -28,10 +44,28 @@ const hasSocialLinks = computed(() => {
             <div>
               <h3 class="text-primary text-capitalize pt-3"> {{ account?.name }}</h3>
               <p>{{ account?.email }}</p>
-              <button data-bs-toggle="modal" data-bs-target="#editAccountModal"
-                class="btn btn-success fw-bold text-primary py-2 px-4 mb-4 rounded-4 outline">
-                EDIT ACCOUNT
-              </button>
+              <div class="d-flex">
+
+
+                <button data-bs-toggle="modal" data-bs-target="#editAccountModal"
+                  class="btn btn-success fw-bold text-primary py-2 px-4 mb-4 rounded-4 outline">
+                  EDIT ACCOUNT
+                </button>
+                <div v-if="account?.facebook || account?.linkedIn || account?.website" class="dropdown ms-2">
+                  <button class="btn btn-success fw-bold text-primary py-2 px-4 mb-4 rounded-4 outline dropdown-toggle"
+                    type="button" id="socialDropdownButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    SOCIALS
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="socialDropdownButton">
+                    <li><a v-if="account?.facebook" class="dropdown-item" :href="account?.facebook"
+                        target="_blank">Facebook</a></li>
+                    <li><a v-if="account?.linkedIn" class="dropdown-item" :href="account?.linkedIn"
+                        target="_blank">LinkedIn</a></li>
+                    <li><a v-if="account?.website" class="dropdown-item" :href="account?.website"
+                        target="_blank">Website</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             <div v-if="hasSocialLinks" class="card bg-green text-light p-3 rounded-4 fw-bold">
@@ -41,12 +75,15 @@ const hasSocialLinks = computed(() => {
             </div>
           </div>
         </div>
-        <h3 class="text-primary text-center p-3">My Posts</h3>
-        <div v-for="listing in listings" :key="listing.id">
-          <div v-if="!listing">
-            <h3>Loading Posts <i class="mdi mdi-loading mdi-spin"></i></h3>
+        <div class="justify-content-center row">
+
+          <h3 class="text-primary text-center p-3">My Posts</h3>
+          <div class="w-75 justify-self-center text-center" v-for="listing in listings" :key="listing.id">
+            <div v-if="!listing">
+              <h3>Loading Posts <i class="mdi mdi-loading mdi-spin"></i></h3>
+            </div>
+            <PostCard :listing="listing" />
           </div>
-          <PostCard :listing="listing" />
         </div>
       </div>
       <div class="col-md-3 mt-2 col-12 rounded">

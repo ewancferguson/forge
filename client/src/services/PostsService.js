@@ -4,6 +4,19 @@ import { Listing } from "@/models/Listing.js"
 import { AppState } from "@/AppState.js"
 
 class PostsService {
+  async getUsersPosts(userId) {
+    try {
+      AppState.listings = [];
+      const response = await api.get('api/listings', { params: { creatorId: userId } });
+      logger.log('Get Users Posts', response.data);
+
+
+      const listings = response.data.map(listingPojo => new Listing(listingPojo));
+      AppState.listings = listings;
+    } catch (error) {
+      logger.error('Error fetching user posts', error);
+    }
+  }
   async deleteListing(listingId) {
     const response = await api.delete(`api/listings/${listingId}`)
     logger.log(response.data)
