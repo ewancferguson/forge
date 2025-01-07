@@ -9,10 +9,8 @@ export class AccountController extends BaseController {
   constructor() {
     super('account')
     this.router
-      .get('/:profileId/followers', this.getFollowersByAccountId)
       .get('/:profileId/listings', this.getListingsByAccountId)
       .get('/:profileId/reviews', this.getReviewsByAccountId)
-      .get('/:profileId/following', this.getFollowingByAccountId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getUserAccount)
       .put('', this.editUserAccount)
@@ -33,37 +31,6 @@ export class AccountController extends BaseController {
       req.body.id = accountId
       const account = await accountService.updateAccount(req.userInfo, req.body)
       res.send(account)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-
-  /**
-* @param {import("express").Request} request
-* @param {import("express").Response} response
-* @param {import("express").NextFunction} next
-*/
-  async getFollowersByAccountId(request, response, next) {
-    try {
-      const followerId = request.params.profileId
-      const followers = await followersService.getFollowersByAccountId(followerId)
-      response.send(followers)
-    } catch (error) {
-      next(error)
-    }
-  }
-  
-  /**
-* @param {import("express").Request} request
-* @param {import("express").Response} response
-* @param {import("express").NextFunction} next
-*/
-  async getFollowingByAccountId(request, response, next) {
-    try {
-      const followingId = request.params.profileId
-      const following = await followersService.getFollowingByAccountId(followingId)
-      response.send(following)
     } catch (error) {
       next(error)
     }
