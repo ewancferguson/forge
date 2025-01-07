@@ -109,6 +109,9 @@ async function createFollower() {
           <div>
             <div class="mb-4" v-for="listing in listings" v-bind:key="listing.id">
               <ListingCard :listing="listing" />
+              <div v-if="!listing" class="text-center">
+                <h3>Loading Posts... <i class="mdi mdi-loading mdi-spin"></i></h3>
+              </div>
             </div>
           </div>
         </div>

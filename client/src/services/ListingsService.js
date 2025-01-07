@@ -11,6 +11,13 @@ class ListingsService{
     AppState.activeListing = listing
   }
 
+  async getMyListings() {
+    AppState.listings = []
+    const response = await api.get(`api/account`)
+    logger.log(`[GOT LISTINGS BY ACCOUNT]`, response.data)
+    AppState.listings = response.data.map(listingData => new Listing (listingData))
+  }
+
 }
 
 export const listingsService = new ListingsService()
