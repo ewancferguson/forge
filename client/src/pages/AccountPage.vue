@@ -164,8 +164,6 @@ async function getUsersPosts() {
                 <p class="name">John Doe</p>
               </div>
             </div>
-
-
             <p class="message">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
               voluptatem alias ut provident sapiente repellendus.

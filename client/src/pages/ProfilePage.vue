@@ -6,6 +6,8 @@ import Pop from '@/utils/Pop.js';
 import { profilesService } from '@/services/ProfilesService.js';
 import { logger } from '@/utils/Logger.js';
 import { postsService } from '@/services/PostsService.js';
+import ListingCard from '@/components/ListingCard.vue';
+import PostCard from '@/components/PostCard.vue';
 
 const account = computed(() => AppState.account)
 
@@ -79,6 +81,11 @@ async function getListingsByProfileId() {
     <div class="row">
       <div class="col-md-8">
         <h3 class="text-success p-5 mt-5">Recent Posts</h3>
+        <div>
+          <div class="mb-4" v-for="listing in listings" v-bind:key="listing.id">
+            <ListingCard :listing="listing" />
+          </div>
+        </div>
       </div>
       <div class="col-md-3">
         <h3 class="text-success p-5 mt-5">Reviews</h3>
