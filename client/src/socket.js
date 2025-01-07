@@ -4,7 +4,6 @@ import { logger } from './utils/Logger.js';
 let socket;
 
 export const connectSocket = () => {
-    // If socket is already connected, return it
     if (socket) return socket;
 
 

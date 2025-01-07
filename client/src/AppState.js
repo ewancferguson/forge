@@ -20,5 +20,9 @@ export const AppState = reactive({
   activeListing: null,
   /** @type {import('./models/Comment.js').Comment[]} */
   comments: [],
+  /** @type {import('./models/MessageProfile.js').MessageProfile} */
+  MessageProfile: null,
+  /** @type {import('./models/Messages.js').Message[]} */
+  Messages: []
 })
 
