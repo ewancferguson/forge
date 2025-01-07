@@ -1,73 +1,102 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
-import { connectSocket, sendMessage, onMessage, disconnectSocket } from '../socket'; // adjust the import path
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
+import { connectSocket, sendMessage, onMessage, disconnectSocket } from '../socket'
+import { Message } from '../models/Messages'
+import ChatMessage from '../components/ChatMessages.vue'
+import ChatInput from '../components/ChatInput.vue'
+import { logger } from '@/utils/Logger'
+import { AppState } from '@/AppState'
 
-const messages = ref([]);
-const newMessage = ref('');
-let socket;  // Declare the socket variable here
+const account = computed(() => AppState.account)
+const messages = ref(AppState.Messages);
+const currentUser = ref({
+  id: account?.value.id,
+  name: account?.value.name,
+  email: account?.value.email,
+  picture: account?.value.picture
+});
+
+const otherUser = computed(() => AppState.MessageProfile)
+
+let socket
 
 onMounted(() => {
-  socket = connectSocket(); // Store socket instance
+  socket = connectSocket()
 
   onMessage((msg) => {
-    messages.value.push({ text: msg, self: false });
-  });
-});
+    const newMessage = new Message({
+      name: otherUser.value.name,
+      picture: otherUser.value.picture,
+      content: msg,
+      userId: otherUser.value.id,
+      self: false
+    })
+    logger.log('New Message', newMessage)
+    const message = new Message(messages)
+    AppState.Messages.push(message)
+  })
+})
 
-// Send a message to the WebSocket server
-const sendChatMessage = () => {
-  if (newMessage.value.trim()) {
-    sendMessage(newMessage.value); // Use sendMessage function from socket.js
-    messages.value.push({ text: newMessage.value, self: true });
-    newMessage.value = ''; // Clear the input field
-  }
-};
+const handleSendMessage = (text) => {
+  const newMessage = new Message({
+    name: currentUser.value.name,
+    picture: currentUser.value.picture,
+    content: text,
+    userId: currentUser.value.id,
+    self: true
+  })
 
-// Disconnect from WebSocket when component is destroyed
+  sendMessage(text)
+  const message = new Message(newMessage)
+  logger.log('New Message', message)
+  AppState.Messages.push(message)
+}
+
 onBeforeUnmount(() => {
-  disconnectSocket(); // Clean up the socket connection
-});
+  disconnectSocket()
+})
+
+const getUserForMessage = (message) => {
+  return message.userId === currentUser.value.id ? currentUser.value : otherUser.value
+}
 </script>
 
 <template>
-  <div class="container-fluid">
-    <section class="row">
-      <div class="col-md-8 pt-3">
-        <!-- Chat Messages -->
-        <div class="chat-messages">
-          <div v-for="(msg, index) in messages" :key="index" class="message">
-            <div :class="{ 'text-end': msg.self }" class="message-content">
-              <p class="text-light fs-5">{{ msg.text }}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Message Input -->
-        <div class="d-flex mb-3 sticky-bottom ms-5 ps-5 my-3 pb-3">
-          <input type="text" class="form-control bg-green text-success border-green rounded-end-0" v-model="newMessage"
-            placeholder="Your Message" />
-          <button class="btn bg-green text-success rounded-start-0" @click="sendChatMessage">
-            <i class="mdi mdi-send"></i>
-          </button>
-        </div>
-      </div>
-    </section>
+  <div class="chat-container">
+    <div class="chat-messages">
+      <ChatMessage v-for="message in messages" :key="message.id" :message="message"
+        :user="getUserForMessage(message)" />
+    </div>
+    <ChatInput @send="handleSendMessage" />
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
 .chat-messages {
-  max-height: 400px;
+  flex: 1;
   overflow-y: auto;
+  padding: 1rem;
 }
 
-.message-content {
-  max-width: 70%;
-  padding: 10px;
-  margin-bottom: 10px;
+:deep(.message-content) {
+  margin-bottom: 1rem;
 }
 
-.text-end {
-  text-align: end;
+:deep(.message-content.text-end .message-bubble) {
+  background: var(--primary-color, #646cff);
+  color: white;
+}
+
+:deep(.message-content.text-end .user-email) {
+  color: rgba(255, 255, 255, 0.8);
 }
 </style>

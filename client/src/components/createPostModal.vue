@@ -5,41 +5,47 @@ import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { ref } from 'vue';
 
-
-const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other']
+const categories = ['construction', 'manufacturing', 'maintenance', 'utilities', 'agriculture', 'skilled trades', 'other'];
 
 const editablePostData = ref({
   minBudget: '',
   maxBudget: '',
-  pictures: '',
+  pictures: [], // Changed to an array
   type: '',
   body: ''
-})
+});
 
+const newPictureUrl = ref(''); // Temporary input for a new picture URL
 
-async function createListing() {
-  try {
-    logger.log(editablePostData.value)
-    await postsService.createListing(editablePostData.value)
-    editablePostData.value = {
-      minBudget: '',
-      pictures: '',
-      maxBudget: '',
-      type: '',
-      body: '',
-    }
-    // close the modal
-    Modal.getInstance('#createPostModal').hide()
-    Pop.success('Listing Created')
-  }
-  catch (error) {
-    Pop.error(error);
+function addPicture() {
+  if (newPictureUrl.value.trim()) {
+    editablePostData.value.pictures.push(newPictureUrl.value.trim());
+    newPictureUrl.value = ''; // Clear the input field after adding
   }
 }
 
+function removePicture(index) {
+  editablePostData.value.pictures.splice(index, 1); // Remove a picture URL by index
+}
 
+async function createListing() {
+  try {
+    logger.log(editablePostData.value);
+    await postsService.createListing(editablePostData.value);
+    editablePostData.value = {
+      minBudget: '',
+      pictures: [],
+      maxBudget: '',
+      type: '',
+      body: '',
+    };
+    Modal.getInstance('#createPostModal').hide(); // Close the modal
+    Pop.success('Listing Created');
+  } catch (error) {
+    Pop.error(error);
+  }
+}
 </script>
-
 
 <template>
   <div class="modal" id="createPostModal" tabindex="-1">
@@ -66,7 +72,17 @@ async function createListing() {
             </div>
             <div class="mb-3">
               <label for="pictures" class="form-label">Pictures</label>
-              <input v-model="editablePostData.pictures" type="url" class="form-control" id="pictures">
+              <div>
+                <input v-model="newPictureUrl" type="url" class="form-control mb-2" placeholder="Add picture URL">
+                <button type="button" class="btn btn-primary btn-sm" @click="addPicture">Add Picture</button>
+              </div>
+              <ul class="list-group mt-2">
+                <li v-for="(picture, index) in editablePostData.pictures" :key="index"
+                  class="list-group-item d-flex justify-content-between align-items-center">
+                  {{ picture }}
+                  <button type="button" class="btn btn-danger btn-sm" @click="removePicture(index)">Remove</button>
+                </li>
+              </ul>
             </div>
             <div class="input-group mb-3">
               <label class="input-group-text" for="type">Type</label>
@@ -81,7 +97,6 @@ async function createListing() {
               <label for="body" class="form-label">Description</label>
               <textarea v-model="editablePostData.body" class="form-control" id="body" rows="3"></textarea>
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -92,6 +107,5 @@ async function createListing() {
     </form>
   </div>
 </template>
-
 
 <style lang="scss" scoped></style>
