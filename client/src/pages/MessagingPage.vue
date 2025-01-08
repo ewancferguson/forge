@@ -195,9 +195,11 @@ function hideContactPage() {
 }
 
 .chat-container {
-  justify-content: baseline;
-  flex-direction: center;
+  display: flex;
   overflow-y: auto;
+  overflow-x: hidden;
   margin: 0 auto;
+  color: #666;
+  width: 100%;
 }
 </style>
