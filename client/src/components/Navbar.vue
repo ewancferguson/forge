@@ -48,8 +48,8 @@ const account = computed(() => AppState.account)
           <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
             <img alt="logo" src="../assets/img/forge.png" height="55"
               style="object-fit: cover; object-position: center;" />
-            <div class="ms-3 mb-0 mt-2 align-self-center text-dark">
-              <h2>Forge</h2>
+            <div class="ms-3 align-self-center text-dark">
+              <h1 class="m-0 p-0">Forge</h1>
             </div>
           </router-link>
         </div>
