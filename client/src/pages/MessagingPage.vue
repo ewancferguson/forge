@@ -8,7 +8,7 @@ import { AppState } from '@/AppState'
 import { testHandler } from '@/handlers/RoomHandler'
 
 const account = computed(() => AppState.account)
-const messages = ref([]);
+const messages = computed(() => AppState.Messages)
 
 const currentUser = ref({
   id: account?.value.id,
@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="chat-container">
     <div class="chat-messages">
-      <ChatMessage v-for="message in messages" :key="message.id" :message="message" />
+      <ChatMessage />
     </div>
     <ChatInput @send="handleSendMessage" />
   </div>
