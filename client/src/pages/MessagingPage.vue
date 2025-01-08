@@ -1,81 +1,111 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import { Message } from '../models/Messages'
-import ChatMessage from '../components/ChatMessages.vue'
-import ChatInput from '../components/ChatInput.vue'
-import { logger } from '@/utils/Logger'
-import { AppState } from '@/AppState'
-import { testHandler } from '@/handlers/RoomHandler'
+import { ref } from 'vue';
 
-const account = computed(() => AppState.account)
-const messages = computed(() => AppState.Messages)
 
-const currentUser = ref({
-  id: account?.value.id,
-  name: account?.value.name,
-  email: account?.value.email,
-  picture: account?.value.picture
-});
 
-onMounted(() => {
-  testHandler.emit('JOIN_ROOM', 'ForgeMessage')
-})
-
-const handleSendMessage = (text) => {
-  const newMessage = new Message({
-    name: currentUser.value.name,
-    picture: currentUser.value.picture,
-    content: text,
-    userId: currentUser.value.id,
-    self: true
-  })
-
-  const message = new Message(newMessage)
-  logger.log('New Message', message)
-  AppState.Messages.push(message)
+const Arrow = ref('mdi-arrow-left-bold-box');
+const hideContact = ref(false)
+function hideContactPage() {
+  hideContact.value = !hideContact.value
+  Arrow.value = Arrow.value === 'mdi-arrow-left-bold-box' ? 'mdi-arrow-right-bold-box' : 'mdi-arrow-left-bold-box';
 }
-
-onBeforeUnmount(() => {
-  testHandler.emit('LEAVE_ROOM', 'ForgeMessage')
-})
-
 </script>
 
 <template>
-  <div class="chat-container">
-    <div class="chat-messages">
-      <ChatMessage />
+  <section id="MessagingPage" :class="{ 'hide-contacts': hideContact }">
+    <div class="contact-container">
+      <div class="contact-search">
+        <input type="text" placeholder="Search contacts..." />
+        <h4 class="selectable m-0">
+          <i class="mdi mdi-account-search"></i>
+        </h4>
+      </div>
+      <div class="chat-bubbles">
+
+      </div>
     </div>
-    <ChatInput @send="handleSendMessage" />
-  </div>
+    <div class="chat-container">
+      <button @click="hideContactPage" class="btn btn-success mt-5 sticky-bottom" style="position: absolute;">
+        <i class="fs-3 mdi icon" :class="[Arrow]"></i>
+      </button>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.chat-container {
-  display: flex;
+#MessagingPage {
+  --contacts-w: 250px;
+  padding: 1em;
+  margin: 1em;
+  display: grid;
+  grid-template-columns: var(--contacts-w) 1fr;
+  grid-template-rows: 1fr;
+  height: 84vh;
+  border-radius: 2em;
+  background-color: white;
+  transition: all 0.4s ease;
+}
+
+#MessagingPage.hide-contacts {
+  --contacts-w: 0px;
+}
+
+#MessagingPage>* {
+  width: 100%;
+}
+
+.contact-container {
   flex-direction: column;
-  height: 100vh;
-  max-width: 1200px;
-  margin: 0 auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.chat-messages {
-  flex: 1;
+  align-items: center;
+  justify-content: center;
   overflow-y: auto;
-  padding: 1rem;
+  margin: 0 auto;
+  color: #666;
+  width: 100%;
 }
 
-:deep(.message-content) {
-  margin-bottom: 1rem;
+.contact-search {
+  position: sticky;
+  margin-bottom: auto;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  background: #f8f8f8;
+  border-radius: 2em 2em 0px 0px;
+  padding-top: 0px;
+  height: 20%;
 }
 
-:deep(.message-content.text-end .message-bubble) {
-  background: var(--primary-color, #646cff);
-  color: white;
+.contact-search input {
+  background-color: #eee;
+  padding: 0.5em;
+  border: none;
+  outline: none;
+  border-radius: 10px 0 0 10px;
 }
 
-:deep(.message-content.text-end .user-email) {
-  color: rgba(255, 255, 255, 0.8);
+.contact-search h4 {
+  margin: 0;
+  color: #666;
+  background: #eee;
+  border-radius: 0 10px 10px 0;
+}
+
+.chat-bubbles {
+  padding: 1em;
+  align-items: center;
+  background: #f8f8f8;
+  overflow-y: hidden;
+  border-radius: 0px 0px 2em 2em;
+  margin: 0px;
+}
+
+
+
+.chat-container {
+  justify-content: baseline;
+  flex-direction: center;
+  overflow-y: auto;
+  margin: 0 auto;
 }
 </style>
