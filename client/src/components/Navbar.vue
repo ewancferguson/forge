@@ -197,11 +197,7 @@ const account = computed(() => AppState.account)
     </div>
 
 
-    <section class="container-fluid">
-      <div class="row mt-3 mb-2 p-2 text-center">
-        <h3 class="text-light">Forging New Opportunities <span class="gradient-text">Together</span></h3>
-      </div>
-    </section>
+
   </section>
   <CreatePostModal />
 
