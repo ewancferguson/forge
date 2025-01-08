@@ -92,8 +92,7 @@ const account = computed(() => AppState.account)
           <router-link :to="{ name: 'Messaging' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
             <i class="mdi mdi-chat-outline fs-2"></i>
           </router-link>
-          <div class="m-2">
-
+          <div class="btn">
             <Login />
           </div>
         </div>
