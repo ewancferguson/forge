@@ -9,6 +9,8 @@ import { postsService } from '@/services/PostsService.js';
 import ListingCard from '@/components/ListingCard.vue';
 import PostCard from '@/components/PostCard.vue';
 import { followerService } from '@/services/FollowerService.js';
+import { reviewsService } from '@/services/ReviewsService.js';
+import ReviewCard from '@/components/ReviewCard.vue';
 
 const account = computed(() => AppState.account)
 
@@ -20,10 +22,13 @@ const listings = computed(() => AppState.profileListings)
 
 const profile = computed(() => AppState.activeProfile)
 
+const reviews = computed(() => AppState.profileReviews)
+
 onMounted(() => {
   getProfileById()
   getListingsByProfileId()
   getFollowersByAccountId()
+  getReviewsByProfileId()
 })
 
 watch(route, () => {
@@ -63,6 +68,17 @@ async function getListingsByProfileId() {
   catch (error) {
     Pop.meow(error);
     logger.log('getting listings by profile by id', error)
+  }
+}
+
+async function getReviewsByProfileId() {
+  try {
+    const profileId = route.params.profileId
+    await reviewsService.getReviewsByProfileId(profileId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log('getting reviews by profile by id', error)
   }
 }
 
@@ -117,6 +133,9 @@ async function createFollower() {
         </div>
         <div class="col-md-3">
           <h3 class="text-success p-5 mt-5">Reviews</h3>
+          <div v-for="review in reviews" :key="review.id">
+            <ReviewCard :review-prop="review" />
+          </div>
         </div>
       </div>
     </div>
