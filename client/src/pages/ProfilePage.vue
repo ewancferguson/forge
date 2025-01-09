@@ -11,6 +11,7 @@ import PostCard from '@/components/PostCard.vue';
 import { followerService } from '@/services/FollowerService.js';
 import { reviewsService } from '@/services/ReviewsService.js';
 import ReviewCard from '@/components/ReviewCard.vue';
+import AddReviewModal from '@/components/AddReviewModal.vue';
 
 const account = computed(() => AppState.account)
 
@@ -109,6 +110,11 @@ async function createFollower() {
           <button @click="createFollower()"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
+          <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
+            data-bs-toggle="modal" data-bs-target="#reviewModal">
+            Leave a Review
+          </button>
+          <AddReviewModal />
         </div>
         <div v-if="profile.facebook && profile.linkedIn && profile.website"
           class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
