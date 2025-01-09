@@ -1,29 +1,82 @@
 <script setup>
 import MessageCard from '@/components/MessageCard.vue';
 import MyMessageCard from '@/components/MyMessageCard.vue';
-import { nextTick, onMounted, ref, watch } from 'vue';
+import { logger } from '@/utils/Logger';
+import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
-const messages = [
+const contacts = ref([
   {
-    id: '1',
-    contactName: 'Dino Man',
-    text: 'hello how are you doing',
+    id: 1,
     img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+    text: 'hey how is it going',
+    name: 'Dino Man'
   },
   {
-    id: '2',
-    contactName: 'Dino Dino',
-    text: 'hello how are you doing',
+    id: 2,
     img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+    text: 'hey how is it going',
+    name: 'Dino Women'
   },
   {
-    id: '3',
-    contactName: 'Not A Dino',
-    text: 'hello how are you doing',
+    id: 3,
     img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+    text: 'hey how is it going',
+    name: 'Not A Dino'
   },
-];
+  {
+    id: 4,
+    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+    text: 'hey how is it going what you up too',
+    name: 'Dino Dino'
+  },
+])
+const messages = ref([
+  {
+    id: 1,
+    sender: 'me', // Sender can be 'me' or 'other'
+    body: 'Hey, how are you doing?',
+    timeStamp: formatTimeStamp(new Date('2025-01-09T14:00:00'))
+  },
+  {
+    id: 2,
+    sender: 'other',
+    body: 'I’m good, thanks! What about you?',
+    timeStamp: formatTimeStamp(new Date('2025-01-09T14:01:00'))
+  },
+  {
+    id: 3,
+    sender: 'me',
+    body: 'I’m great! Are you free later to catch up?',
+    timeStamp: formatTimeStamp(new Date('2025-01-09T14:02:00'))
+  },
+  {
+    id: 4,
+    sender: 'other',
+    body: 'Sure, let’s meet at the coffee shop at 5.',
+    timeStamp: formatTimeStamp(new Date('2025-01-09T14:03:00'))
+  },
+  {
+    id: 5,
+    sender: 'me',
+    body: 'Perfect! See you there.',
+    timeStamp: formatTimeStamp(new Date('2025-01-09T14:04:00'))
+  }
+]);
 
+function formatTimeStamp(date) {
+  const month = date.toLocaleString('default', { month: 'short' });
+  const day = date.getDate();
+  const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return `${month} ${day}, ${time}`;
+}
+
+const sortedMessages = computed(() =>
+  [...messages.value].sort(
+    (a, b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
+  )
+);
+
+logger.log(sortedMessages)
 const selectedMessageId = ref(null);
 
 function selectMessage(id) {
@@ -83,17 +136,17 @@ function hideContactPage() {
       </div>
       <div class="chat-bubbles">
         <div class="contact-info">
-          <div v-for="message in messages" :key="message.id" class="contact-card d-flex"
-            :class="{ selectedMessage: selectedMessageId === message.id }" @click="selectMessage(message.id)">
-            <img class="img-fluid" :src="message.img" alt="Creator's Name" />
+          <div v-for="contact in contacts" :key="contact.id" class="contact-card d-flex"
+            :class="{ selectedMessage: selectedMessageId === contact.id }" @click="selectMessage(contact.id)">
+            <img class="img-fluid" :src="contact.img" alt="Creator's Name" />
             <div class="contact">
               <div class="d-flex">
-                <p class="contact-name">{{ message.contactName }}</p>
-                <i v-if="newMessage === message.id" class="mdi mdi-message-badge ms-2"></i>
+                <p class="contact-name">{{ contact.name }}</p>
+                <i v-if="newMessage === contact.id" class="mdi mdi-message-badge ms-2"></i>
               </div>
               <div class="contact-message">
                 <p>
-                  {{ message.text }}
+                  {{ contact.text }}
                 </p>
               </div>
             </div>
@@ -107,9 +160,11 @@ function hideContactPage() {
           Select a conversation to begin chatting
         </h1>
       </div>
-      <section v-else ref="chatRef" class="chat-content">
-        <MessageCard />
-        <MyMessageCard />
+      <section ref="chatRef" class="chat-content">
+        <div v-for="message in sortedMessages" :key="message.id">
+          <MessageCard v-if="message.sender === 'other'" :messages="message" />
+          <MyMessageCard v-else :messages="message" />
+        </div>
       </section>
       <div class="chat-input sticky-bottom">
         <div @click="hideContactPage" class="closeMenuButton"
@@ -127,7 +182,7 @@ function hideContactPage() {
 
 <style scoped>
 #MessagingPage {
-  --contacts-w: 250px;
+  --contacts-w: 375px;
   padding: 1em;
   margin: 1em;
   display: grid;
@@ -293,7 +348,7 @@ function hideContactPage() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 75%;
+  max-width: 90%;
   color: #666;
 }
 
