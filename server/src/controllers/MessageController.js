@@ -10,7 +10,16 @@ export class MessageController extends BaseController {
             .use(Auth0Provider.getAuthorizedUserInfo)
             // use request body in post request to send chat ID
             .post('', this.sendMessage)
-        // .delete('/:messageId', this.deleteMessage)
+            .delete('/:messageId', this.deleteMessage)
+    }
+    async deleteMessage(request, response, next) {
+        try {
+            const messageId = request.params.messageId
+            const message = await messagesService.deleteMessage(messageId)
+            response.send(message)
+        } catch (error) {
+            next('[Delete Message]', error)
+        }
     }
     async sendMessage(request, response, next) {
         try {

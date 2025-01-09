@@ -1,4 +1,3 @@
-import { Listing } from '@/models/Listing.js'
 import { AppState } from '../AppState.js'
 import { Account } from '../models/Account.js'
 import { logger } from '../utils/Logger.js'

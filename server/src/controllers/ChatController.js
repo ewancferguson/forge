@@ -52,6 +52,7 @@ export class ChatController extends BaseController {
                 creatorId: request.userInfo.id,
             };
 
+
             const chat = await chatService.createChat(chatData);
 
             response.status(201).send(chat);

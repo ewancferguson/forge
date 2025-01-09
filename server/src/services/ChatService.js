@@ -18,7 +18,7 @@ class ChatService {
                 throw new Error(`invalid Chat ID: ${chatId}`)
             }
             if (commentToDelete.creatorId != userId) {
-                throw new Forbidden('You cannot remove another users like')
+                throw new Forbidden('You cannot remove another users Chat')
             }
 
             await commentToDelete.deleteOne()
