@@ -4,6 +4,7 @@ export const ChatSchema = new Schema(
     {
         participants: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Account' }],
         creatorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true },
+        messages: [{ type: String, ref: 'Message' }]
     },
     {
         timestamps: true,
@@ -11,6 +12,11 @@ export const ChatSchema = new Schema(
     }
 );
 
+ChatSchema.virtual('messageHistory', {
+    localField: 'messages',
+    ref: 'Message',
+    foreignField: '_id',
+});
 
 ChatSchema.virtual('creator', {
     localField: 'creatorId',
@@ -22,5 +28,4 @@ ChatSchema.virtual('participant', {
     localField: 'participants',
     ref: 'Account',
     foreignField: '_id',
-    justOne: true,
 });

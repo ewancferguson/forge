@@ -4,7 +4,7 @@ import { Forbidden } from "../utils/Errors";
 class ChatService {
     async getChats() {
         try {
-            const chats = await dbContext.Chat.find().populate('creator participant');
+            const chats = await dbContext.Chat.find().populate('creator participant messageHistory');
 
             return chats;
         } catch (error) {
