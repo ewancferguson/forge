@@ -1,13 +1,13 @@
 <script setup>
+import MessageCard from '@/components/MessageCard.vue';
 import { ref } from 'vue';
 
-
-
-const Arrow = ref('mdi-arrow-right-bold-box');
-const hideContact = ref(true)
+const conversation = ref(true)
+const Arrow = ref('mdi-arrow-left-bold');
+const hideContact = ref(false)
 function hideContactPage() {
   hideContact.value = !hideContact.value
-  Arrow.value = Arrow.value === 'mdi-arrow-right-bold-box' ? 'mdi-arrow-left-bold-box ms-1' : 'mdi-arrow-right-bold-box';
+  Arrow.value = Arrow.value === 'mdi-arrow-left-bold' ? 'mdi-arrow-right-bold ms-1' : 'mdi-arrow-left-bold';
 }
 </script>
 
@@ -40,8 +40,23 @@ function hideContactPage() {
       </div>
     </div>
     <div class="chat-container">
-      <div @click="hideContactPage" class="closeMenuButton mb-3 sticky-bottom" style="position: absolute;">
-        <i class="fs-1 mdi icon" :class="[Arrow]"></i>
+      <div class="no-chat-content" v-if="!conversation">
+        <h1>
+          Select a conversation to begin chatting
+        </h1>
+      </div>
+      <section v-else class="chat-content">
+        <MessageCard />
+      </section>
+      <div class="chat-input">
+        <div @click="hideContactPage" class="closeMenuButton"
+          style="justify-self: flex-start; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
+          <i class="btn btn-transparent mdi icon" :class="[Arrow]"></i>
+        </div>
+        <input type="text" class="inputBox form-control" placeholder="Start Typing...">
+        <div style="justify-self: flex-end; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
+          <i class="btn btn-success mdi icon text-black mdi-send" style="border-radius: 0 0.45em 0.45em 0;"></i>
+        </div>
       </div>
     </div>
   </section>
@@ -57,8 +72,13 @@ function hideContactPage() {
   grid-template-rows: 1fr;
   height: 84vh;
   border-radius: 2em;
-  background-color: rgb(54, 79, 62);
   transition: all 0.4s ease;
+}
+
+.closeMenuButton {
+  margin: 0px;
+  padding: 0px;
+  margin-bottom: 1em;
 }
 
 .closeMenuButton:hover {
@@ -73,7 +93,16 @@ function hideContactPage() {
   width: 100%;
 }
 
+.inputBox {
+  height: 90%;
+  border: none;
+  margin: 0px;
+  border-radius: 0.45em 0 0 0.45em;
+}
+
 .icon {
+  font-size: 24px;
+  height: 100%;
   color: white;
 }
 
@@ -195,11 +224,32 @@ function hideContactPage() {
 }
 
 .chat-container {
-  display: flex;
   overflow-y: auto;
   overflow-x: hidden;
+  text-align: center;
+  justify-content: center;
   margin: 0 auto;
-  color: #666;
-  width: 100%;
+  height: 100%;
+  border-radius: 2em;
+  padding: 0.5em;
+}
+
+.no-chat-content {
+  height: 90%;
+  align-content: center;
+  color: white;
+  text-align: center;
+}
+
+.chat-content {
+  height: 90%;
+  color: white;
+}
+
+.chat-input {
+  height: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 </style>
