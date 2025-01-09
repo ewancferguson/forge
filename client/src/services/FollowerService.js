@@ -16,6 +16,8 @@ class FollowerService {
   async createFollower(followingId) {
     const response = await api.post('api/followers', followingId)
     logger.log('creating follower', response.data)
+    const follower = new Follower(response.data)
+    AppState.profileFollowers.push(follower)
   }
 }
 
