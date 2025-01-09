@@ -20,7 +20,7 @@ export class FollowersController extends BaseController {
     async createFollower(request, response, next) {
         try {
             const followerData = request.body
-            followerData.accountId = request.userInfo.id
+            followerData.followerId = request.userInfo.id
             const follower = await followersService.createFollower(followerData)
             response.send(follower)
         } catch (error) {

@@ -3,6 +3,7 @@ export class Follower{
         this.id = data.id
         this.followerId = data.followerId
         this.followingId = data.followingId
-        this.follower = data.follower
+        this.followerName = data.follower.name
+        this.followerPicture = data.follower.picture
     }
 }

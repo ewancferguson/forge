@@ -68,8 +68,8 @@ async function getListingsByProfileId() {
 
 async function createFollower() {
   try {
-    const profileData = { profileId: route.params.profileId }
-    await followerService.createFollower(profileData)
+    const followingId = {followingId: route.params.profileId}
+    await followerService.createFollower(followingId)
   }
   catch (error) {
     Pop.meow(error);
