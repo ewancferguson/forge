@@ -10,6 +10,8 @@ export class ProfilesController extends BaseController {
     this.router
       .get('/:profileId/followers', this.getFollowersByAccountId)
       .get('/:profileId/following', this.getFollowingByAccountId)
+      .get('/:profileId/listings', this.getListingsByAccountId)
+      .get('/:profileId/reviews', this.getReviewsByAccountId)
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
       .get('/:profileId/posts', this.getPostsByProfileId)
@@ -73,4 +75,34 @@ export class ProfilesController extends BaseController {
       next(error)
     }
   }
+
+    /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+async getListingsByAccountId(request, response, next) {
+  try {
+    const creatorId = request.params.profileId
+    const listings = await listingService.getListingsByAccountId(creatorId)
+    response.send(listings)
+  } catch (error) {
+    next(error)
+  }
+}
+
+  /**
+* @param {import("express").Request} request
+* @param {import("express").Response} response
+* @param {import("express").NextFunction} next
+*/
+async getReviewsByAccountId(request, response, next){
+  try {
+    const accountId = request.params.profileId
+    const review = await reviewService.getReviewsByAccountId(accountId)
+    response.send(review)
+  } catch (error) {
+    next(error)
+  }
+}
 }
