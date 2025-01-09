@@ -9,6 +9,9 @@ import { postsService } from '@/services/PostsService.js';
 import ListingCard from '@/components/ListingCard.vue';
 import PostCard from '@/components/PostCard.vue';
 import { followerService } from '@/services/FollowerService.js';
+import { reviewsService } from '@/services/ReviewsService.js';
+import ReviewCard from '@/components/ReviewCard.vue';
+import AddReviewModal from '@/components/AddReviewModal.vue';
 
 const account = computed(() => AppState.account)
 
@@ -20,10 +23,13 @@ const listings = computed(() => AppState.profileListings)
 
 const profile = computed(() => AppState.activeProfile)
 
+const reviews = computed(() => AppState.profileReviews)
+
 onMounted(() => {
   getProfileById()
   getListingsByProfileId()
   getFollowersByAccountId()
+  getReviewsByProfileId()
 })
 
 watch(route, () => {
@@ -66,6 +72,17 @@ async function getListingsByProfileId() {
   }
 }
 
+async function getReviewsByProfileId() {
+  try {
+    const profileId = route.params.profileId
+    await reviewsService.getReviewsByProfileId(profileId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.log('getting reviews by profile by id', error)
+  }
+}
+
 async function createFollower() {
   try {
     const followingId = {followingId: route.params.profileId}
@@ -93,6 +110,11 @@ async function createFollower() {
           <button @click="createFollower()"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
+          <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
+            data-bs-toggle="modal" data-bs-target="#reviewModal">
+            Leave a Review
+          </button>
+          <AddReviewModal />
         </div>
         <div v-if="profile.facebook && profile.linkedIn && profile.website"
           class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
@@ -117,6 +139,9 @@ async function createFollower() {
         </div>
         <div class="col-md-3">
           <h3 class="text-success p-5 mt-5">Reviews</h3>
+          <div v-for="review in reviews" :key="review.id">
+            <ReviewCard :review-prop="review" />
+          </div>
         </div>
       </div>
     </div>
