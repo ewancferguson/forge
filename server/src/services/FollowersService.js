@@ -27,7 +27,7 @@ class FollowersService {
     async getFollowingByAccountId(followerId) {
         const followers = await dbContext.Follower.find({ followerId: followerId }).populate('follower', 'name picture')
         return followers
-      }
+    }
 }
 
 export const followersService = new FollowersService()

@@ -5,6 +5,7 @@ import { AppState } from "@/AppState.js"
 
 class FollowerService {
 
+  
   async getFollowersByAccountId(profileId) {
     AppState.profileFollowers = []
     const response = await api.get(`api/profiles/${profileId}/followers`)
@@ -18,6 +19,11 @@ class FollowerService {
     logger.log('creating follower', response.data)
     const follower = new Follower(response.data)
     AppState.profileFollowers.push(follower)
+  }
+
+  async unfollowProfile(followerObjectId) {
+    const response = await api.delete(`api/followers/${followerObjectId}`)
+    logger.log('unfollowing account', response.data)
   }
 }
 

@@ -12,6 +12,7 @@ import { followerService } from '@/services/FollowerService.js';
 import { reviewsService } from '@/services/ReviewsService.js';
 import ReviewCard from '@/components/ReviewCard.vue';
 import AddReviewModal from '@/components/AddReviewModal.vue';
+import { Follower } from '@/models/Follower.js';
 
 const account = computed(() => AppState.account)
 
@@ -24,6 +25,14 @@ const listings = computed(() => AppState.profileListings)
 const profile = computed(() => AppState.activeProfile)
 
 const reviews = computed(() => AppState.profileReviews)
+
+const followerProfiles = computed(() => AppState.profileFollowers)
+
+const isFollowing = computed(() => followerProfiles.value.some(followerProfiles => followerProfiles.followerId == account.value?.id))
+
+const props = defineProps({
+  followerProp: { type: Follower, required: true }
+})
 
 onMounted(() => {
   getProfileById()
@@ -94,6 +103,17 @@ async function createFollower() {
 }
 
 
+async function unfollowProfile(followerObjectId){
+  try {
+    const confirm = Pop.confirm('Are you sure you want to unfollow this account?')
+    if(!confirm) return
+    await followerService.unfollowProfile(followerObjectId)
+  }
+  catch (error){
+    Pop.meow(error);
+  }
+}
+
 
 
 </script>
@@ -107,8 +127,10 @@ async function createFollower() {
           <img class="profile-img" :src="profile.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ profile.name }}</h3>
           <p>{{ profile.email }}</p>
-          <button @click="createFollower()"
-            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4">+ FOLLOW</button>
+          <button v-if="!isFollowing" @click="createFollower()"
+            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-plus-thick"></i> FOLLOW</button>
+          <button v-if="isFollowing" @click="unfollowProfile(followerProp.id)"
+            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
           <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
             data-bs-toggle="modal" data-bs-target="#reviewModal">
