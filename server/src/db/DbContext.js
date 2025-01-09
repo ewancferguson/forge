@@ -8,6 +8,7 @@ import { ReviewSchema } from '../models/Review';
 import { MessageSchema } from '../models/Message';
 import { LikesSchema } from '../models/Likes';
 import { FollowersSchema } from '../models/Followers';
+import { ChatSchema } from '../models/Chat';
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -17,6 +18,7 @@ class DbContext {
   Comment = mongoose.model('Comment', CommentSchema);
   Review = mongoose.model('Review', ReviewSchema);
   Message = mongoose.model('Message', MessageSchema);
+  Chat = mongoose.model('Chat', ChatSchema)
   Like = mongoose.model('Like', LikesSchema);
   Follower = mongoose.model('Follower', FollowersSchema);
 }

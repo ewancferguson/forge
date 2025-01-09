@@ -1,8 +1,8 @@
 <script setup>
 import { AppState } from '@/AppState';
-import { ref } from 'vue';
+import { computed } from 'vue';
 
-const account = ref(AppState.account)
+const account = computed(() => AppState.account)
 
 
 
@@ -33,8 +33,11 @@ const props = defineProps({
                     </p>
                 </div>
             </div>
-            <div class="align-items-end m-0 p-0">
+            <div v-if="account?.picture" class="align-items-end m-0 p-0">
                 <img class="img-fluid ms-3" :src="account?.picture" alt="Your Profile Picture" />
+            </div>
+            <div v-else class="align-items-end m-0 p-0">
+                <i class="ms-3 mdi mdi-loading mdi-spin"></i>
             </div>
         </div>
     </div>
