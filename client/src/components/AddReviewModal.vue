@@ -2,15 +2,28 @@
 import { reviewsService } from '@/services/ReviewsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
+import { Modal } from 'bootstrap';
+import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute()
 
-async function addReview() {
+const editableReviewData = ref({
+  body: '',
+  rating: '',
+  accountId: route.params.profileId
+})
+
+async function addReview(editableReviewData) {
   try {
     const profileId = route.params.profileId
-    await reviewsService.addReview(profileId)
-    Pop.success()
+    await reviewsService.addReview(profileId, editableReviewData)
+    editableReviewData.value = {
+      rating: '',
+      body: ''
+    };
+    Modal.getInstance('#reviewModal').hide(); // Close the modal
+    Pop.success('Review Created');
   }
   catch (error) {
     Pop.error(error);
@@ -35,30 +48,22 @@ async function addReview() {
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="reviewForm">
+          <form @submit.prevent="addReview(editableReviewData)" id="reviewForm">
             <!-- Rating -->
             <div class="mb-3">
-              <label for="rating" class="form-label">Rating (1 to 5)</label>
-              <select class="form-select" id="rating" name="rating" required>
-                <option value="" selected disabled>Choose a rating</option>
-                <option value="1">1 - Poor</option>
-                <option value="2">2 - Fair</option>
-                <option value="3">3 - Good</option>
-                <option value="4">4 - Very Good</option>
-                <option value="5">5 - Excellent</option>
-              </select>
+              <label for="rating" class="form-label">Rating</label>
+              <input v-model="editableReviewData.rating" type="number" min=1 max=5 class="form-control" id="rating">
             </div>
-
             <!-- Review Text -->
             <div class="mb-3">
               <label for="reviewText" class="form-label">Your Review</label>
-              <textarea class="form-control" id="reviewText" name="reviewText" rows="4"
-                placeholder="Write your review here..." required></textarea>
+              <textarea v-model="editableReviewData.body" class="form-control" id="reviewText" name="reviewText"
+                rows="4" placeholder="Write your review here..." required></textarea>
             </div>
 
             <!-- Submit Button -->
             <div class="mb-3 text-end">
-              <button @click="addReview()" type="submit" class="btn btn-success">Submit Review</button>
+              <button type="submit" class="btn btn-success">Submit Review</button>
             </div>
           </form>
         </div>

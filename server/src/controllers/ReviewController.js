@@ -9,7 +9,7 @@ export class ReviewController extends BaseController {
         super('api/reviews')
         this.router
             .use(Auth0Provider.getAuthorizedUserInfo)
-            .post('', this.createReview)
+            // .post('', this.createReview)
             .put('/:reviewId', this.editReview)
             .delete('/:reviewId', this.deleteReview)
     }

@@ -4,6 +4,7 @@ import { profileService } from '../services/ProfileService.js'
 import BaseController from '../utils/BaseController'
 import { followersService } from '../services/FollowersService.js'
 import { reviewService } from '../services/ReviewService.js'
+import { Auth0Provider } from '@bcwdev/auth0provider'
 
 export class ProfilesController extends BaseController {
   constructor() {
@@ -16,6 +17,8 @@ export class ProfilesController extends BaseController {
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
       .get('/:profileId/posts', this.getPostsByProfileId)
+      .use(Auth0Provider.getAuthorizedUserInfo)
+      .post("/:profileId/reviews", this.createReview)
   }
 
   async getProfiles(req, res, next) {
@@ -104,6 +107,17 @@ async getReviewsByAccountId(request, response, next){
     response.send(review)
   } catch (error) {
     next(error)
+  }
+}
+
+async createReview(request, response, next) {
+  try {
+      const reviewData = request.body
+      reviewData.creatorId = request.userInfo.id
+      const review = await reviewService.createReview(reviewData)
+      response.send(review)
+  } catch (error) {
+      next(error)
   }
 }
 }
