@@ -3,6 +3,7 @@ import { listingService } from '../services/ListingService.js'
 import { profileService } from '../services/ProfileService.js'
 import BaseController from '../utils/BaseController'
 import { followersService } from '../services/FollowersService.js'
+import { reviewService } from '../services/ReviewService.js'
 
 export class ProfilesController extends BaseController {
   constructor() {
