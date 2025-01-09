@@ -1,15 +1,78 @@
 <script setup>
 import MessageCard from '@/components/MessageCard.vue';
-import { ref } from 'vue';
+import MyMessageCard from '@/components/MyMessageCard.vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 
-const conversation = ref(true)
+const messages = [
+  {
+    id: '1',
+    contactName: 'Dino Man',
+    text: 'hello how are you doing',
+    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+  },
+  {
+    id: '2',
+    contactName: 'Dino Dino',
+    text: 'hello how are you doing',
+    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+  },
+  {
+    id: '3',
+    contactName: 'Not A Dino',
+    text: 'hello how are you doing',
+    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
+  },
+];
+
+const selectedMessageId = ref(null);
+
+function selectMessage(id) {
+  selectedMessageId.value = id;
+
+  if (newMessage.value === id) {
+    newMessage.value = null;
+  }
+}
+
+const newMessage = ref(null);
+const showNotification = ref(false);
+
+watch(newMessage, (newVal) => {
+  showNotification.value = !!newVal;
+});
+
+setTimeout(() => {
+  newMessage.value = '3'; // Simulate new message with ID '3'
+}, 2000);
+
+
+const chatRef = ref(null);
+
+onMounted(() => {
+  scrollToBottom();
+});
+
+function scrollToBottom() {
+  nextTick(() => {
+    if (chatRef.value) {
+      chatRef.value.scrollTop = chatRef.value.scrollHeight;
+    }
+  });
+}
+
+const conversation = ref(true);
 const Arrow = ref('mdi-arrow-left-bold');
-const hideContact = ref(false)
+const hideContact = ref(false);
+
 function hideContactPage() {
-  hideContact.value = !hideContact.value
-  Arrow.value = Arrow.value === 'mdi-arrow-left-bold' ? 'mdi-arrow-right-bold ms-1' : 'mdi-arrow-left-bold';
+  hideContact.value = !hideContact.value;
+  Arrow.value =
+    Arrow.value === 'mdi-arrow-left-bold'
+      ? 'mdi-arrow-right-bold ms-1'
+      : 'mdi-arrow-left-bold';
 }
 </script>
+
 
 <template>
   <section id="MessagingPage" :class="{ 'hide-contacts': hideContact }">
@@ -20,18 +83,17 @@ function hideContactPage() {
       </div>
       <div class="chat-bubbles">
         <div class="contact-info">
-          <div class="contact-card d-flex">
-            <img class="img-fluid"
-              src="https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000"
-              alt="Creator's Name" />
+          <div v-for="message in messages" :key="message.id" class="contact-card d-flex"
+            :class="{ selectedMessage: selectedMessageId === message.id }" @click="selectMessage(message.id)">
+            <img class="img-fluid" :src="message.img" alt="Creator's Name" />
             <div class="contact">
               <div class="d-flex">
-                <p class="contact-name">Dino Man</p>
-                <i class="mdi mdi-message-badge ms-2"></i>
+                <p class="contact-name">{{ message.contactName }}</p>
+                <i v-if="newMessage === message.id" class="mdi mdi-message-badge ms-2"></i>
               </div>
               <div class="contact-message">
                 <p>
-                  How is it going? How was your day?
+                  {{ message.text }}
                 </p>
               </div>
             </div>
@@ -45,15 +107,16 @@ function hideContactPage() {
           Select a conversation to begin chatting
         </h1>
       </div>
-      <section v-else class="chat-content">
+      <section v-else ref="chatRef" class="chat-content">
         <MessageCard />
+        <MyMessageCard />
       </section>
-      <div class="chat-input">
+      <div class="chat-input sticky-bottom">
         <div @click="hideContactPage" class="closeMenuButton"
           style="justify-self: flex-start; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
           <i class="btn btn-transparent mdi icon" :class="[Arrow]"></i>
         </div>
-        <input type="text" class="inputBox form-control" placeholder="Start Typing...">
+        <input type="text" class="inputBox form-control" placeholder="Start Typing..." />
         <div style="justify-self: flex-end; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
           <i class="btn btn-success mdi icon text-black mdi-send" style="border-radius: 0 0.45em 0.45em 0;"></i>
         </div>
@@ -70,10 +133,11 @@ function hideContactPage() {
   display: grid;
   grid-template-columns: var(--contacts-w) 1fr;
   grid-template-rows: 1fr;
-  height: 84vh;
+  height: 83vh;
   border-radius: 2em;
   transition: all 0.4s ease;
 }
+
 
 .closeMenuButton {
   margin: 0px;
@@ -182,6 +246,25 @@ function hideContactPage() {
   overflow: hidden;
 }
 
+.selectedMessage {
+  background-color: #73e985;
+  border: 2px solid rgba(13, 107, 54, 0.958);
+  box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0.8em;
+  margin: 0.8em 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+
+.selectedMessage:hover {
+  transform: scale(1.03);
+  box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
 .contact-card:hover {
   transform: scale(1.03);
   box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.2);
@@ -210,7 +293,7 @@ function hideContactPage() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 60%;
+  max-width: 75%;
   color: #666;
 }
 
@@ -224,7 +307,6 @@ function hideContactPage() {
 }
 
 .chat-container {
-  overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
   justify-content: center;
@@ -242,9 +324,18 @@ function hideContactPage() {
 }
 
 .chat-content {
+  overflow-y: scroll;
   height: 90%;
   color: white;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+.chat-content::-webkit-scrollbar {
+  display: none;
+}
+
 
 .chat-input {
   height: 10%;
