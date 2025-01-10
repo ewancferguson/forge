@@ -158,10 +158,16 @@ async function handleSendMessage() {
         <div class="contact-info">
           <div v-for="contact in contacts" :key="contact.id" class="contact-card d-flex"
             :class="{ selectedMessage: selectedMessageId === contact?.id }" @click="selectMessage(contact.id)">
-            <img class="img-fluid" :src="contact?.participantInfo.picture" alt="Creator's Name" />
+            <!-- Determine whether to use participant or creator info -->
+            <img class="img-fluid"
+              :src="contact?.participantInfo.id !== account?.id ? contact?.participantInfo.picture : contact?.creator.picture"
+              alt="Creator's Name" />
             <div class="contact">
               <div class="d-flex">
-                <p class="contact-name">{{ contact?.participantInfo.name }}</p>
+                <p class="contact-name">
+                  {{ contact?.participantInfo.id !== account?.id ? contact?.participantInfo.name : contact?.creator.name
+                  }}
+                </p>
                 <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
               </div>
               <div class="contact-message">
@@ -173,9 +179,9 @@ async function handleSendMessage() {
                 </p>
               </div>
             </div>
-            <div class="ms-auto text-end mb-auto mt-0">
-              <p class=" selectable m-0 p-0 fs-4"><i class="mdi mdi-dots-horizontal"></i></p>
-            </div>
+          </div>
+          <div class="ms-auto text-end mb-auto mt-0">
+            <p class=" selectable m-0 p-0 fs-4"><i class="mdi mdi-dots-horizontal"></i></p>
           </div>
         </div>
       </div>
