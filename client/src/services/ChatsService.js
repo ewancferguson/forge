@@ -5,12 +5,21 @@ import Pop from "@/utils/Pop.js";
 import { logger } from "@/utils/Logger.js";
 
 class ChatsService {
-    async getAllContacts() {
+    async getAllContacts(userId) {
         try {
             AppState.Chats = []
+            const contacts = []
             const response = await api.get('api/chats')
             const chats = response.data.map(chatPojo => new Chat(chatPojo))
-            AppState.Chats = chats
+            for (let i = 0; i < chats.length; i++) {
+                const chat = chats[i];
+                if (chat.creatorId == userId) {
+                    contacts.push(chat)
+                    logger.log('Contacts', chat)
+                }
+
+            }
+            AppState.Chats = contacts
             logger.log(AppState.Chats)
         }
         catch (error) {

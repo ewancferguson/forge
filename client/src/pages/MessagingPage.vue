@@ -10,15 +10,15 @@ onMounted(() => {
   getAllContacts()
   scrollToBottom();
 });
-
-
-async function getAllContacts() {
-  await chatsService.getAllContacts()
-}
-
 const contacts = computed(() => AppState.Chats)
 const account = computed(() => AppState.account)
 const messages = computed(() => AppState.Messages)
+
+async function getAllContacts() {
+  const userId = AppState.account.id
+  await chatsService.getAllContacts(userId)
+}
+
 
 
 const selectedMessageId = ref(null);
@@ -123,6 +123,9 @@ async function handleSendMessage() {
                   Start A Conversation Now! ....
                 </p>
               </div>
+            </div>
+            <div class="ms-auto text-end mb-auto mt-0">
+              <p class=" selectable m-0 p-0 fs-4"><i class="mdi mdi-dots-horizontal"></i></p>
             </div>
           </div>
         </div>
