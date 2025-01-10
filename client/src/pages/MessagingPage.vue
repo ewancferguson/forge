@@ -1,86 +1,36 @@
 <script setup>
+import { AppState } from '@/AppState';
 import MessageCard from '@/components/MessageCard.vue';
 import MyMessageCard from '@/components/MyMessageCard.vue';
-import { logger } from '@/utils/Logger';
+import { chatsService } from '@/services/ChatsService';
+import { messagesService } from '@/services/MessagesService';
 import { computed, nextTick, onMounted, ref, watch } from 'vue';
 
-const contacts = ref([
-  {
-    id: 1,
-    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
-    text: 'hey how is it going',
-    name: 'Dino Man'
-  },
-  {
-    id: 2,
-    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
-    text: 'hey how is it going',
-    name: 'Dino Women'
-  },
-  {
-    id: 3,
-    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
-    text: 'hey how is it going',
-    name: 'Not A Dino'
-  },
-  {
-    id: 4,
-    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
-    text: 'hey how is it going what you up too',
-    name: 'Dino Dino'
-  },
-])
-const messages = ref([
-  {
-    id: 1,
-    sender: 'me', // Sender can be 'me' or 'other'
-    body: 'Hey, how are you doing?',
-    timeStamp: formatTimeStamp(new Date('2025-01-09T14:00:00'))
-  },
-  {
-    id: 2,
-    sender: 'other',
-    body: 'I’m good, thanks! What about you?',
-    timeStamp: formatTimeStamp(new Date('2025-01-09T14:01:00'))
-  },
-  {
-    id: 3,
-    sender: 'me',
-    body: 'I’m great! Are you free later to catch up?',
-    timeStamp: formatTimeStamp(new Date('2025-01-09T14:02:00'))
-  },
-  {
-    id: 4,
-    sender: 'other',
-    body: 'Sure, let’s meet at the coffee shop at 5.',
-    timeStamp: formatTimeStamp(new Date('2025-01-09T14:03:00'))
-  },
-  {
-    id: 5,
-    sender: 'me',
-    body: 'Perfect! See you there.',
-    timeStamp: formatTimeStamp(new Date('2025-01-09T14:04:00'))
-  }
-]);
+onMounted(() => {
+  getAllContacts()
+  scrollToBottom();
+});
 
-function formatTimeStamp(date) {
-  const month = date.toLocaleString('default', { month: 'short' });
-  const day = date.getDate();
-  const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  return `${month} ${day}, ${time}`;
+
+async function getAllContacts() {
+  await chatsService.getAllContacts()
 }
 
-const sortedMessages = computed(() =>
-  [...messages.value].sort(
-    (a, b) => new Date(b.timeStamp).getTime() - new Date(a.timeStamp).getTime()
-  )
-);
+const contacts = computed(() => AppState.Chats)
+const account = computed(() => AppState.account)
+const messages = computed(() => AppState.Messages)
 
-logger.log(sortedMessages)
+
 const selectedMessageId = ref(null);
 
-function selectMessage(id) {
+
+async function selectMessage(id) {
   selectedMessageId.value = id;
+  conversation.value = true
+
+
+  await messagesService.getMessages(id)
+
 
   if (newMessage.value === id) {
     newMessage.value = null;
@@ -94,16 +44,9 @@ watch(newMessage, (newVal) => {
   showNotification.value = !!newVal;
 });
 
-setTimeout(() => {
-  newMessage.value = '3'; // Simulate new message with ID '3'
-}, 2000);
-
-
 const chatRef = ref(null);
 
-onMounted(() => {
-  scrollToBottom();
-});
+
 
 function scrollToBottom() {
   nextTick(() => {
@@ -113,7 +56,7 @@ function scrollToBottom() {
   });
 }
 
-const conversation = ref(true);
+const conversation = ref(false);
 const Arrow = ref('mdi-arrow-left-bold');
 const hideContact = ref(false);
 
@@ -124,6 +67,34 @@ function hideContactPage() {
       ? 'mdi-arrow-right-bold ms-1'
       : 'mdi-arrow-left-bold';
 }
+
+const editableFormData = ref({
+  body: '',
+});
+
+async function handleSendMessage() {
+  if (!editableFormData.value.body.trim()) {
+    alert('Message cannot be empty!');
+    return;
+  }
+
+  if (!selectedMessageId.value) {
+    alert('No chat selected!');
+    return;
+  }
+
+
+  const data = {
+    body: editableFormData.value.body,
+    chatId: selectedMessageId.value,
+  };
+
+  await messagesService.sendMessage(data)
+
+  editableFormData.value.body = '';
+}
+
+
 </script>
 
 
@@ -138,15 +109,18 @@ function hideContactPage() {
         <div class="contact-info">
           <div v-for="contact in contacts" :key="contact.id" class="contact-card d-flex"
             :class="{ selectedMessage: selectedMessageId === contact.id }" @click="selectMessage(contact.id)">
-            <img class="img-fluid" :src="contact.img" alt="Creator's Name" />
+            <img class="img-fluid" :src="contact?.participantInfo.picture" alt="Creator's Name" />
             <div class="contact">
               <div class="d-flex">
-                <p class="contact-name">{{ contact.name }}</p>
+                <p class="contact-name">{{ contact?.participantInfo.name }}</p>
                 <i v-if="newMessage === contact.id" class="mdi mdi-message-badge ms-2"></i>
               </div>
               <div class="contact-message">
-                <p>
-                  {{ contact.text }}
+                <p v-if="contact?.messageHistory.length != 0">
+                  {{ contact.messageHistory[0] }}
+                </p>
+                <p v-else>
+                  Start A Conversation Now! ....
                 </p>
               </div>
             </div>
@@ -157,30 +131,41 @@ function hideContactPage() {
     <div class="chat-container">
       <div class="no-chat-content" v-if="!conversation">
         <h1>
-          Select a conversation to begin chatting
+          Loading Messages <i class="mdi mdi-loading mdi-spin"></i>
         </h1>
       </div>
-      <section ref="chatRef" class="chat-content">
-        <div v-for="message in sortedMessages" :key="message.id">
-          <MessageCard v-if="message.sender === 'other'" :messages="message" />
+      <section v-else ref="chatRef" class="chat-content">
+        <div class="d-flex align-items-center text-center justify-content-center" v-if="messages?.length == 0">
+          <h1>Loading Messages <i class="mdi mdi-loading mdi-spin"></i></h1>
+        </div>
+        <div v-for="message in messages" :key="message.id">
+          <MessageCard v-if="message.creatorId != account?.id" :messages="message" />
           <MyMessageCard v-else :messages="message" />
         </div>
       </section>
-      <div class="chat-input sticky-bottom">
+      <div v-if="conversation" class="chat-input sticky-bottom">
         <div @click="hideContactPage" class="closeMenuButton"
           style="justify-self: flex-start; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
           <i class="btn btn-transparent mdi icon" :class="[Arrow]"></i>
         </div>
-        <input type="text" class="inputBox form-control" placeholder="Start Typing..." />
-        <div style="justify-self: flex-end; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
-          <i class="btn btn-success mdi icon text-black mdi-send" style="border-radius: 0 0.45em 0.45em 0;"></i>
-        </div>
+        <form class="inputBox d-flex" @submit.prevent="handleSendMessage">
+          <input v-model="editableFormData.body" type="text" class="messageInput form-control"
+            placeholder="Start Typing..." />
+          <div @click="handleSendMessage"
+            style="justify-self: flex-end; display: flex; margin: 0px; padding: 0px; font-size: 64px;">
+            <i class="btn btn-success mdi icon text-black mdi-send" style="border-radius: 0 0.45em 0.45em 0;"></i>
+          </div>
+        </form>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+.messageInput {
+  width: 100%;
+}
+
 #MessagingPage {
   --contacts-w: 375px;
   padding: 1em;
@@ -215,6 +200,7 @@ function hideContactPage() {
 .inputBox {
   height: 90%;
   border: none;
+  width: 100%;
   margin: 0px;
   border-radius: 0.45em 0 0 0.45em;
 }

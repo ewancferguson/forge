@@ -4,8 +4,6 @@ import { computed } from 'vue';
 
 const account = computed(() => AppState.account)
 
-
-
 const props = defineProps({
     messages: Object
 });
@@ -29,7 +27,7 @@ const props = defineProps({
                         </p>
                     </div>
                     <p class="timeStamp m-0 p-0">
-                        {{ props.messages?.timeStamp }}
+                        {{ props.messages ? props.messages.formatTimeStamp : 'Loading...' }}
                     </p>
                 </div>
             </div>

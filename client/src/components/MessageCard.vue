@@ -9,6 +9,8 @@ const user = ref({
 });
 
 
+
+
 const props = defineProps({
     messages: Object
 });
@@ -27,7 +29,7 @@ const props = defineProps({
                 </div>
                 <div class="mt-1 text-start justify-content-start align-items-center d-flex">
                     <p class="timeStamp m-0 p-0">
-                        {{ props.messages?.timeStamp }}
+                        {{ props.messages ? props.messages.formatTimeStamp : 'Loading...' }}
                     </p>
                     <div class="d-flex align-items-center">
                         <p class="fw-bold accountName m-0 p-0 ms-2">

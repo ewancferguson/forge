@@ -28,4 +28,5 @@ ChatSchema.virtual('participant', {
     localField: 'participants',
     ref: 'Account',
     foreignField: '_id',
+    justOne: true,
 });
