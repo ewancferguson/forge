@@ -4,11 +4,13 @@ import MessageCard from '@/components/MessageCard.vue';
 import MyMessageCard from '@/components/MyMessageCard.vue';
 import { chatsService } from '@/services/ChatsService';
 import { messagesService } from '@/services/MessagesService';
+import { logger } from '@/utils/Logger';
+import Pop from '@/utils/Pop';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
 onMounted(() => {
-  getAllContacts()
   scrollToBottom();
+  checkAccount()
   initialMessage.value = true
 });
 
@@ -16,12 +18,33 @@ onUnmounted(() => {
   AppState.Messages = []
 })
 
+const isAccount = ref(false)
 const contacts = computed(() => AppState.Chats)
 const account = computed(() => AppState.account)
 const messages = computed(() => AppState.Messages)
 
+
+async function checkAccount() {
+  const maxRetries = 10;
+  let retries = 0;
+
+  while (!account.value && retries < maxRetries) {
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    retries++;
+  }
+
+  if (account.value) {
+    isAccount.value = true;
+    await getAllContacts();
+  } else {
+    logger.error("Account not available after retries");
+    Pop.error('Please Sign In To Get Messages')
+  }
+}
+
 async function getAllContacts() {
-  const userId = AppState.account.id
+  const userId = account?.value.id
+
   await chatsService.getAllContacts(userId)
 }
 
@@ -134,16 +157,16 @@ async function handleSendMessage() {
       <div class="chat-bubbles">
         <div class="contact-info">
           <div v-for="contact in contacts" :key="contact.id" class="contact-card d-flex"
-            :class="{ selectedMessage: selectedMessageId === contact.id }" @click="selectMessage(contact.id)">
+            :class="{ selectedMessage: selectedMessageId === contact?.id }" @click="selectMessage(contact.id)">
             <img class="img-fluid" :src="contact?.participantInfo.picture" alt="Creator's Name" />
             <div class="contact">
               <div class="d-flex">
                 <p class="contact-name">{{ contact?.participantInfo.name }}</p>
-                <i v-if="newMessage === contact.id" class="mdi mdi-message-badge ms-2"></i>
+                <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
               </div>
               <div class="contact-message">
                 <p v-if="contact?.messageHistory.length != 0">
-                  {{ contact.messageHistory[0] }}
+                  {{ contact?.messageHistory[0] }}
                 </p>
                 <p v-else>
                   Start A Conversation Now! ....
