@@ -39,7 +39,7 @@ function setRating(value) {
 <template>
 
   <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="reviewModalLabel">Leave a Review</h5>
@@ -47,10 +47,9 @@ function setRating(value) {
         </div>
         <div class="modal-body">
           <form @submit.prevent="addReview(editableReviewData)" id="reviewForm">
-
-            <div class="mb-3">
+            <div class="mb-4">
               <label class="form-label">Rating</label>
-              <div class="rating">
+              <div class="rating d-flex justify-content-center gap-2">
                 <input value="5" name="rating" id="star5" type="radio" @click="setRating(5)" />
                 <label for="star5"></label>
                 <input value="4" name="rating" id="star4" type="radio" @click="setRating(4)" />
@@ -63,14 +62,12 @@ function setRating(value) {
                 <label for="star1"></label>
               </div>
             </div>
-
-            <div class="mb-3">
+            <div class="mb-4">
               <label for="reviewText" class="form-label">Your Review</label>
               <textarea v-model="editableReviewData.body" class="form-control" id="reviewText" name="reviewText"
                 rows="4" placeholder="Write your review here..." required></textarea>
             </div>
-
-            <div class="mb-3 text-end">
+            <div class="text-end">
               <button type="submit" class="btn btn-success">Submit Review</button>
             </div>
           </form>
@@ -78,6 +75,7 @@ function setRating(value) {
       </div>
     </div>
   </div>
+
 </template>
 
 <style lang="scss" scoped>
@@ -105,7 +103,7 @@ function setRating(value) {
 .rating input:checked~label,
 .rating label:hover,
 .rating label:hover~label {
-  color: #6f00ff;
+  color: #142f32;
   transition: color 0.3s;
 }
 </style>
