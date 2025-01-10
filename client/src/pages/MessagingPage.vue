@@ -4,12 +4,18 @@ import MessageCard from '@/components/MessageCard.vue';
 import MyMessageCard from '@/components/MyMessageCard.vue';
 import { chatsService } from '@/services/ChatsService';
 import { messagesService } from '@/services/MessagesService';
-import { computed, nextTick, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
 onMounted(() => {
   getAllContacts()
   scrollToBottom();
+  initialMessage.value = true
 });
+
+onUnmounted(() => {
+  AppState.Messages = []
+})
+
 const contacts = computed(() => AppState.Chats)
 const account = computed(() => AppState.account)
 const messages = computed(() => AppState.Messages)
@@ -23,17 +29,27 @@ async function getAllContacts() {
 
 const selectedMessageId = ref(null);
 
+const initialMessage = ref(true)
+const loading = ref(true)
+const noMessages = ref(false);
 
 async function selectMessage(id) {
   selectedMessageId.value = id;
-  conversation.value = true
-
-
-  await messagesService.getMessages(id)
-
-
-  if (newMessage.value === id) {
-    newMessage.value = null;
+  conversation.value = true;
+  loading.value = true;
+  noMessages.value = false
+  try {
+    const hasMessages = await messagesService.getMessages(id);
+    scrollToBottom()
+    noMessages.value = !hasMessages;
+    if (newMessage.value === id) {
+      newMessage.value = null;
+    }
+  } catch (error) {
+    error(error)
+  } finally {
+    loading.value = false;
+    initialMessage.value = false
   }
 }
 
@@ -48,13 +64,23 @@ const chatRef = ref(null);
 
 
 
-function scrollToBottom() {
+
+const scrollToBottom = () => {
   nextTick(() => {
     if (chatRef.value) {
       chatRef.value.scrollTop = chatRef.value.scrollHeight;
     }
   });
-}
+};
+
+watch(
+  messages,
+  () => {
+    scrollToBottom();
+  },
+  { deep: true }
+);
+
 
 const conversation = ref(false);
 const Arrow = ref('mdi-arrow-left-bold');
@@ -132,17 +158,27 @@ async function handleSendMessage() {
       </div>
     </div>
     <div class="chat-container">
-      <div class="no-chat-content" v-if="!conversation">
+      <div class="no-chat-content p-4" v-if="initialMessage">
+        <h1>
+          Select a conversation! If no conversations reach out to businesses/users through there profile page!
+        </h1>
+      </div>
+      <div class="no-chat-content p-4" v-if="!conversation && !initialMessage">
         <h1>
           Loading Messages <i class="mdi mdi-loading mdi-spin"></i>
         </h1>
       </div>
       <section v-else ref="chatRef" class="chat-content">
-        <div class="d-flex align-items-center text-center justify-content-center" v-if="messages?.length == 0">
+        <div class="fw-bold no-chat-content d-flex align-items-center text-center justify-content-center"
+          v-if="noMessages">
+          <h1>No Messages With This User, Send A Message To Start The Conversation!</h1>
+        </div>
+        <div class="fw-bold no-chat-content d-flex align-items-center text-center justify-content-center"
+          v-if="loading === true && !initialMessage">
           <h1>Loading Messages <i class="mdi mdi-loading mdi-spin"></i></h1>
         </div>
         <div v-for="message in messages" :key="message.id">
-          <MessageCard v-if="message.creatorId != account?.id" :messages="message" />
+          <MessageCard v-if="message.creatorId !== account?.id" :messages="message" />
           <MyMessageCard v-else :messages="message" />
         </div>
       </section>
@@ -351,6 +387,7 @@ async function handleSendMessage() {
 }
 
 .chat-container {
+  overflow-y: hidden;
   overflow-x: hidden;
   text-align: center;
   justify-content: center;
@@ -365,6 +402,7 @@ async function handleSendMessage() {
   align-content: center;
   color: white;
   text-align: center;
+  overflow-y: hidden;
 }
 
 .chat-content {

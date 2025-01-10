@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 
 export const MessageSchema = new Schema(
     {
-        body: { type: String, minLength: 5, maxLength: 500, required: true, trim: true },
+        body: { type: String, minLength: 1, maxLength: 500, required: true, trim: true },
         creatorId: { type: Schema.ObjectId, required: true, ref: 'Account' },
         chatId: { type: Schema.ObjectId, required: true, ref: 'Chat' },
         deleted: { type: Boolean, default: false },

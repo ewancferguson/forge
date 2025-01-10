@@ -1,7 +1,6 @@
 import { AppState } from "@/AppState.js"
 import { api } from "./AxiosService.js"
 import Pop from "@/utils/Pop.js";
-import { logger } from "@/utils/Logger.js";
 import { Message } from "@/models/Messages.js";
 
 class MessagesService {
@@ -10,7 +9,6 @@ class MessagesService {
             const response = await api.post('api/messages', data)
             const message = new Message(response.data)
             AppState.Messages.push(message)
-            logger.log(AppState.Messages)
         }
         catch (error) {
             Pop.error(error);
@@ -18,18 +16,21 @@ class MessagesService {
     }
     async getMessages(id) {
         try {
-            AppState.Messages = []
-            const response = await api.get(`api/chats/${id}/messages`)
-            const message = response.data.map(messagePojo => new Message(messagePojo))
-            logger.log('Got Messages', response.data)
-            AppState.Messages = message
-            logger.log(AppState.Messages)
-        }
-        catch (error) {
+            AppState.Messages = [];
+            const response = await api.get(`api/chats/${id}/messages`);
+            const messages = response.data.map(messagePojo => new Message(messagePojo));
+
+            AppState.Messages = messages;
+
+            if (AppState.Messages.length === 0) {
+                return false;
+            }
+            return true;
+        } catch (error) {
             Pop.error('Error getting messages', error);
+            return false;
         }
     }
-
 }
 
 export const messagesService = new MessagesService()

@@ -13,6 +13,10 @@ class MessagesService {
         return 'Successfully deleted the message'
     }
     async sendMessage(data) {
+
+        if (data.body == '') {
+            return "Cannot Send Empty Messages!"
+        }
         const message = await dbContext.Message.create(data)
 
         await message.populate('creator chat')
