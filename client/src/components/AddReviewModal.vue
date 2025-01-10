@@ -22,7 +22,7 @@ async function addReview(editableReviewData) {
       rating: 0,
       body: ''
     };
-    Modal.getInstance('#reviewModal').hide(); // Close the modal
+    Modal.getInstance('#reviewModal').hide();
     Pop.success('Review Created');
   } catch (error) {
     Pop.error(error);
@@ -30,14 +30,14 @@ async function addReview(editableReviewData) {
   }
 }
 
-// Handle star rating input
+
 function setRating(value) {
   editableReviewData.value.rating = value;
 }
 </script>
 
 <template>
-  <!-- Modal -->
+
   <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -47,7 +47,7 @@ function setRating(value) {
         </div>
         <div class="modal-body">
           <form @submit.prevent="addReview(editableReviewData)" id="reviewForm">
-            <!-- Star Rating -->
+
             <div class="mb-3">
               <label class="form-label">Rating</label>
               <div class="rating">
@@ -63,13 +63,13 @@ function setRating(value) {
                 <label for="star1"></label>
               </div>
             </div>
-            <!-- Review Text -->
+
             <div class="mb-3">
               <label for="reviewText" class="form-label">Your Review</label>
               <textarea v-model="editableReviewData.body" class="form-control" id="reviewText" name="reviewText"
                 rows="4" placeholder="Write your review here..." required></textarea>
             </div>
-            <!-- Submit Button -->
+
             <div class="mb-3 text-end">
               <button type="submit" class="btn btn-success">Submit Review</button>
             </div>
