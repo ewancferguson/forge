@@ -269,7 +269,7 @@ async function handleSendMessage() {
   padding: 0.75em;
   align-items: center;
   background: #f8f8f8;
-  overflow-y: hidden;
+  overflow-y: scroll;
   border-radius: 0px 0px 2em 2em;
   margin: 0px;
   width: 100%;

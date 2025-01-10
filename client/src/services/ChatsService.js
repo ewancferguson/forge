@@ -10,20 +10,21 @@ class ChatsService {
             AppState.Chats = []
             const contacts = []
             const response = await api.get('api/chats')
+            logger.log(response.data)
             const chats = response.data.map(chatPojo => new Chat(chatPojo))
-            for (let i = 0; i < chats.length; i++) {
-                const chat = chats[i];
-                if (chat.creatorId == userId) {
-                    contacts.push(chat)
-                    logger.log('Contacts', chat)
-                }
 
+            for (let i = 0; i < chats.length; i++) {
+                const chat = chats[i]
+                if (chat.creatorId === userId || chat.participantInfo?.id === userId) {
+                    contacts.push(chat)
+                    logger.log('Contact added', chat)
+                }
             }
+
             AppState.Chats = contacts
-            logger.log(AppState.Chats)
-        }
-        catch (error) {
-            Pop.error('Error Getting Contacts', error);
+            logger.log('All Contacts', AppState.Chats)
+        } catch (error) {
+            Pop.error('Error Getting Contacts', error)
         }
     }
 

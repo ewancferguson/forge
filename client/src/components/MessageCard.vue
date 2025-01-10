@@ -1,14 +1,4 @@
 <script setup>
-import { ref } from 'vue';
-
-const user = ref({
-    name: 'Dino Man',
-    content: 'Hi! I hope you are doing good today. Are you still in need of my services? Also, if yes, I would like to agree on a price today!',
-    img: 'https://i.seadn.io/gae/jCQAQBNKmnS_AZ_2jTqBgBLIVYaRFxLX6COWo-HCHrYJ1cg04oBgDfHvOmpqsWbmUaSfBDHIdrwKtGnte3Ph_VwQPJYJ6VFtAf5B?auto=format&dpr=1&w=1000',
-    isBusiness: true
-});
-
-
 
 
 const props = defineProps({
@@ -21,7 +11,7 @@ const props = defineProps({
     <div class="my-message rounded text-white p-3 w-50 me-auto">
         <div class="d-flex justify-content-start align-items-center">
             <div class="align-items-end m-0 p-0">
-                <img class="img-fluid me-3" :src="user?.img" alt="Your Profile Picture" />
+                <img class="img-fluid me-3" :src="props.messages?.creator.picture" alt="Your Profile Picture" />
             </div>
             <div>
                 <div class="mt-2 my-message-body bg-primary text-white p-3">
@@ -33,9 +23,9 @@ const props = defineProps({
                     </p>
                     <div class="d-flex align-items-center">
                         <p class="fw-bold accountName m-0 p-0 ms-2">
-                            {{ user?.name }}
+                            {{ props.messages?.creator.name }}
                         </p>
-                        <div class="ms-2 m-0 p-0" v-if="user?.isBusiness == true">
+                        <div class="ms-2 m-0 p-0" v-if="props.messages?.creator.isBusiness == true">
                             <i class="p-0 m-0 mdi mdi-card-account-details"></i>
                         </div>
                     </div>
