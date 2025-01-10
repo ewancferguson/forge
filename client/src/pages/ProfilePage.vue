@@ -129,7 +129,7 @@ async function unfollowProfile(followerObjectId){
           <p>{{ profile.email }}</p>
           <button v-if="!isFollowing" @click="createFollower()"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-plus-thick"></i> FOLLOW</button>
-          <button v-if="isFollowing" @click="unfollowProfile(followerProp.id)"
+          <button v-if="isFollowing" @click="unfollowProfile(props.followerProp.id)"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
           <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
