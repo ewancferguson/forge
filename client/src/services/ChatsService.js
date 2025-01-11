@@ -2,6 +2,7 @@ import { AppState } from "@/AppState.js"
 import { api } from "./AxiosService.js"
 import { Chat } from "@/models/Chat.js"
 import Pop from "@/utils/Pop.js";
+import { logger } from "@/utils/Logger.js";
 
 class ChatsService {
     async getAllContacts(userId) {
@@ -21,6 +22,15 @@ class ChatsService {
             AppState.Chats = contacts
         } catch (error) {
             Pop.error('Error Getting Contacts', error)
+        }
+    }
+
+    async createChat(userId) {
+        try {
+            const response = await api.post('api/chats', { "attendees": [`${userId}`] })
+            logger.log(response)
+        } catch (error) {
+            logger.error('error creating chat', error)
         }
     }
 
