@@ -2,6 +2,7 @@
 import { AppState } from '@/AppState';
 import MessageCard from '@/components/MessageCard.vue';
 import MyMessageCard from '@/components/MyMessageCard.vue';
+import { messagesHandler } from '@/handlers/MessagesHandler';
 import { chatsService } from '@/services/ChatsService';
 import { messagesService } from '@/services/MessagesService';
 import { logger } from '@/utils/Logger';
@@ -16,6 +17,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   AppState.Messages = []
+  leaveMessageRoom()
 })
 
 const isAccount = ref(false)
@@ -25,11 +27,11 @@ const messages = computed(() => AppState.Messages)
 
 
 async function checkAccount() {
-  const maxRetries = 10;
+  const maxRetries = 15;
   let retries = 0;
 
   while (!account.value && retries < maxRetries) {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 750));
     retries++;
   }
 
@@ -57,10 +59,16 @@ const loading = ref(true)
 const noMessages = ref(false);
 
 async function selectMessage(id) {
+
+  if (selectedMessageId.value != null) {
+    leaveMessageRoom()
+  }
+
   selectedMessageId.value = id;
   conversation.value = true;
   loading.value = true;
   noMessages.value = false
+  joinMessageRoom()
   try {
     const hasMessages = await messagesService.getMessages(id);
     scrollToBottom()
@@ -143,6 +151,12 @@ async function handleSendMessage() {
   editableFormData.value.body = '';
 }
 
+function joinMessageRoom() {
+  messagesHandler.emit('JOIN_ROOM', selectedMessageId.value)
+}
+function leaveMessageRoom() {
+  messagesHandler.emit('LEAVE_ROOM', selectedMessageId.value)
+}
 
 </script>
 
@@ -180,9 +194,7 @@ async function handleSendMessage() {
               </div>
             </div>
           </div>
-          <div class="ms-auto text-end mb-auto mt-0">
-            <p class=" selectable m-0 p-0 fs-4"><i class="mdi mdi-dots-horizontal"></i></p>
-          </div>
+
         </div>
       </div>
     </div>

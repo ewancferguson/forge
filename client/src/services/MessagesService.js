@@ -6,9 +6,9 @@ import { Message } from "@/models/Messages.js";
 class MessagesService {
     async sendMessage(data) {
         try {
-            const response = await api.post('api/messages', data)
-            const message = new Message(response.data)
-            AppState.Messages.push(message)
+            await api.post('api/messages', data)
+            // const message = new Message(response.data)
+            // AppState.Messages.push(message)
         }
         catch (error) {
             Pop.error(error);

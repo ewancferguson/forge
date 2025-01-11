@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext";
+import { socketProvider } from "../SocketProvider";
 import { Forbidden } from "../utils/Errors";
 
 class ChatService {
@@ -41,6 +42,7 @@ class ChatService {
             const savedChat = await dbContext.Chat.create(chat)
             await savedChat.populate('creator participant')
             console.log('[Create Chat] Chat created successfully:', chat);
+            socketProvider.messageAll('CREATED_CHAT', savedChat)
 
             return savedChat;
         } catch (error) {

@@ -1,4 +1,5 @@
 import { dbContext } from "../db/DbContext"
+import { socketProvider } from "../SocketProvider"
 import { Forbidden } from "../utils/Errors"
 
 class MessagesService {
@@ -20,6 +21,11 @@ class MessagesService {
         const message = await dbContext.Message.create(data)
 
         await message.populate('creator chat')
+
+
+        socketProvider.messageRoom(message.chatId.toString(), 'CREATED_MESSAGE', message)
+        socketProvider.messageRoom('MESSAGE_NOTIFICATIONS', 'NEW_MESSAGE', message)
+
         console.log('[Send Message]', message)
         return message
     }
