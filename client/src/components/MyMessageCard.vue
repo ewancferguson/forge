@@ -11,9 +11,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="my-message rounded text-white p-3 w-50 ms-auto">
+    <div class="my-message rounded text-white w-50 p-3 ms-auto">
         <div class="d-flex justify-content-end align-items-center">
-            <div>
+            <div id="messageContent">
                 <div class="mt-2 my-message-body bg-primary text-white p-3">
                     <p class="p-0 m-0 ">{{ props.messages?.body }}</p>
                 </div>
@@ -31,7 +31,7 @@ const props = defineProps({
                     </p>
                 </div>
             </div>
-            <div v-if="account?.picture" class="align-items-end m-0 p-0">
+            <div id="profileImage" v-if="account?.picture" class="align-items-end m-0 p-0">
                 <img class="img-fluid ms-3" :src="account?.picture" alt="Your Profile Picture" />
             </div>
             <div v-else class="align-items-end m-0 p-0">
@@ -42,6 +42,14 @@ const props = defineProps({
 </template>
 
 <style lang="scss" scoped>
+#profileImage {
+    width: 10%;
+}
+
+#messageContent {
+    max-width: 90%
+}
+
 .accountName {
     font-size: 12px;
     margin: 0;

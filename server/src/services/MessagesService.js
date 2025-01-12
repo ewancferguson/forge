@@ -26,7 +26,6 @@ class MessagesService {
         socketProvider.messageRoom(message.chatId.toString(), 'CREATED_MESSAGE', message)
         socketProvider.messageRoom('MESSAGE_NOTIFICATIONS', 'NEW_MESSAGE', message)
 
-        console.log('[Send Message]', message)
         return message
     }
     async getMessagesByChatId(chatId) {

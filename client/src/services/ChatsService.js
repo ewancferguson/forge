@@ -5,6 +5,23 @@ import Pop from "@/utils/Pop.js";
 import { logger } from "@/utils/Logger.js";
 
 class ChatsService {
+    async deleteChat(id) {
+        try {
+            const confirm = await Pop.confirm('Are You Sure You Want To Delete The Chat?')
+            if (confirm) {
+                await api.delete(`api/chats/${id}`)
+                let userId = AppState.account.id
+                this.getAllContacts(userId)
+                Pop.success('Successfully Deleted Chats!')
+            } else {
+                return
+            }
+
+        }
+        catch (error) {
+            Pop.error(error);
+        }
+    }
     async getAllContacts(userId) {
         try {
             AppState.Chats = []
@@ -27,8 +44,7 @@ class ChatsService {
 
     async createChat(userId) {
         try {
-            const response = await api.post('api/chats', { "attendees": [`${userId}`] })
-            logger.log(response)
+            await api.post('api/chats', { "attendees": [`${userId}`] })
         } catch (error) {
             logger.error('error creating chat', error)
         }

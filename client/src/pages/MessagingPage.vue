@@ -59,20 +59,29 @@ const loading = ref(true)
 const noMessages = ref(false);
 
 async function selectMessage(id) {
-
-  if (selectedMessageId.value != null) {
-    leaveMessageRoom()
-  }
-
-  selectedMessageId.value = id;
-  conversation.value = true;
-  loading.value = true;
-  noMessages.value = false
-  joinMessageRoom()
   try {
+    if (selectedMessageId.value != id) {
+      leaveMessageRoom()
+    }
+
+    if (selectedMessageId.value == id) {
+      return
+    }
+
+    selectedMessageId.value = id;
+    joinMessageRoom()
+
+
+
+    conversation.value = true;
+    loading.value = true;
+    noMessages.value = false
+
     const hasMessages = await messagesService.getMessages(id);
     scrollToBottom()
+
     noMessages.value = !hasMessages;
+
     if (newMessage.value === id) {
       newMessage.value = null;
     }
@@ -158,6 +167,21 @@ function leaveMessageRoom() {
   messagesHandler.emit('LEAVE_ROOM', selectedMessageId.value)
 }
 
+const trashId = ref(null)
+function hideMenu(id) {
+  if (trashId.value === id) {
+    trashId.value = null
+    return
+  } else {
+    trashId.value = id
+  }
+}
+
+
+async function deleteChat(id) {
+  await chatsService.deleteChat(id)
+}
+
 </script>
 
 
@@ -177,18 +201,36 @@ function leaveMessageRoom() {
               :src="contact?.participantInfo.id !== account?.id ? contact?.participantInfo.picture : contact?.creator.picture"
               alt="Creator's Name" />
             <div class="contact">
-              <div class="d-flex">
-                <p class="contact-name">
-                  {{ contact?.participantInfo.id !== account?.id ? contact?.participantInfo.name : contact?.creator.name
-                  }}
-                </p>
-                <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                  <p class="contact-name m-0 p-0">
+                    {{ contact?.participantInfo.id !== account?.id ? contact?.participantInfo.name :
+                      contact?.creator.name
+                    }}
+                    <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
+                  </p>
+                </div>
+                <div class="text-end d-flex align-items-center">
+                  <div class="me-2">
+                    <i @click="deleteChat(contact?.id)" :class="{ hideTrashButton: trashId != contact?.id }"
+                      class="selectable mdi m-0 p-0 fs-4 mdi-trash-can"></i>
+                  </div>
+                  <label class="hamburger">
+                    <input @click="hideMenu(contact?.id)" type="checkbox">
+                    <svg viewBox="0 0 32 32">
+                      <path class="line line-top-bottom"
+                        d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+                      </path>
+                      <path class="line" d="M7 16 27 16"></path>
+                    </svg>
+                  </label>
+                </div>
               </div>
               <div class="contact-message">
-                <p v-if="contact?.messageHistory.length != 0">
+                <p class="p-0 m-0" v-if="contact?.messageHistory.length != 0">
                   {{ contact?.messageHistory[0] }}
                 </p>
-                <p v-else>
+                <p class="p-0 m-0" v-else>
                   Start A Conversation Now! ....
                 </p>
               </div>
@@ -242,6 +284,46 @@ function leaveMessageRoom() {
 </template>
 
 <style scoped>
+.hamburger {
+  cursor: pointer;
+}
+
+.hideTrashButton {
+  display: none !important;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  height: 2em;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke: #666;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked+svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked+svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
 .messageInput {
   width: 100%;
 }
@@ -379,6 +461,17 @@ function leaveMessageRoom() {
   overflow: hidden;
 }
 
+.messageMenu {
+  background-color: #ffffff;
+  border: 2px solid rgb(124, 103, 103);
+  box-shadow: 2px 6px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0.8em;
+  margin: 0.8em 0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
 
 .selectedMessage:hover {
   transform: scale(1.03);
@@ -414,7 +507,7 @@ function leaveMessageRoom() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 90%;
+  max-width: 75%;
   color: #666;
 }
 
@@ -425,6 +518,7 @@ function leaveMessageRoom() {
 
 .contact {
   margin-left: 0.8em;
+  width: 100%;
 }
 
 .chat-container {

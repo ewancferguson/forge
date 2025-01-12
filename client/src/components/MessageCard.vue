@@ -8,12 +8,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="my-message rounded text-white p-3 w-50 me-auto">
+    <div class="my-message rounded text-white w-100 p-3 me-auto">
         <div class="d-flex justify-content-start align-items-center">
-            <div class="align-items-end m-0 p-0">
+            <div id="profileImage" class="align-items-end m-0 p-0">
                 <img class="img-fluid me-3" :src="props.messages?.creator.picture" alt="Your Profile Picture" />
             </div>
-            <div>
+            <div id="messageContent">
                 <div class="mt-2 my-message-body bg-primary text-white p-3">
                     <p class="p-0 m-0 ">{{ props.messages?.body }}</p>
                 </div>
@@ -36,6 +36,14 @@ const props = defineProps({
 </template>
 
 <style lang="scss" scoped>
+#profileImage {
+    width: 10%;
+}
+
+#messageContent {
+    max-width: 90%
+}
+
 .accountName {
     font-size: 12px;
     margin: 0;

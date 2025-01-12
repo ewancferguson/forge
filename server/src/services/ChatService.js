@@ -41,12 +41,10 @@ class ChatService {
             });
             const savedChat = await dbContext.Chat.create(chat)
             await savedChat.populate('creator participant')
-            console.log('[Create Chat] Chat created successfully:', chat);
             socketProvider.messageAll('CREATED_CHAT', savedChat)
 
             return savedChat;
         } catch (error) {
-            console.error('[Create Chat] Error creating chat:', error);
             throw new Error('Unable to create chat. Please try again.');
         }
     }
