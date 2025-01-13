@@ -21,7 +21,6 @@ onUnmounted(() => {
 })
 
 const isAccount = ref(false)
-const contacts = computed(() => AppState.Chats)
 const account = computed(() => AppState.account)
 const messages = computed(() => AppState.Messages)
 
@@ -56,7 +55,6 @@ const selectedMessageId = ref(null);
 
 const initialMessage = ref(true)
 const loading = ref(true)
-const noMessages = ref(false);
 
 async function selectMessage(id) {
   try {
@@ -75,12 +73,10 @@ async function selectMessage(id) {
 
     conversation.value = true;
     loading.value = true;
-    noMessages.value = false
 
-    const hasMessages = await messagesService.getMessages(id);
+    await messagesService.getMessages(id);
     scrollToBottom()
 
-    noMessages.value = !hasMessages;
 
     if (newMessage.value === id) {
       newMessage.value = null;
@@ -167,6 +163,32 @@ function leaveMessageRoom() {
   messagesHandler.emit('LEAVE_ROOM', selectedMessageId.value)
 }
 
+const searchQueryResults = ref("");
+
+watch(
+  searchQueryResults,
+  (newValue, oldValue) => {
+    logger.log(`Contacts search query changed from "${oldValue}" to "${newValue}"`);
+    searchQueryResults.value = newValue
+  }
+);
+
+const filteredChats = computed(() => {
+  if (!searchQueryResults.value.trim()) {
+    return AppState.Chats;
+  }
+
+  const query = searchQueryResults.value.toLowerCase();
+
+  return AppState.Chats.filter(chat => {
+    if (chat.participantInfo?.name) {
+      return chat.participantInfo?.name.toLowerCase().startsWith(query);
+    }
+    return "No Contacts Match That Search!";
+  });
+});
+
+
 const trashId = ref(null)
 function hideMenu(id) {
   if (trashId.value === id) {
@@ -188,55 +210,57 @@ async function deleteChat(id) {
 <template>
   <section id="MessagingPage" :class="{ 'hide-contacts': hideContact }">
     <div class="contact-container">
-      <div class="contact-search">
-        <input type="text" placeholder="Search contacts..." />
-        <i class="mdi fs-3 btn mdi-account-search"></i>
-      </div>
+      <form class="contact-search">
+        <input type="text" v-model="searchQueryResults" placeholder="Search contacts..." />
+      </form>
       <div class="chat-bubbles">
         <div class="contact-info">
-          <div v-for="contact in contacts" :key="contact.id" class="contact-card d-flex"
-            :class="{ selectedMessage: selectedMessageId === contact?.id }" @click="selectMessage(contact.id)">
+          <div v-for="contact in filteredChats" :key="contact.id" @click="selectMessage(contact.id)">
             <!-- Determine whether to use participant or creator info -->
-            <img class="img-fluid"
-              :src="contact?.participantInfo.id !== account?.id ? contact?.participantInfo.picture : contact?.creator.picture"
-              alt="Creator's Name" />
-            <div class="contact">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="d-flex">
-                  <p class="contact-name m-0 p-0">
-                    {{ contact?.participantInfo.id !== account?.id ? contact?.participantInfo.name :
-                      contact?.creator.name
-                    }}
-                    <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
+            <div class="d-flex contact-card" :class="{ selectedMessage: selectedMessageId === contact?.id }">
+              <img class="img-fluid"
+                :src="contact?.participantInfo.id !== account?.id ? contact?.participantInfo.picture : contact?.creator.picture"
+                alt="Creator's Name" />
+              <div class="contact">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="d-flex">
+                    <p class="contact-name m-0 p-0">
+                      {{ contact?.participantInfo.id !== account?.id ? contact?.participantInfo.name :
+                        contact?.creator.name
+                      }}
+                      <i v-if="newMessage === contact?.id" class="mdi mdi-message-badge ms-2"></i>
+                    </p>
+                  </div>
+                  <div class="text-end d-flex align-items-center">
+                    <div class="me-2">
+                      <i @click="deleteChat(contact?.id)" :class="{ hideTrashButton: trashId != contact?.id }"
+                        class="selectable mdi m-0 p-0 fs-4 mdi-trash-can"></i>
+                    </div>
+                    <label class="hamburger">
+                      <input @click="hideMenu(contact?.id)" type="checkbox">
+                      <svg viewBox="0 0 32 32">
+                        <path class="line line-top-bottom"
+                          d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
+                        </path>
+                        <path class="line" d="M7 16 27 16"></path>
+                      </svg>
+                    </label>
+                  </div>
+                </div>
+                <div class="contact-message">
+                  <p class="p-0 m-0" v-if="contact?.messageHistory.length != 0">
+                    {{ contact?.messageHistory[0] }}
+                  </p>
+                  <p class="p-0 m-0" v-else>
+                    Start A Conversation Now! ....
                   </p>
                 </div>
-                <div class="text-end d-flex align-items-center">
-                  <div class="me-2">
-                    <i @click="deleteChat(contact?.id)" :class="{ hideTrashButton: trashId != contact?.id }"
-                      class="selectable mdi m-0 p-0 fs-4 mdi-trash-can"></i>
-                  </div>
-                  <label class="hamburger">
-                    <input @click="hideMenu(contact?.id)" type="checkbox">
-                    <svg viewBox="0 0 32 32">
-                      <path class="line line-top-bottom"
-                        d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22">
-                      </path>
-                      <path class="line" d="M7 16 27 16"></path>
-                    </svg>
-                  </label>
-                </div>
-              </div>
-              <div class="contact-message">
-                <p class="p-0 m-0" v-if="contact?.messageHistory.length != 0">
-                  {{ contact?.messageHistory[0] }}
-                </p>
-                <p class="p-0 m-0" v-else>
-                  Start A Conversation Now! ....
-                </p>
               </div>
             </div>
           </div>
-
+          <div v-if="!filteredChats">
+            <h3>No Results For That Search</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -246,16 +270,7 @@ async function deleteChat(id) {
           Select a conversation! If no conversations reach out to businesses/users through there profile page!
         </h1>
       </div>
-      <div class="no-chat-content p-4" v-if="!conversation && !initialMessage">
-        <h1>
-          Loading Messages <i class="mdi mdi-loading mdi-spin"></i>
-        </h1>
-      </div>
       <section v-else ref="chatRef" class="chat-content">
-        <div class="fw-bold no-chat-content d-flex align-items-center text-center justify-content-center"
-          v-if="noMessages">
-          <h1>No Messages With This User, Send A Message To Start The Conversation!</h1>
-        </div>
         <div class="fw-bold no-chat-content d-flex align-items-center text-center justify-content-center"
           v-if="loading === true && !initialMessage">
           <h1>Loading Messages <i class="mdi mdi-loading mdi-spin"></i></h1>
