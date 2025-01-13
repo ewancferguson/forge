@@ -234,7 +234,13 @@ async function likePost(listingId) {
 
 #listingImage {
     margin-top: 1em;
-    height: 200px;
+    height: 600px;
     width: 100%;
+    object-fit: cover;
+    /* Ensures the image scales and crops appropriately */
+    object-position: center;
+    /* Centers the visible portion of the image */
+    border-radius: 8px;
+    /* Keeps the rounded corners */
 }
 </style>
