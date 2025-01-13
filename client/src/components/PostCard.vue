@@ -1,7 +1,6 @@
 <script setup>
 import { AppState } from '@/AppState';
 import { Listing } from '@/models/Listing';
-import { chatsService } from '@/services/ChatsService';
 import { likesService } from '@/services/LikesService';
 import Pop from '@/utils/Pop';
 import { computed, reactive } from 'vue';
@@ -62,13 +61,7 @@ async function likePost(listingId) {
 }
 
 
-async function messageProfile(userId) {
-  try {
-    await chatsService.createChat(userId)
-  } catch (error) {
-    Pop.error('Cannot Message User', error)
-  }
-}
+
 </script>
 
 <template>
@@ -85,9 +78,6 @@ async function messageProfile(userId) {
           <p class="align-self-center m-0">{{ listing.createdAt.getHours() }}h</p>
           <p class="align-self-center m-0" v-if="listing.creator.isBusiness"><i
               class="mdi mdi-storefront-outline fs-3"></i></p>
-          <div>
-            <button @click="messageProfile(props.listing?.creatorId)" class="btn btn-success">Message</button>
-          </div>
         </div>
       </div>
       <hr class="text-secondary mt-0">

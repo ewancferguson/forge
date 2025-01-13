@@ -4,7 +4,6 @@ import { Listing } from '@/models/Listing';
 import { computed, reactive } from 'vue';
 import { likesService } from '@/services/LikesService';
 import Pop from '@/utils/Pop';
-import { chatsService } from '@/services/ChatsService';
 
 const props = defineProps({
     listing: { type: Listing, required: true }
@@ -59,13 +58,7 @@ async function likePost(listingId) {
     }
 }
 
-async function messageProfile(userId) {
-    try {
-        await chatsService.createChat(userId)
-    } catch (error) {
-        Pop.error('Cannot Message User', error)
-    }
-}
+
 </script>
 
 <template>
@@ -80,9 +73,6 @@ async function messageProfile(userId) {
                         <p class="m-0 p-0" v-if="listing?.creator.isBusiness">Business</p>
                     </div>
                 </RouterLink>
-                <div>
-                    <button @click="messageProfile(props.listing?.creatorId)" class="btn btn-success">Message</button>
-                </div>
                 <div class="text-end" v-if="account?.id == listing?.creatorId">
                     <i class="mdi mdi-dots-horizontal"></i>
                 </div>
