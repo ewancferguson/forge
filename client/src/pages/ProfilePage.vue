@@ -5,9 +5,7 @@ import { useRoute } from 'vue-router';
 import Pop from '@/utils/Pop.js';
 import { profilesService } from '@/services/ProfilesService.js';
 import { logger } from '@/utils/Logger.js';
-import { postsService } from '@/services/PostsService.js';
 import ListingCard from '@/components/ListingCard.vue';
-import PostCard from '@/components/PostCard.vue';
 import { followerService } from '@/services/FollowerService.js';
 import { reviewsService } from '@/services/ReviewsService.js';
 import ReviewCard from '@/components/ReviewCard.vue';
@@ -116,10 +114,9 @@ async function unfollowProfile(followerObjectId) {
 }
 
 
-async function messageProfile() {
+async function messageProfile(userId) {
   try {
-    const followingId = { followingId: route.params.profileId }
-    await chatsService.createChat(followingId)
+    await chatsService.createChat(userId)
   } catch (error) {
     Pop.error('Cannot Message User', error)
   }
@@ -142,14 +139,15 @@ async function messageProfile() {
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i
               class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
-          <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
+          <button type="button" class="btn btn-success fw-bold text-primary mx-3 p-3 mb-5 rounded-4 outline"
             data-bs-toggle="modal" data-bs-target="#reviewModal">
             Leave a Review
           </button>
-          <button @click="messageProfile()" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">
+          <AddReviewModal />
+          <button @click="messageProfile(route.params.profileId)"
+            class="btn btn-success fw-bold text-primary mx-3 mb-5 p-3 rounded-4 outline">
             Message Profile
           </button>
-          <AddReviewModal />
         </div>
         <div v-if="profile.facebook && profile.linkedIn && profile.website"
           class="card bg-green text-light p-3 pe-5 rounded-4 me-5 fw-bold">
