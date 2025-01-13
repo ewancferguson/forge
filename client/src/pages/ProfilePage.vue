@@ -13,6 +13,7 @@ import { reviewsService } from '@/services/ReviewsService.js';
 import ReviewCard from '@/components/ReviewCard.vue';
 import AddReviewModal from '@/components/AddReviewModal.vue';
 import { Follower } from '@/models/Follower.js';
+import { chatsService } from '@/services/ChatsService.js';
 
 const account = computed(() => AppState.account)
 
@@ -94,7 +95,7 @@ async function getReviewsByProfileId() {
 
 async function createFollower() {
   try {
-    const followingId = {followingId: route.params.profileId}
+    const followingId = { followingId: route.params.profileId }
     await followerService.createFollower(followingId)
   }
   catch (error) {
@@ -103,19 +104,26 @@ async function createFollower() {
 }
 
 
-async function unfollowProfile(followerObjectId){
+async function unfollowProfile(followerObjectId) {
   try {
     const confirm = Pop.confirm('Are you sure you want to unfollow this account?')
-    if(!confirm) return
+    if (!confirm) return
     await followerService.unfollowProfile(followerObjectId)
   }
-  catch (error){
+  catch (error) {
     Pop.meow(error);
   }
 }
 
 
-
+async function messageProfile() {
+  try {
+    const followingId = { followingId: route.params.profileId }
+    await chatsService.createChat(followingId)
+  } catch (error) {
+    Pop.error('Cannot Message User', error)
+  }
+}
 </script>
 
 <template>
@@ -128,13 +136,18 @@ async function unfollowProfile(followerObjectId){
           <h3 class="text-primary text-capitalize pt-3"> {{ profile.name }}</h3>
           <p>{{ profile.email }}</p>
           <button v-if="!isFollowing" @click="createFollower()"
-            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-plus-thick"></i> FOLLOW</button>
+            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i
+              class="mdi mdi-plus-thick"></i> FOLLOW</button>
           <button v-if="isFollowing" @click="unfollowProfile(props.followerProp.id)"
-            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
+            class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i
+              class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
           <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
           <button type="button" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline"
             data-bs-toggle="modal" data-bs-target="#reviewModal">
             Leave a Review
+          </button>
+          <button @click="messageProfile()" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">
+            Message Profile
           </button>
           <AddReviewModal />
         </div>
