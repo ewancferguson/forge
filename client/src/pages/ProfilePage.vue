@@ -132,19 +132,21 @@ async function messageProfile(userId) {
           <img class="profile-img" :src="profile.picture" alt="" />
           <h3 class="text-primary text-capitalize pt-3"> {{ profile.name }}</h3>
           <p>{{ profile.email }}</p>
-          <button v-if="!isFollowing" @click="createFollower()"
+          <button v-if="account && !isFollowing" @click="createFollower()"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i
               class="mdi mdi-plus-thick"></i> FOLLOW</button>
-          <button v-if="isFollowing" @click="unfollowProfile(props.followerProp.id)"
+          <button v-if="account && isFollowing" @click="unfollowProfile(props.followerProp.id)"
             class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline me-4"><i
               class="mdi mdi-minus-thick"></i> UNFOLLOW</button>
-          <button class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT US</button>
-          <button type="button" class="btn btn-success fw-bold text-primary mx-3 p-3 mb-5 rounded-4 outline"
-            data-bs-toggle="modal" data-bs-target="#reviewModal">
+          <button v-if="account" class="btn btn-success fw-bold text-primary py-3 mb-5 rounded-4 outline">CONTACT
+            US</button>
+          <button v-if="account" type="button"
+            class="btn btn-success fw-bold text-primary mx-3 p-3 mb-5 rounded-4 outline" data-bs-toggle="modal"
+            data-bs-target="#reviewModal">
             Leave a Review
           </button>
           <AddReviewModal />
-          <button @click="messageProfile(route.params.profileId)"
+          <button v-if="account" @click="messageProfile(route.params.profileId)"
             class="btn btn-success fw-bold text-primary mx-3 mb-5 p-3 rounded-4 outline">
             Message Profile
           </button>

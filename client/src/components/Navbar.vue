@@ -87,10 +87,10 @@ const account = computed(() => AppState.account)
           <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
         </button> -->
 
-          <button data-bs-toggle="modal" data-bs-target="#createPostModal" class="btn btn-secondary text-primary"><i
-              class="mdi mdi-plus-box fs-2"></i></button>
+          <button v-if="account" data-bs-toggle="modal" data-bs-target="#createPostModal"
+            class="btn btn-secondary text-primary"><i class="mdi mdi-plus-box fs-2"></i></button>
           <router-link :to="{ name: 'Messaging' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
-            <i class="mdi mdi-chat-outline fs-2"></i>
+            <i v-if="account" class="mdi mdi-chat-outline fs-2"></i>
           </router-link>
           <div class="btn">
             <Login />
