@@ -35,7 +35,7 @@ COPY server ./
 COPY --from=client-builder /app/client/docs /app/server/www
 
 # Expose the port your application runs on (e.g., 3000)
-EXPOSE 3000
+EXPOSE 3001
 
 # Define the command to start your Node.js application
 CMD [ "node", "index.js" ]
