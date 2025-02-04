@@ -115,10 +115,10 @@ async function likePost(listingId) {
                 </div>
             </RouterLink>
             <div class="card-footer">
-                <p class="mb-0"><span class="fw-bold">Comments:</span> 0</p>
+                <p class="mb-0"><span class="fw-bold">Comments:</span>{{ localListing.comments }}</p>
                 <p class="d-flex align-items-center mb-0">
                     {{ localListing.likeCount || 0 }}
-                    <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+                    <i v-if="account" :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
                         @click="likePost(localListing.id)" role="button" selectable>
                     </i>
                 </p>

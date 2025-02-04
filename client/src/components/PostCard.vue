@@ -91,22 +91,13 @@ async function likePost(listingId) {
       </div>
     </router-link>
     <hr class="text-secondary m-0">
-    <div id="cardFooter">
-      <div class="d-flex justify-content-between align-items-center text-secondary">
-        <div class="pb-3 ps-3">
-          <b>
-            0 Comments
-          </b>
-        </div>
-        <div class="pb-2 pe-3 d-flex gap-2 align-items-center">
-          <p class="d-flex align-items-center mb-0">
-            {{ localListing.likeCount || 0 }}
-            <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
-              @click="likePost(localListing.id)" role="button" selectable>
-            </i>
-          </p>
-        </div>
-      </div>
+    <div v-if="account" class="pb-2 pe-3 d-flex gap-2 align-items-center">
+      <p class="d-flex align-items-center mb-0">
+        {{ localListing.likeCount || 0 }}
+        <i :class="['mdi', isLiked ? 'mdi-heart' : 'mdi-heart-outline', 'fs-3', 'ms-2']"
+          @click="likePost(localListing.id)" role="button" selectable>
+        </i>
+      </p>
     </div>
   </div>
 </template>

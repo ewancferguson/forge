@@ -133,10 +133,6 @@ async function getCommentsbyListingId() {
             <img class=" profile-img m-2" :src="listings.creator.picture" alt="">
             <h3 class="align-self-center text-dark ms-3">{{ listings.creator.name }}</h3>
           </RouterLink>
-          <RouterLink :to="{ name: 'Messaging' }" v-if="account?.id != listings?.creatorId">
-            <button class="btn btn-primary ms-3 align-self-center" style="height: 50px;">Message Us <i
-                class="mdi mdi-chat"></i></button>
-          </RouterLink>
           <div v-if="account?.id == listings?.creator.id" class="align-self-center me-3">
             <button @click="deleteListing(listings.id)" class="button-delete">
               <svg viewBox="0 0 448 512" class="svgIcon">
@@ -222,7 +218,7 @@ async function getCommentsbyListingId() {
             </div>
           </div>
         </div>
-        <div class="p-3 mx-4">
+        <div v-if="account" class="p-3 mx-4">
           <CommentForm />
         </div>
         <section v-for="comment in comments" :key="comment.id" class="row p-3 mx-4">
