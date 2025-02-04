@@ -25,7 +25,7 @@ function addPicture() {
 }
 
 function removePicture(index) {
-  editablePostData.value.pictures.splice(index, 1); // Remove image URL by index
+  editablePostData.value.pictures.splice(index, 1);
 }
 
 async function createListing() {
@@ -39,7 +39,7 @@ async function createListing() {
       type: '',
       body: ''
     };
-    Modal.getInstance('#createPostModal').hide(); // Close the modal
+    Modal.getInstance('#createPostModal').hide();
     Pop.success('Listing Created');
   } catch (error) {
     Pop.error(error);
