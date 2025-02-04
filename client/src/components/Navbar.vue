@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { loadState } from '../utils/Store.js';
 import Login from './Login.vue';
 // @ts-ignore
-import CreatePostModal from './x.vue';
+import CreatePostModal from './CreatePostModal.vue';
 import { AppState } from '@/AppState.js';
 import { AuthService } from '@/services/AuthService.js';
 
