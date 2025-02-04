@@ -89,6 +89,7 @@ const account = computed(() => AppState.account)
 
           <button v-if="account" data-bs-toggle="modal" data-bs-target="#createPostModal"
             class="btn btn-secondary text-primary"><i class="mdi mdi-plus-box fs-2"></i></button>
+          <CreatePostModal />
           <router-link :to="{ name: 'Messaging' }" class="btn text-dark body-text lighten-30 selectable text-uppercase">
             <i v-if="account" class="mdi mdi-chat-outline fs-2"></i>
           </router-link>
@@ -199,7 +200,6 @@ const account = computed(() => AppState.account)
 
 
   </section>
-  <CreatePostModal />
 
 
 </template>
