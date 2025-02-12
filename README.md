@@ -47,7 +47,7 @@ Forge is a **social media-style** platform designed to connect **businesses and 
 
 ## 📫 Contact
 - **GitHub:** [Ewan Ferguson](https://github.com/ewancferguson)
-- **Portfolio:** [My Work](https://ewaaaaannnn.github.io/Portfolio/)
+- **Portfolio:** [My Work](https://ewanferguson.org/)
 - **Email:** ewanferg01@gmail.com
 
 ---
