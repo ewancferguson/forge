@@ -4,7 +4,26 @@ import ListingCard from '@/components/ListingCard.vue';
 import { likesService } from '@/services/LikesService';
 import { postsService } from '@/services/PostsService';
 import Pop from '@/utils/Pop';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+
+
+const listings = computed(() => {
+  if(activeFilterCategory.value == 'all') return AppState.homePageListings
+  return AppState.homePageListings.filter(listings => listings.type == activeFilterCategory.value)
+})
+
+const activeFilterCategory = ref('all')
+
+const categories = [
+  { name: 'all' },
+  { name: 'construction' },
+  { name: 'manufacturing' },
+  { name: 'maintenance' },
+  { name: 'utilities' },
+  { name: 'agriculture' },
+  { name: 'skilled trades' },
+  { name: 'other' },
+]
 
 onMounted(() => {
   getAllPosts()
@@ -30,7 +49,6 @@ async function getLikes() {
 }
 
 
-const listings = computed(() => AppState.homePageListings)
 const identity = computed(() => AppState.identity)
 </script>
 
@@ -41,6 +59,21 @@ const identity = computed(() => AppState.identity)
     </div>
     <div class="row">
       <img id="homeImage" src="../assets/img/backgroundImage.jpg" alt="">
+    </div>
+    <div class="row justify-content-evenly bg-light py-3">
+      <div @click="activeFilterCategory = category.name" v-for="category in categories" :key="category.name" role="button" class="col-md-1 text-center p-2">
+        <div class="category-box text-capitalize py-2">
+          <div v-if="category.name == 'all'"><i class="mdi mdi-infinity"></i></div>
+          <div v-if="category.name == 'construction'"><i class="mdi mdi-account-hard-hat"></i></div>
+          <div v-if="category.name == 'manufacturing'"><i class="mdi mdi-office-building"></i></div>
+          <div v-if="category.name == 'maintenance'"><i class="mdi mdi-pipe"></i></div>
+          <div v-if="category.name == 'utilities'"><i class="mdi mdi-water"></i></div>
+          <div v-if="category.name == 'agriculture'"><i class="mdi mdi-tractor"></i></div>
+          <div v-if="category.name == 'skilled trades'"><i class="mdi mdi-wrench"></i></div>
+          <div v-if="category.name == 'other'"><i class="mdi mdi-head-question"></i></div>
+          <div>{{ category.name }}</div>
+        </div>
+      </div>
     </div>
     <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-secondary">
       <div class="d-flex align-items-center">
@@ -119,6 +152,26 @@ const identity = computed(() => AppState.identity)
 </template>
 
 <style scoped lang="scss">
+
+.category-box i{
+  color: #FC5647;
+  font-size: xx-large;
+}
+
+.category-box{
+  transition: 0.3s ease-in-out;
+  border-radius: 0.25rem;
+}
+
+.category-box:hover{
+  transform: scale(1.1);
+  background-color: #9e9e9e;
+
+    i{
+      color: #ff9959;
+    }
+}
+
 .gradient-text {
   background: linear-gradient(to right, #142f32, #e3ffcc, #D9D9D9);
   background-clip: text;
