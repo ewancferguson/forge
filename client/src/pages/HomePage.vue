@@ -57,8 +57,13 @@ const identity = computed(() => AppState.identity)
     <div id="announcement" class="row  p-5 text-center">
       <h1 class="text-dark">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
-    <div class="row">
-      <img id="homeImage" src="../assets/img/backgroundImage.jpg" alt="">
+    <div class="row bg-hero justify-content-center" >
+      <div class="form-bg col-md-5 m-5">
+        <div class="container">
+          <div class="text-light fs-1 kanit-bold">Find top-rated businesses in your area</div>
+        </div>
+      </div>
+      <div class="col-md-5"></div>
     </div>
     <div class="row justify-content-evenly bg-light py-3">
       <div @click="activeFilterCategory = category.name" v-for="category in categories" :key="category.name" role="button" class="col-md-1 text-center p-2">
@@ -133,6 +138,19 @@ const identity = computed(() => AppState.identity)
 
 <style scoped lang="scss">
 
+.bg-hero{
+  background-image:url('../assets/img/backgroundImage.jpg');
+  height: 55dvh;
+  background-position: calc(50%) calc(50% - 12rem);
+  background-size: cover;
+
+}
+
+.form-bg{
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 0.3rem;
+}
+
 .category-box i{
   color: #FC5647;
   font-size: xx-large;
@@ -153,7 +171,7 @@ const identity = computed(() => AppState.identity)
 }
 
 .gradient-text {
-  background: linear-gradient(to right, #142f32, #e3ffcc, #D9D9D9);
+  background: linear-gradient(to right, #FC5647, #ff9959, #ffe9db);
   background-clip: text;
   background-size: 200%;
   -webkit-background-clip: text;
