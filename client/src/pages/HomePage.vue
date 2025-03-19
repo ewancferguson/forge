@@ -53,9 +53,9 @@ const identity = computed(() => AppState.identity)
 </script>
 
 <template>
-  <section class="container-fluid">
-    <div id="announcement" class="row mt-4 mb-4 p-3 text-center">
-      <h1 class="text-light">Forging New Opportunities <span class="gradient-text">Together</span></h1>
+  <section class="container-fluid bg-light">
+    <div id="announcement" class="row  p-5 text-center">
+      <h1 class="text-dark">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
     <div class="row">
       <img id="homeImage" src="../assets/img/backgroundImage.jpg" alt="">
@@ -168,9 +168,6 @@ button:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.gradient-background {
-  background: linear-gradient(to right, #142f32, #4f5749, #5d793e);
-}
 
 @keyframes animate-gradient {
   to {
