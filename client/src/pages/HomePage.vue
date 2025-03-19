@@ -60,14 +60,19 @@ const identity = computed(() => AppState.identity)
     <div class="row bg-hero justify-content-center" >
       <div class="form-bg col-md-5">
         <div class="container">
-          <div class="text-light fs-1 kanit-bold mt-3 p-3">Find top-rated businesses in your area</div>
+          <div class="text-light fs-1 kanit-bold my-3 p-3">Find top-rated businesses in your area</div>
+          <div>
+            <form >
+
+            </form>
+          </div>
         </div>
       </div>
       <div class="col-md-5"></div>
     </div>
     <div class="row justify-content-evenly bg-light py-3">
       <div @click="activeFilterCategory = category.name" v-for="category in categories" :key="category.name" role="button" class="col-md-1 text-center p-2">
-        <div class="category-box text-capitalize py-2">
+        <div class="category-box text-capitalize py-2 kanit-regular">
           <div v-if="category.name == 'all'"><i class="mdi mdi-infinity"></i></div>
           <div v-if="category.name == 'construction'"><i class="mdi mdi-account-hard-hat"></i></div>
           <div v-if="category.name == 'manufacturing'"><i class="mdi mdi-office-building"></i></div>
@@ -80,11 +85,11 @@ const identity = computed(() => AppState.identity)
         </div>
       </div>
     </div>
-    <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-secondary">
+    <div id="aboutInfo" class="row d-flex text-dark justify-content-between bg-light">
       <div class="d-flex align-items-center">
         <div id="homeDescription" class="col-md-8 mt-3 p-3">
-          <h1>Welcome To Forge</h1>
-          <p class="mt-4 ms-3 col-md-10"> The platform where businesses and consumers in the construction and trade
+          <span class="kanit-medium fs-5">Welcome To <h1 class="roboto-slab fs-1 mt-1">Forge</h1></span>
+          <p class="mt-3 col-md-10 kanit-regular"> The platform where businesses and consumers in the construction and trade
             industry
             come
             together. Whether
