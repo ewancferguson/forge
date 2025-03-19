@@ -113,26 +113,6 @@ const identity = computed(() => AppState.identity)
     </section>
 
 
-    <section id="mobilePostTitle" class=" gradient-background row d-flex justify-content-center text-center p-5">
-      <div>
-        <h3 class="gradient-text">
-          Recent Listings
-        </h3>
-      </div>
-      <div class="justify-content-center d-flex">
-        <div class="m-1">
-          <button data-bs-toggle="modal" data-bs-target="#createPostModal" v-if="identity"
-            class="btn btn-success">Create
-            Listings </button>
-          <p class="m-0 align-self-center" v-if="!identity">Please Sign In To Post</p>
-        </div>
-        <div class="m-1">
-          <router-link :to="{ name: 'Posts' }">
-            <button class="btn btn-success">Sort Listings</button>
-          </router-link>
-        </div>
-      </div>
-    </section>
 
     <div id="listingContainer" class=" gradient-background  row d-flex header finisher-header">
       <div id="cardListing" class=" text-dark col-xl-3 col-lg-4 col-md-5 col-sm-5 " v-for="listing in listings"
