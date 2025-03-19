@@ -73,7 +73,7 @@ async function createListing() {
             <div class="mb-3">
               <label for="pictures" class="form-label">Pictures</label>
               <div class="d-flex align-items-start">
-                <input v-model="newPictureUrl" type="url" class="form-control me-2" placeholder="Add picture URL">
+                <input  type="url" class="form-control me-2" placeholder="Add picture URL">
                 <button type="button" class="btn btn-primary" @click="addPicture">Add</button>
               </div>
               <div class="mt-3 d-flex flex-wrap gap-3">
