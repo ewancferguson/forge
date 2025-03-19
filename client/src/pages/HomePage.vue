@@ -58,9 +58,9 @@ const identity = computed(() => AppState.identity)
       <h1 class="text-dark">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
     <div class="row bg-hero justify-content-center" >
-      <div class="form-bg col-md-5 m-5">
+      <div class="form-bg col-md-5">
         <div class="container">
-          <div class="text-light fs-1 kanit-bold">Find top-rated businesses in your area</div>
+          <div class="text-light fs-1 kanit-bold mt-3 p-3">Find top-rated businesses in your area</div>
         </div>
       </div>
       <div class="col-md-5"></div>
@@ -139,16 +139,18 @@ const identity = computed(() => AppState.identity)
 <style scoped lang="scss">
 
 .bg-hero{
-  background-image:url('../assets/img/backgroundImage.jpg');
-  height: 55dvh;
-  background-position: calc(50%) calc(50% - 12rem);
+  background-image:url('../assets/img/heroimage.avif');
+  height: 80dvh;
+  background-position: calc(50%) calc(50% + 6rem);
   background-size: cover;
+  zoom: calc(100%);
 
 }
 
 .form-bg{
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 0.3rem;
+  margin: 7rem 7rem 7rem 7rem;
 }
 
 .category-box i{
