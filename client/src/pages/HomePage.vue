@@ -8,7 +8,7 @@ import { computed, onMounted, ref } from 'vue';
 
 
 const listings = computed(() => {
-  if(activeFilterCategory.value == 'all') return AppState.homePageListings
+  if (activeFilterCategory.value == 'all') return AppState.homePageListings
   return AppState.homePageListings.filter(listings => listings.type == activeFilterCategory.value)
 })
 
@@ -57,18 +57,22 @@ const identity = computed(() => AppState.identity)
     <div id="announcement" class="row  p-5 text-center">
       <h1 class="text-dark">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
-    <div class="row bg-hero justify-content-center" >
+    <div class="row bg-hero justify-content-center">
       <div class="form-bg col-md-5">
         <div class="container">
           <div class="text-light fs-1 kanit-bold my-3 p-3">Find top-rated businesses in your area</div>
-          <form >
-          <div class="row justify-content-center g-0 align-items-center">
-            <div class="col-9 ">
-              <input type="text" class="form-control search-business" id="exampleFormControlInput1" placeholder="Search Businesses">
-            </div>
-            <div class="col-2 ">
-              <input type="text" class="form-control search-area-code" id="exampleFormControlInput1" placeholder="Area Code">
-            </div>
+          <form>
+            <div class="row justify-content-center g-0 align-items-center">
+              <div class="search-bar">
+                <input type="text" class="form-control" placeholder="How can we help?">
+                <div class="location-input">
+                  <i class="bi bi-geo-alt"></i>
+                  <input type="text" class="form-control" placeholder="83704" style="width: 70px;">
+                </div>
+                <div class="search-icon">
+                  <i class="bi bi-search"></i>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -76,7 +80,8 @@ const identity = computed(() => AppState.identity)
       <div class="col-md-5"></div>
     </div>
     <div class="row justify-content-evenly bg-light py-3">
-      <div @click="activeFilterCategory = category.name" v-for="category in categories" :key="category.name" role="button" class="col-md-1 text-center p-2">
+      <div @click="activeFilterCategory = category.name" v-for="category in categories" :key="category.name"
+        role="button" class="col-md-1 text-center p-2">
         <div class="category-box text-capitalize py-2 kanit-regular">
           <div v-if="category.name == 'all'"><i class="mdi mdi-infinity"></i></div>
           <div v-if="category.name == 'construction'"><i class="mdi mdi-account-hard-hat"></i></div>
@@ -94,7 +99,8 @@ const identity = computed(() => AppState.identity)
       <div class="d-flex align-items-center">
         <div id="homeDescription" class="col-md-8 mt-3 p-3">
           <span class="kanit-medium fs-5">Welcome To <h1 class="roboto-slab fs-1 mt-1">Forge</h1></span>
-          <p class="mt-3 col-md-10 kanit-regular"> The platform where businesses and consumers in the construction and trade
+          <p class="mt-3 col-md-10 kanit-regular"> The platform where businesses and consumers in the construction and
+            trade
             industry
             come
             together. Whether
@@ -147,49 +153,88 @@ const identity = computed(() => AppState.identity)
 </template>
 
 <style scoped lang="scss">
-
-.bg-hero{
-  background-image:url('../assets/img/heroimage.avif');
+.bg-hero {
+  background-image: url('../assets/img/heroimage.avif');
   height: 80dvh;
   background-position: calc(50%) calc(50% + 6rem);
   background-size: cover;
   zoom: calc(100%);
 }
 
-.search-business{
-  border-top-right-radius: 0rem;
-  border-bottom-right-radius: 0rem;
-}
-.search-business{
+.search-business {
   border-top-right-radius: 0rem;
   border-bottom-right-radius: 0rem;
 }
 
+.search-business {
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+}
 
 
-.form-bg{
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 50px;
+  padding: 5px 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 100%;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  padding: 8px 10px;
+  flex: 1;
+  background: transparent;
+}
+
+.search-bar input::placeholder {
+  color: #888;
+}
+
+.location-input {
+  display: flex;
+  align-items: center;
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+  margin-left: 5px;
+}
+
+.search-icon {
+  background: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 8px;
+  cursor: pointer;
+}
+
+
+.form-bg {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 0.3rem;
   margin: 7rem 7rem 7rem 7rem;
 }
 
-.category-box i{
+.category-box i {
   color: #FC5647;
   font-size: xx-large;
 }
 
-.category-box{
+.category-box {
   transition: 0.3s ease-in-out;
   border-radius: 0.25rem;
 }
 
-.category-box:hover{
+.category-box:hover {
   transform: scale(1.1);
   background-color: #9e9e9e;
 
-    i{
-      color: #ff9959;
-    }
+  i {
+    color: #ff9959;
+  }
 }
 
 .gradient-text {

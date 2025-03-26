@@ -39,6 +39,18 @@ async function getAllPosts() {
 
 
 <template>
+
+
+    <div class="search-bar">
+        <input type="text" class="form-control" placeholder="How can we help?">
+        <div class="location-input">
+            <i class="bi bi-geo-alt"></i>
+            <input type="text" class="form-control" placeholder="83704" style="width: 70px;">
+        </div>
+        <div class="search-icon">
+            <i class="bi bi-search"></i>
+        </div>
+    </div>
     <div class="container">
         <section class="row">
             <div class="col-md-12 text-success mt-3 d-flex justify-content-between py-4">
@@ -70,5 +82,45 @@ async function getAllPosts() {
 h4 {
     margin-top: 2em;
     text-align: center;
+}
+
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 50px;
+    padding: 5px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    flex: 1;
+    background: transparent;
+}
+
+.search-bar input::placeholder {
+    color: #888;
+}
+
+.location-input {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+    margin-left: 5px;
+}
+
+.search-icon {
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
 }
 </style>
