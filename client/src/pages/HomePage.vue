@@ -54,7 +54,7 @@ const identity = computed(() => AppState.identity)
 
 <template>
   <section class="container-fluid bg-light">
-    <div id="announcement" class="row  p-5 text-center">
+    <div id="announcement" class="row p-5 text-center">
       <h1 class="text-dark">Forging New Opportunities <span class="gradient-text">Together</span></h1>
     </div>
     <div class="row bg-hero justify-content-center">
@@ -62,15 +62,15 @@ const identity = computed(() => AppState.identity)
         <div class="container">
           <div class="text-light fs-1 kanit-bold my-3 p-3">Find top-rated businesses in your area</div>
           <form>
-            <div class="row justify-content-center g-0 align-items-center">
+            <div class="row justify-content-start m-3">
               <div class="search-bar">
-                <input type="text" class="form-control" placeholder="How can we help?">
+                <input type="text" class="form-control" placeholder="Search Businesses">
                 <div class="location-input">
-                  <i class="bi bi-geo-alt"></i>
+                  <i class="mdi mdi-map-marker-radius"></i>
                   <input type="text" class="form-control" placeholder="83704" style="width: 70px;">
                 </div>
                 <div class="search-icon">
-                  <i class="bi bi-search"></i>
+                  <i class="mdi mdi-magnify"></i>
                 </div>
               </div>
             </div>
@@ -161,17 +161,6 @@ const identity = computed(() => AppState.identity)
   zoom: calc(100%);
 }
 
-.search-business {
-  border-top-right-radius: 0rem;
-  border-bottom-right-radius: 0rem;
-}
-
-.search-business {
-  border-top-right-radius: 0rem;
-  border-bottom-right-radius: 0rem;
-}
-
-
 .search-bar {
   display: flex;
   align-items: center;
@@ -179,7 +168,7 @@ const identity = computed(() => AppState.identity)
   border-radius: 50px;
   padding: 5px 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
 }
 
@@ -201,13 +190,17 @@ const identity = computed(() => AppState.identity)
   border-left: 1px solid #ccc;
   padding-left: 10px;
   margin-left: 5px;
+
+    i{
+      color: #e74c3c;
+    }
 }
 
 .search-icon {
   background: #e74c3c;
   color: white;
   border-radius: 50%;
-  padding: 8px;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
@@ -215,7 +208,7 @@ const identity = computed(() => AppState.identity)
 .form-bg {
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 0.3rem;
-  margin: 7rem 7rem 7rem 7rem;
+  margin: 11.5rem 7rem 11.5rem 7rem;
 }
 
 .category-box i {
