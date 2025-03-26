@@ -61,11 +61,16 @@ const identity = computed(() => AppState.identity)
       <div class="form-bg col-md-5">
         <div class="container">
           <div class="text-light fs-1 kanit-bold my-3 p-3">Find top-rated businesses in your area</div>
-          <div>
-            <form >
-
-            </form>
-          </div>
+          <form >
+          <div class="row justify-content-center g-0 align-items-center">
+            <div class="col-9 ">
+              <input type="text" class="form-control search-business" id="exampleFormControlInput1" placeholder="Search Businesses">
+            </div>
+            <div class="col-2 ">
+              <input type="text" class="form-control search-area-code" id="exampleFormControlInput1" placeholder="Area Code">
+            </div>
+            </div>
+          </form>
         </div>
       </div>
       <div class="col-md-5"></div>
@@ -149,8 +154,18 @@ const identity = computed(() => AppState.identity)
   background-position: calc(50%) calc(50% + 6rem);
   background-size: cover;
   zoom: calc(100%);
-
 }
+
+.search-business{
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+}
+.search-business{
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem;
+}
+
+
 
 .form-bg{
   background-color: rgba(0, 0, 0, 0.75);
